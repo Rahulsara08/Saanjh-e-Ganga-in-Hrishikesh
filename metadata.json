@@ -1,0 +1,6 @@
+{
+  "name": "Meher & Kabir — Wedding Invitation",
+  "description": "Artisanal Handcrafted Wedding Invitation for Meher & Kabir · 21 November 2027 · On the Banks of Sacred River Ganga, Rishikesh, India",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,293 @@
+import { WeddingConfig } from '../types';
+import couplePortrait from '../assets/images/rishikesh_couple_1790236101823.jpg';
+import venueGhat from '../assets/images/rishikesh_ganga_ghat_1790236124502.jpg';
+import brideParents from '../assets/images/bride_parents_1790235687448.jpg';
+import groomParents from '../assets/images/groom_parents_1790235700968.jpg';
+
+// Rishikesh Celebration Event Images
+import haldiImg from '../assets/images/rishikesh_haldi_ceremony_1790240673486.jpg';
+import mehndiImg from '../assets/images/rishikesh_mehndi_evening_1790240685474.jpg';
+import sangeetImg from '../assets/images/rishikesh_sangeet_night_1790240698617.jpg';
+import baratImg from '../assets/images/rishikesh_baraat_procession_1790240715482.jpg';
+import saatPhereImg from '../assets/images/rishikesh_saat_phere_vows_1790240732445.jpg';
+
+export const defaultWeddingConfig: WeddingConfig = {
+  couple: {
+    brideName: 'Meher',
+    groomName: 'Kabir',
+    weddingDateString: '21 November 2027',
+    venueName: 'Anand Kashi by the Ganges',
+    venueCity: 'Rishikesh',
+    venueCountry: 'Uttarakhand, India',
+    numericDateMark: '21 · 11 · 2027',
+    targetTimestamp: '2027-11-21T16:30:00+05:30',
+  },
+  ourStory: {
+    eyebrow: 'SACRED TIDES & HIMALAYAN VOWS',
+    heading: 'Where the River Meets the Soul',
+    subheading: 'Seven years of kindred friendship, sacred dreams, and shared peace',
+    photoUrl: couplePortrait,
+    photoCaption: 'Meher & Kabir · Anand Kashi, Rishikesh',
+    storyParagraphs: [
+      'Our journey began on the quiet mountain trails of Uttarakhand, finding peace in the soothing chants along the sacred River Ganga.',
+      'We invite you to join us on these holy riverbanks surrounded by whispering pine forests and ancient Himalayan peaks to celebrate our sacred Vedic union.',
+    ],
+  },
+  orderOfDay: {
+    eyebrow: 'THE WEDDING DAY · CHRONICLE',
+    heading: 'Sacred Order of the Day',
+    subtitle: 'Sunday, Twenty-First of November, 2027',
+    moments: [
+      {
+        id: 'haldi',
+        time: '10:00 AM',
+        title: 'Shubh Haldi & Phoolon Ki Holi',
+        subtitle: 'The Riverfront Kuan Lawns',
+        description: 'Golden ubtan turmeric blessings, fresh yellow marigold petals shower, and auspicious dhol rhythms by the Ganges.',
+        iconType: 'haldi',
+      },
+      {
+        id: 'barat',
+        time: '4:00 PM',
+        title: 'Swagat & Royal Barat Procession',
+        subtitle: 'The Pine Pathway to Ghat',
+        description: 'Joyous brass band, traditional dholak, saffron pagris, and the royal groom procession descending towards the riverside.',
+        iconType: 'barat',
+      },
+      {
+        id: 'ceremony',
+        time: '5:30 PM',
+        title: '7 Farre (Saat Phere Vedic Vows)',
+        subtitle: 'The Sacred River Ganga Mandap',
+        description: 'Seven sacred Vedic pheras around the holy Agni Kunda as temple conches sound and twilight envelops the Himalayas.',
+        iconType: 'ceremony',
+      },
+      {
+        id: 'dinner',
+        time: '8:00 PM',
+        title: 'Starlight Royal Feast & Toasts',
+        subtitle: 'The Ganga Deck Pavilion',
+        description: 'An artisanal Satvik Garhwali and royal Awadhi banquet beneath a canopy of Himalayan stars and candlelit lanterns.',
+        iconType: 'dinner',
+      },
+      {
+        id: 'midnight',
+        time: '10:30 PM',
+        title: 'Ganga Chants, Acoustic Songs & Chai',
+        subtitle: 'The Riverside Campfire Hearth',
+        description: 'Cozy wool shawls, steaming clay kulhad chai, acoustic strings, and heartfelt family stories beside the river.',
+        iconType: 'midnight',
+      },
+    ],
+  },
+  journey: {
+    eyebrow: 'A THREE-DAY HIMALAYAN PILGRIMAGE',
+    heading: 'Wedding Celebrations & Sacred Rites',
+    subtitle: 'Haldi · Mehndi · Sangeet · Barat · 7 Farre by the Ganges',
+    events: [
+      {
+        number: 'I',
+        date: '20 Nov · 10:30 AM',
+        isoStart: '2027-11-20T10:30:00+05:30',
+        isoEnd: '2027-11-20T13:30:00+05:30',
+        title: 'Haldi & Phoolon Ki Holi',
+        venue: 'The Riverfront Kuan Lawn · Anand Kashi',
+        description: 'Turmeric paste rituals, fragrant sandalwood, marigold petal showers, and joyful folk songs by the crystal-clear Ganges.',
+        attire: 'Attire: Sunshine Yellows, Marigold & Ivory Cottons',
+        imageUrl: haldiImg,
+        svgType: 'haldi',
+      },
+      {
+        number: 'II',
+        date: '20 Nov · 4:30 PM',
+        isoStart: '2027-11-20T16:30:00+05:30',
+        isoEnd: '2027-11-20T19:30:00+05:30',
+        title: 'Riverside Mehndi & High Tea',
+        venue: 'The Temple Orchard · Rishikesh',
+        description: 'Intricate Rajasthani and bridal henna by the riverbank, live mountain acoustic instruments, and artisanal organic herbal teas.',
+        attire: 'Attire: Sage Green, Olive & Floral Pastels',
+        imageUrl: mehndiImg,
+        svgType: 'mehndi',
+      },
+      {
+        number: 'III',
+        date: '20 Nov · 7:30 PM',
+        isoStart: '2027-11-20T19:30:00+05:30',
+        isoEnd: '2027-11-20T23:30:00+05:30',
+        title: 'Sangeet & Himalayan Starlight Gala',
+        venue: 'The Amphitheatre Lawn by the River',
+        description: 'Dholak beats, synchronized family dance performances, shimmering fairy-lit pine trees, and musical toasts under mountain skies.',
+        attire: 'Attire: Royal Velvet, Silk & Shimmering Festive Wear',
+        imageUrl: sangeetImg,
+        svgType: 'sangeet',
+      },
+      {
+        number: 'IV',
+        date: '21 Nov · 3:30 PM',
+        isoStart: '2027-11-21T15:30:00+05:30',
+        isoEnd: '2027-11-21T17:00:00+05:30',
+        title: 'The Royal Barat & Welcome',
+        venue: 'The Pine Path to Holy Ghat · Rishikesh',
+        description: 'Energetic dhol beats, nagada drums, dancing groom entourage in vibrant turbans, culminating in the milni ritual at the sacred gates.',
+        attire: 'Attire: Royal Sherwanis, Safa Turbans & Banarasi Silks',
+        imageUrl: baratImg,
+        svgType: 'barat',
+      },
+      {
+        number: 'V',
+        date: '21 Nov · 5:30 PM',
+        isoStart: '2027-11-21T17:30:00+05:30',
+        isoEnd: '2027-11-21T21:00:00+05:30',
+        title: '7 Farre (Saat Phere) & Maha Aarti',
+        venue: 'The Holy Ganga Ghat Mandap · Anand Kashi',
+        description: 'Seven sacred Vedic rounds (7 Farre) around the eternal holy Agni fire, Vedic chanting by temple scholars, and 108 oil diya Maha Aarti.',
+        attire: 'Attire: Traditional Heritage · Raw Silk, Organza & Temple Gold',
+        imageUrl: saatPhereImg,
+        svgType: 'ceremony',
+      },
+    ],
+  },
+  families: {
+    eyebrow: 'WITH GRACE & GRATITUDE',
+    heading: 'With Our Families',
+    blessingQuote: 'May this sacred union be as serene as the Ganges and as eternal as the Himalayas.',
+    brideParents: {
+      side: "Bride's Parents",
+      names: 'Sunita & Arvind Sharma',
+      blessing: 'With joyful tears and proud blessings as our darling Meher embarks upon this sacred new chapter with Kabir.',
+      photoUrl: brideParents,
+    },
+    groomParents: {
+      side: "Groom's Parents",
+      names: 'Geeta & Rajesh Malhotra',
+      blessing: 'Welcoming Meher into our family hearth with boundless love, deep pride, and everlasting blessings.',
+      photoUrl: groomParents,
+    },
+  },
+  wishingWall: {
+    eyebrow: 'MESSAGES OF LOVE',
+    heading: 'Blessings on the Ganges',
+    subtitle: 'Leave a prayer or loving wish for Meher & Kabir’s journey ahead.',
+    initialWishes: [
+      {
+        id: 'wish-1',
+        author: 'Dadi & Dada Ji',
+        message: 'May Lord Shiva and Maa Ganga bless your union with eternal peace, mutual devotion, and pure joy. So proud of you both.',
+        tag: '✨ Divine Blessings',
+        timestamp: '18 Nov 2027',
+        likes: 38,
+      },
+      {
+        id: 'wish-2',
+        author: 'Aarav & Simran',
+        message: 'From mountain treks together to exchanging 7 farre by the holy river! Can’t wait to dance at the Sangeet!',
+        tag: '❤️ Endless Love',
+        timestamp: '19 Nov 2027',
+        likes: 29,
+      },
+      {
+        id: 'wish-3',
+        author: 'The Malhotra Family',
+        message: 'Meher, you bring so much warmth to our lives. Counting down the moments until the Barat arrives in Rishikesh!',
+        tag: '🌿 Mountain Joy',
+        timestamp: '19 Nov 2027',
+        likes: 25,
+      },
+    ],
+  },
+  rsvp: {
+    eyebrow: 'KINDLY REPLY',
+    heading: 'Will You Join Us by the Holy River?',
+    deadlineText: 'Kindly respond by 15 October 2027',
+    eventOptions: [
+      { id: 'haldi', label: 'Shubh Haldi & Phoolon Ki Holi', date: 'Sat 20 Nov · 10:30 AM' },
+      { id: 'mehndi', label: 'Riverside Mehndi & High Tea', date: 'Sat 20 Nov · 4:30 PM' },
+      { id: 'sangeet', label: 'Sangeet & Himalayan Starlight Gala', date: 'Sat 20 Nov · 7:30 PM' },
+      { id: 'barat', label: 'Royal Barat Procession', date: 'Sun 21 Nov · 3:30 PM' },
+      { id: 'ceremony', label: '7 Farre (Saat Phere) & Maha Aarti', date: 'Sun 21 Nov · 5:30 PM' },
+    ],
+  },
+  travel: {
+    eyebrow: 'YOUR JOURNEY TO RISHIKESH',
+    heading: 'Travel & Mountain Stays',
+    airport: {
+      name: 'Dehradun Jolly Grant Airport',
+      code: 'DED',
+      distance: '35 mins scenic mountain drive',
+      details: 'Direct flights from Delhi, Mumbai, Bengaluru, and Ahmedabad. Dedicated private chauffeurs will receive all guests.',
+    },
+    roomBlock: {
+      hotelName: 'Anand Kashi by the Ganges',
+      promoCode: 'MEHERKABIR27',
+      discountText: 'Special guest rate for our wedding retreat block',
+      bookingInstructions: 'Quote code when booking via resort concierge or our dedicated hospitality desk.',
+    },
+    shuttleInfo: 'Private wedding chauffeurs stationed at Dehradun Airport (DED) and Haridwar / Rishikesh Railway Stations.',
+    hotels: [
+      {
+        name: 'Anand Kashi by the Ganges',
+        category: 'Primary Wedding Sanctuary',
+        distance: 'On-site riverside resort',
+        note: 'Stunning luxury heritage property right on the bank of the Ganges river.',
+        bookingUrl: 'https://maps.google.com/?q=Anand+Kashi+by+the+Ganges+Rishikesh',
+      },
+      {
+        name: 'The Roseate Ganges',
+        category: 'Luxury Mountain Retreat',
+        distance: '15 mins away (Shivpuri)',
+        note: 'Contemporary luxury villas perched on Himalayan slopes overlooking Ganga.',
+        bookingUrl: 'https://maps.google.com/?q=The+Roseate+Ganges+Rishikesh',
+      },
+      {
+        name: 'Taj Rishikesh Resort & Spa',
+        category: 'Himalayan Luxury Sanctuary',
+        distance: '25 mins away (Singtali)',
+        note: 'World-class serene resort along the pristine white sands of the sacred river.',
+        bookingUrl: 'https://maps.google.com/?q=Taj+Rishikesh+Resort',
+      },
+    ],
+    venueMap: {
+      coordinates: '30.1362° N, 78.3670° E',
+      lat: 30.1362,
+      lng: 78.367,
+      address: 'Anand Kashi by the Ganges, Rishikesh-Badrinath Highway, Uttarakhand 249192',
+      googleMapsUrl: 'https://maps.google.com/?q=Anand+Kashi+by+the+Ganges+Rishikesh',
+      photoUrl: venueGhat,
+    },
+  },
+  contact: {
+    eyebrow: 'HOSPITALITY DESK',
+    heading: 'We Await You in Rishikesh',
+    subtext: 'Our dedicated family team is here to assist with mountain travel, car pickups, and warm arrangements.',
+    whatsappNumber: '+919876543210',
+    whatsappMessage: 'Hello! I am reaching out regarding Meher & Kabir’s Rishikesh wedding.',
+    coordinators: [
+      {
+        role: "Bride's Side Coordinator",
+        name: 'Aditi Sharma',
+        phone: '+91 98111 22334',
+        email: 'aditi@sharmaweddings.in',
+      },
+      {
+        role: "Groom's Side Coordinator",
+        name: 'Dev Malhotra',
+        phone: '+91 98222 33445',
+        email: 'dev@malhotraweddings.in',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is the recommended attire for the mountain climate?',
+        answer: 'November in Rishikesh is crisp and clear with warm sunny days (22°C / 72°F) and cool evenings (12°C / 54°F). We recommend warm pashminas, shawls, and light layers for evening gatherings.',
+      },
+      {
+        question: 'Will transport be provided between venues and hotels?',
+        answer: 'Yes, dedicated round-trip private shuttles will run continuously between recommended hotels and Anand Kashi.',
+      },
+      {
+        question: 'What is the gifting policy?',
+        answer: 'Your presence and sacred prayers on the banks of River Ganga are the greatest blessings we could ask for. No boxed gifts, please.',
+      },
+    ],
+  },
+};
