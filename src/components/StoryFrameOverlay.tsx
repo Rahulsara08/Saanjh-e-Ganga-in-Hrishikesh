@@ -20,24 +20,24 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
       {/* Outer Card Container with aspect ratio matching the exact frame (685 : 899) */}
       <div
         onClick={onClick}
-        className="relative w-full aspect-[685/899] mx-auto cursor-pointer transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+        className="relative w-full aspect-[685/899] mx-auto cursor-pointer transition-all duration-500 ease-out group-hover:scale-[1.018] group-hover:-translate-y-1"
       >
-        {/* Layer 1: The Photo (Fits precisely behind the inner cutout window of the frame) */}
-        {/* Cutout window coordinates in 685x899: Left 4.09%, Top 11.24%, Width 91.68%, Height 63.40% */}
-        {/* Given a slight 0.3% margin behind the dark border so zero white hairline gap is ever visible */}
+        {/* Layer 1: The Photo (Extends comfortably under the solid dark frame so zero white gap or corner is ever visible) */}
+        {/* Cutout window is at left 4.09%, top 11.24%, width 91.68%, height 63.40% */}
+        {/* Sits from left 2.5%, top 9.0%, width 95.0%, height 67.0% without clipping corners */}
         <div
-          className="absolute overflow-hidden rounded-[14px] sm:rounded-[20px] bg-black z-10 shadow-inner"
+          className="absolute overflow-hidden bg-black z-10"
           style={{
-            left: '3.8%',
-            top: '10.9%',
-            width: '92.2%',
-            height: '63.8%',
+            left: '2.5%',
+            top: '9.0%',
+            width: '95.0%',
+            height: '67.0%',
           }}
         >
           {children}
         </div>
 
-        {/* Layer 2: Clean Instagram Frame Image (Background Layer) */}
+        {/* Layer 2: Clean Instagram Frame Image (Background Layer with natural inner rounded cutout) */}
         <img
           src={instagramCleanFrame}
           alt="Instagram Story Frame"
@@ -45,20 +45,20 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
         />
 
         {/* Layer 3: Halftone Hand Holding Camera (Foreground Layer) */}
-        {/* Overlapping the lower-right area, positioned slightly lower so it naturally comes upward from below */}
-        {/* Pop-up animation when cursor hovers over the frame */}
+        {/* Positioned lower so it naturally comes upward from below the frame, camera prominently on lower right */}
+        {/* Independent pop-up animation: lifts and scales higher on cursor hover than the main frame */}
         <div
-          className="absolute z-30 pointer-events-none transition-all duration-400 ease-out transform group-hover:scale-108 group-hover:-translate-y-2.5 group-hover:-rotate-1 drop-shadow-2xl"
+          className="absolute z-30 pointer-events-none transition-all duration-400 cubic-bezier(0.34, 1.56, 0.64, 1) transform group-hover:scale-112 group-hover:-translate-y-3.5 group-hover:-rotate-2 drop-shadow-2xl"
           style={{
             left: '39.4%',
-            top: '55.8%',
+            top: '63.5%',
             width: '64.2%',
           }}
         >
           <img
             src={vintageCameraHand}
             alt="Hand holding vintage camera"
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-contain transition-transform duration-300"
           />
         </div>
       </div>

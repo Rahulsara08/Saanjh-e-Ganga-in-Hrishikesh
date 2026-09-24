@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface StoryHoverItem {
   id: string;
@@ -71,29 +71,30 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
             <motion.div
               key={story.id}
               ref={isActive ? activeItemRef : null}
-              className={`relative cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl border-2 shrink-0 transition-colors duration-300 shadow-sm ${
+              className={`relative cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl border-2 shrink-0 transition-all duration-300 ${
                 isActive
-                  ? 'border-[#C6A15B] ring-2 ring-[#C6A15B]/30'
-                  : 'border-[#DFC48F]/40 hover:border-[#C6A15B]/70 opacity-75 hover:opacity-100'
+                  ? 'border-[#C6A15B] ring-2 ring-[#C6A15B]/50 shadow-md scale-[1.02]'
+                  : 'border-[#DFC48F]/50 hover:border-[#C6A15B]/80 opacity-70 hover:opacity-100 hover:scale-[1.03]'
               }`}
               initial={false}
               animate={{
                 width: isActive
                   ? isMobile
-                    ? '6.5rem'
-                    : '10rem'
+                    ? '6.25rem'
+                    : '9.5rem'
                   : isMobile
                   ? '2.1rem'
                   : '2.75rem',
-                height: isMobile ? '4.25rem' : '5.25rem',
+                height: isMobile ? '4.25rem' : '5.5rem',
               }}
               transition={{
                 type: 'spring',
                 stiffness: 280,
-                damping: 26,
-                mass: 0.8,
+                damping: 24,
+                mass: 0.65,
               }}
               onClick={() => onSelect(index)}
+              onMouseEnter={() => onSelect(index)}
               onHoverStart={() => onSelect(index)}
             >
               {/* Photo */}
@@ -107,26 +108,6 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
               {!isActive && (
                 <div className="absolute inset-0 bg-black/15 transition-opacity hover:opacity-0" />
               )}
-
-              {/* Active Expanded Overlay with story metadata (Skiper UI style reveal) */}
-              <AnimatePresence>
-                {isActive && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-1.5 sm:p-2.5 text-left"
-                  >
-                    <span className="text-[8px] sm:text-[9px] font-sans font-bold text-[#DFC48F] tracking-widest uppercase">
-                      0{index + 1} · {story.location ? story.location.split(',')[0] : 'Story'}
-                    </span>
-                    <p className="text-[10px] sm:text-[11px] font-serif font-medium text-white line-clamp-1 leading-snug">
-                      {story.title}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           );
         })}
