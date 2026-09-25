@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Music } from 'lucide-react';
 import { qaafiranaAudio, AudioState } from '../utils/audio';
 
-export const MusicPlayer: React.FC = () => {
+interface MusicPlayerProps {
+  className?: string;
+}
+
+export const MusicPlayer: React.FC<MusicPlayerProps> = ({ className }) => {
   const [audioState, setAudioState] = useState<AudioState>(qaafiranaAudio.getState());
 
   useEffect(() => {
@@ -20,7 +24,7 @@ export const MusicPlayer: React.FC = () => {
   return (
     <aside
       aria-label="Wedding Music"
-      className="fixed bottom-6 right-6 z-40 select-none print:hidden"
+      className={className || "fixed bottom-6 right-6 z-40 select-none print:hidden"}
     >
       <button
         onClick={handleToggle}

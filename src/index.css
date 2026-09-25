@@ -71,8 +71,16 @@ body {
   }
 }
 
-.animate-hand-popup {
-  animation: handPopup 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.phone-scrollbar::-webkit-scrollbar {
+  width: 4px;
 }
-
-..
+.phone-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.phone-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(198, 161, 91, 0.35);
+  border-radius: 9999px;
+}
+.phone-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(198, 161, 91, 0.6);
+}
