@@ -19,8 +19,8 @@ export const WithOurFamilies: React.FC<WithOurFamiliesProps> = ({ config }) => {
         </div>
       </RevealOnScroll>
 
-      {/* Split layout: Bride's parents and Groom's parents */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+      {/* Mobile Stack layout: Bride's parents and Groom's parents */}
+      <div className="flex flex-col items-center space-y-8 max-w-sm mx-auto w-full">
         {/* Bride's Parents */}
         <RevealOnScroll delay={100} className="w-full">
           <div className="p-7 sm:p-9 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 text-center flex flex-col items-center shadow-xs transition-transform duration-500 hover:-translate-y-1">

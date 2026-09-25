@@ -376,29 +376,29 @@ export const NearbySights: React.FC = () => {
       {/* 2. SEQUENTIAL SIGHTS LIST (Sight 1 at the top, followed by 2, 3, 4, 5) */}
       {/* NO outer card box: image on one side, details on the other side directly on page background */}
       {!isFanned && (
-        <div className="w-full max-w-4xl mx-auto flex flex-col space-y-10 sm:space-y-16 pt-2">
+        <div className="w-full max-w-sm mx-auto flex flex-col space-y-12 pt-2">
           {sights.map((sight, index) => (
             <div
               key={sight.id}
-              className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-8 w-full"
+              className="flex flex-col items-start gap-3 w-full pb-8 border-b border-[#DFC48F]/40 last:border-b-0"
             >
-              {/* Image Card Only (NO outer card box): Pure image with 3D tilt and golden rim */}
+              {/* Image Card Only: Full-width pure image with 3D tilt */}
               <motion.div
                 layoutId={`sight-card-${sight.id}`}
                 transition={FLIGHT_SPRING}
                 animate={{ rotate: 0 }}
                 onClick={() => setSelectedSight(sight)}
-                className="w-full sm:w-60 md:w-68 aspect-[4/3] sm:aspect-[3/4] shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
+                className="w-full aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
               >
                 <TiltCard sight={sight} showCaption={false} className="w-full h-full" />
               </motion.div>
 
-              {/* Details Side: Right NEXT TO the card directly on background (NO enclosing card box) */}
+              {/* Details Side: Below the card directly on background */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.12 + index * 0.04, duration: 0.5 }}
-                className="flex-1 flex flex-col justify-center text-left py-1 sm:py-2 space-y-2 min-w-0"
+                className="w-full flex flex-col justify-center text-left py-1 space-y-1.5 min-w-0"
               >
                 {/* Location Tag with Icon */}
                 <div className="flex items-center gap-1.5 text-xs text-[#8A5A00] font-sans font-bold uppercase tracking-wider">

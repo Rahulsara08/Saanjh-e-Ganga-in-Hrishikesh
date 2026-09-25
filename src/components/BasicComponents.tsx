@@ -202,12 +202,12 @@ export const SectionHeading: React.FC<{
   center?: boolean;
 }> = ({ children, subtitle, className = '', center = true }) => {
   return (
-    <div className={`mb-8 ${center ? 'text-center' : ''} ${className}`}>
-      <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#3D332A] font-light tracking-wide leading-tight">
+    <div className={`mb-6 ${center ? 'text-center' : ''} ${className}`}>
+      <h2 className="font-serif text-2xl xs:text-3xl text-[#3D332A] font-light tracking-wide leading-tight">
         {children}
       </h2>
       {subtitle && (
-        <p className="font-serif italic text-[#7A7065] text-base sm:text-lg mt-2 tracking-wide font-light max-w-lg mx-auto">
+        <p className="font-serif italic text-[#7A7065] text-sm xs:text-base mt-1.5 tracking-wide font-light max-w-sm mx-auto">
           {subtitle}
         </p>
       )}
