@@ -42,7 +42,7 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
   }, [config.couple.targetTimestamp]);
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden pt-16 sm:pt-28 pb-4 sm:pb-8">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden py-8 px-3">
       {/* ── Background Image: Sacred Rishikesh Mandap Watercolor Artwork with Seamless Feathering ── */}
       <div
         className="absolute inset-0 z-0 pointer-events-none"
