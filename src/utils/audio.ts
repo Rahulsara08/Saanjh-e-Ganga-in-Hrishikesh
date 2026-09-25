@@ -157,7 +157,7 @@ class QaafiranaAudioEngine {
       this.ytPlayer = new window.YT.Player(elementId, {
         height: '90',
         width: '160',
-        videoId: 'ZmcBC9-wAXM', // User specified: https://youtu.be/ZmcBC9-wAXM
+        videoId: '0wDvr7vipbI', // User specified: https://youtu.be/0wDvr7vipbI
         playerVars: {
           autoplay: 0,
           controls: 0,
@@ -165,7 +165,7 @@ class QaafiranaAudioEngine {
           enablejsapi: 1,
           fs: 0,
           loop: 1,
-          playlist: 'ZmcBC9-wAXM',
+          playlist: '0wDvr7vipbI',
           modestbranding: 1,
           playsinline: 1,
           rel: 0,

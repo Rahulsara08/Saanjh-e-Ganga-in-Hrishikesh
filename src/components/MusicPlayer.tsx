@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Music, VolumeX } from 'lucide-react';
+import { Music } from 'lucide-react';
 import { qaafiranaAudio, AudioState } from '../utils/audio';
 
 export const MusicPlayer: React.FC = () => {
