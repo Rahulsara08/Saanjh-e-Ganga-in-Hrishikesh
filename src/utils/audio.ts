@@ -50,27 +50,52 @@ class QaafiranaAudioEngine {
   }
 
   private init() {
-    // 1. Check for local audio file support (/qaafirana.mp3 or /audio/qaafirana.mp3)
+    // 1. Direct extracted audio from https://youtu.be/ZmcBC9-wAXM
     try {
       const audio = new Audio('/qaafirana.mp3');
-      audio.preload = 'metadata';
+      audio.preload = 'auto';
+      audio.loop = true;
+      audio.volume = this.volume / 100;
+      this.localAudio = audio;
+      this.usingLocal = true;
+      this.isReady = true;
+
       audio.addEventListener('canplaythrough', () => {
-        this.localAudio = audio;
-        this.usingLocal = true;
         this.isReady = true;
         this.notify();
       });
+
+      audio.addEventListener('playing', () => {
+        this.isPlaying = true;
+        this.notify();
+      });
+
+      audio.addEventListener('pause', () => {
+        this.isPlaying = false;
+        this.notify();
+      });
+
       audio.addEventListener('ended', () => {
         if (this.isPlaying) {
           audio.currentTime = 0;
           audio.play().catch(() => {});
         }
       });
+
+      audio.addEventListener('error', () => {
+        if (audio.src.includes('.mp3')) {
+          audio.src = '/qaafirana.m4a';
+          audio.load();
+        }
+      });
+
+      audio.load();
+      this.notify();
     } catch {
-      // Local audio optional
+      // Local audio fallback
     }
 
-    // 2. Initialize YouTube Stream for "Qaafirana"
+    // 2. Initialize YouTube Stream for user-provided link: https://youtu.be/ZmcBC9-wAXM
     this.initYouTubePlayer();
   }
 
@@ -132,7 +157,7 @@ class QaafiranaAudioEngine {
       this.ytPlayer = new window.YT.Player(elementId, {
         height: '90',
         width: '160',
-        videoId: 'k-V31x84a_Q', // Official Qaafirana | Kedarnath | Zee Music Company
+        videoId: 'ZmcBC9-wAXM', // User specified: https://youtu.be/ZmcBC9-wAXM
         playerVars: {
           autoplay: 0,
           controls: 0,
@@ -140,7 +165,7 @@ class QaafiranaAudioEngine {
           enablejsapi: 1,
           fs: 0,
           loop: 1,
-          playlist: 'k-V31x84a_Q',
+          playlist: 'ZmcBC9-wAXM',
           modestbranding: 1,
           playsinline: 1,
           rel: 0,

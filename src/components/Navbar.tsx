@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Music } from 'lucide-react';
-import { qaafiranaAudio } from '../utils/audio';
 import { WeddingConfig } from '../types';
 
 interface NavbarProps {
@@ -9,7 +7,6 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ config }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,17 +15,6 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    const unsubscribe = qaafiranaAudio.subscribe((state) => {
-      setIsAudioPlaying(state.isPlaying);
-    });
-    return unsubscribe;
-  }, []);
-
-  const handleToggleAudio = () => {
-    qaafiranaAudio.toggle();
-  };
 
   const navLinks = [
     { label: 'Our Story', href: '#our-story' },
@@ -80,36 +66,6 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
             </a>
           ))}
         </nav>
-
-        {/* Right: Qaafirana song button */}
-        <div className="flex items-center space-x-2.5">
-          <button
-            onClick={handleToggleAudio}
-            title={isAudioPlaying ? 'Pause Qaafirana' : 'Play Qaafirana · Kedarnath (Arijit Singh & Nikhita)'}
-            aria-label="Toggle Qaafirana wedding song"
-            className={`px-3 py-1.5 rounded-full border transition-all duration-300 flex items-center space-x-2 ${
-              isAudioPlaying
-                ? 'bg-[#F1D9D6] border-[#E3B9B4] text-[#4A4038] shadow-sm'
-                : 'border-[#DFC48F]/70 text-[#8A7F72] hover:text-[#4A4038] hover:border-[#C6A15B] bg-[#FAF6F0]'
-            }`}
-          >
-            {isAudioPlaying ? (
-              <div className="flex items-center space-x-1.5">
-                <Volume2 size={15} className="text-[#C6A15B]" />
-                <div className="flex items-end space-x-0.5 h-2.5">
-                  <span className="w-0.5 h-2 bg-[#C6A15B] animate-[bounce_0.8s_ease-in-out_infinite]" />
-                  <span className="w-0.5 h-2.5 bg-[#C6A15B] animate-[bounce_1.1s_ease-in-out_infinite]" />
-                  <span className="w-0.5 h-1.5 bg-[#C6A15B] animate-[bounce_0.7s_ease-in-out_infinite]" />
-                </div>
-              </div>
-            ) : (
-              <VolumeX size={15} />
-            )}
-            <span className="text-[10px] tracking-wider uppercase font-medium">
-              {isAudioPlaying ? 'Qaafirana ♪' : 'Qaafirana'}
-            </span>
-          </button>
-        </div>
       </div>
     </header>
   );
