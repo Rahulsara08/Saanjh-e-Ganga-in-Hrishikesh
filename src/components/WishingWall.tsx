@@ -3,6 +3,7 @@ import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
 import { WeddingConfig, Wish } from '../types';
 import { Heart, Send, MessageSquareHeart, Trash2 } from 'lucide-react';
+import { SmoothInput } from './ui/SmoothInput';
 
 interface WishingWallProps {
   config: WeddingConfig;
@@ -138,7 +139,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config, isHostMode = f
       <RevealOnScroll delay={100}>
         <form
           onSubmit={handleSubmit}
-          className="mb-14 p-6 sm:p-8 rounded-3xl bg-[#FAF6F0] border border-[#DFC48F]/70 shadow-2xs max-w-2xl mx-auto"
+          className="mb-14 p-6 sm:p-8 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-2xs max-w-2xl mx-auto"
         >
           <div className="flex items-center space-x-2 mb-4 pb-3 border-b border-[#DFC48F]/40">
             <MessageSquareHeart size={18} className="text-[#C6A15B]" />
@@ -152,13 +153,11 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config, isHostMode = f
               <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-medium">
                 Your Name / Family
               </label>
-              <input
-                type="text"
+              <SmoothInput
                 required
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="e.g. Vikram & Sunita Sharma"
-                className="w-full bg-[#FAF6F0] border border-[#DFC48F]/70 rounded-xl px-3.5 py-2 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B]"
               />
             </div>
 
@@ -194,7 +193,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config, isHostMode = f
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Share your prayers or warm blessings for Meher & Kabir in Rishikesh..."
-                className="w-full bg-[#FAF6F0] border border-[#DFC48F]/70 rounded-xl px-3.5 py-2 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] resize-none"
+                className="w-full bg-[#FFF9F8] border border-[#DFC48F]/70 rounded-xl px-3.5 py-2 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] resize-none"
               />
             </div>
 

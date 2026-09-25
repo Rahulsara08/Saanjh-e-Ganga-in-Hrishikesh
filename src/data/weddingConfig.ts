@@ -9,7 +9,9 @@ import haldiImg from '../assets/images/rishikesh_haldi_ceremony_1790240673486.jp
 import mehndiImg from '../assets/images/rishikesh_mehndi_evening_1790240685474.jpg';
 import sangeetImg from '../assets/images/rishikesh_sangeet_night_1790240698617.jpg';
 import baratImg from '../assets/images/rishikesh_baraat_procession_1790240715482.jpg';
+import varmalaImg from '../assets/images/rishikesh_varmala_ceremony.jpg';
 import saatPhereImg from '../assets/images/rishikesh_saat_phere_vows_1790240732445.jpg';
+import receptionImg from '../assets/images/rishikesh_wedding_reception.jpg';
 
 export const defaultWeddingConfig: WeddingConfig = {
   couple: {
@@ -83,7 +85,7 @@ export const defaultWeddingConfig: WeddingConfig = {
   journey: {
     eyebrow: 'A THREE-DAY HIMALAYAN PILGRIMAGE',
     heading: 'Wedding Celebrations & Sacred Rites',
-    subtitle: 'Haldi · Mehndi · Sangeet · Barat · 7 Farre by the Ganges',
+    subtitle: 'Haldi · Mehndi · Sangeet · Barat · Varmala · 7 Farre · Reception by the Ganges',
     events: [
       {
         number: 'I',
@@ -135,15 +137,39 @@ export const defaultWeddingConfig: WeddingConfig = {
       },
       {
         number: 'V',
-        date: '21 Nov · 5:30 PM',
-        isoStart: '2027-11-21T17:30:00+05:30',
-        isoEnd: '2027-11-21T21:00:00+05:30',
+        date: '21 Nov · 5:00 PM',
+        isoStart: '2027-11-21T17:00:00+05:30',
+        isoEnd: '2027-11-21T18:00:00+05:30',
+        title: 'Varmala Ceremony',
+        venue: 'The Riverfront Floral Deck · Anand Kashi',
+        description: 'Exchanging fragrant rose and jasmine garlands with prayers by the river.',
+        attire: 'Attire: Pastel Royal Silks',
+        imageUrl: varmalaImg,
+        svgType: 'ceremony',
+      },
+      {
+        number: 'VI',
+        date: '21 Nov · 6:30 PM',
+        isoStart: '2027-11-21T18:30:00+05:30',
+        isoEnd: '2027-11-21T20:30:00+05:30',
         title: '7 Farre (Saat Phere) & Maha Aarti',
         venue: 'The Holy Ganga Ghat Mandap · Anand Kashi',
         description: 'Seven sacred Vedic rounds (7 Farre) around the eternal holy Agni fire, Vedic chanting by temple scholars, and 108 oil diya Maha Aarti.',
         attire: 'Attire: Traditional Heritage · Raw Silk, Organza & Temple Gold',
         imageUrl: saatPhereImg,
         svgType: 'ceremony',
+      },
+      {
+        number: 'VII',
+        date: '21 Nov · 8:30 PM',
+        isoStart: '2027-11-21T20:30:00+05:30',
+        isoEnd: '2027-11-21T23:30:00+05:30',
+        title: 'The Royal Reception',
+        venue: 'The Riverside Starlight Lawn · Anand Kashi',
+        description: 'An evening of celebration, heartfelt toasts, and a riverside banquet dinner.',
+        attire: 'Attire: Formal Evening Elegance',
+        imageUrl: receptionImg,
+        svgType: 'dinner',
       },
     ],
   },
@@ -204,7 +230,9 @@ export const defaultWeddingConfig: WeddingConfig = {
       { id: 'mehndi', label: 'Riverside Mehndi & High Tea', date: 'Sat 20 Nov · 4:30 PM' },
       { id: 'sangeet', label: 'Sangeet & Himalayan Starlight Gala', date: 'Sat 20 Nov · 7:30 PM' },
       { id: 'barat', label: 'Royal Barat Procession', date: 'Sun 21 Nov · 3:30 PM' },
-      { id: 'ceremony', label: '7 Farre (Saat Phere) & Maha Aarti', date: 'Sun 21 Nov · 5:30 PM' },
+      { id: 'varmala', label: 'Varmala Ceremony', date: 'Sun 21 Nov · 5:00 PM' },
+      { id: 'ceremony', label: '7 Farre (Saat Phere) & Maha Aarti', date: 'Sun 21 Nov · 6:30 PM' },
+      { id: 'reception', label: 'The Royal Reception', date: 'Sun 21 Nov · 8:30 PM' },
     ],
   },
   travel: {

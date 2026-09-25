@@ -7,10 +7,7 @@ import { StoryHoverExpand } from './StoryHoverExpand';
 import {
   Play,
   Pause,
-  ChevronLeft,
-  ChevronRight,
   X,
-  Maximize2,
   Calendar,
   Sparkles,
   MapPin,
@@ -146,14 +143,6 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
     return () => clearInterval(interval);
   }, [isPlaying, stories.length]);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % stories.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + stories.length) % stories.length);
-  };
-
   const currentStory = stories[currentIndex];
 
   return (
@@ -174,37 +163,18 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
       {/* ── Slideshow Player in User's Camera Overlay Frame with no background ── */}
       <RevealOnScroll delay={100} className="w-full max-w-full">
         <div className="w-full max-w-full flex flex-col items-center justify-center mx-auto">
-          {/* Manual navigation controls: Prev & Next */}
-          <div className="flex items-center justify-center space-x-4 mb-6 mx-auto">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous story"
-              className="p-2.5 rounded-full border border-[#DFC48F]/80 text-[#4A4038] hover:text-[#C6A15B] hover:border-[#C6A15B] bg-[#FAF6F0] transition-all duration-300 shadow-2xs hover:shadow-xs cursor-pointer active:scale-95"
-            >
-              <ChevronLeft size={18} />
-            </button>
-
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next story"
-              className="p-2.5 rounded-full border border-[#DFC48F]/80 text-[#4A4038] hover:text-[#C6A15B] hover:border-[#C6A15B] bg-[#FAF6F0] transition-all duration-300 shadow-2xs hover:shadow-xs cursor-pointer active:scale-95"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
-
           {/* User's Exact Camera Overlay Frame (Floating with no outer wrapper background) */}
-          <div className="w-full flex justify-center items-center">
+          <div className="w-full flex justify-center items-center relative z-20 mb-2 sm:mb-4">
             <StoryFrameOverlay
               userName={`${config.couple.brideName.toLowerCase()}.${config.couple.groomName.toLowerCase()}`}
-              likesCount={currentStory.likes}
+              location="Rishikesh, Uttarakhand"
               caption={currentStory.caption}
               daysAgo={currentStory.date}
+              currentIndex={currentIndex}
+              totalStories={stories.length}
               onClick={() => setActiveStoryCard(currentStory)}
             >
-              {/* The Photo Sliding One by One */}
+              {/* The Photo Sliding One by One - Full bleed, zero black gradient or outlines */}
               <div className="relative w-full h-full">
                 {stories.map((s, idx) => (
                   <div
@@ -218,14 +188,6 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
                       alt={s.title}
                       className="w-full h-full object-cover"
                     />
-                    {/* Subtle inner shadow for depth */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Tap to open badge */}
-                    <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-[9px] text-[#DFC48F] flex items-center space-x-1 border border-white/10 font-sans shadow-xs">
-                      <Maximize2 size={9} />
-                      <span>Open Card</span>
-                    </div>
                   </div>
                 ))}
               </div>
@@ -233,14 +195,16 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
           </div>
 
           {/* Story Hover Expand Navigation (Skiper UI 52 Animation) */}
-          <StoryHoverExpand
-            stories={stories}
-            currentIndex={currentIndex}
-            onSelect={(idx) => {
-              setCurrentIndex(idx);
-              setIsPlaying(false);
-            }}
-          />
+          <div className="relative z-10 w-full max-w-full -mt-4 sm:-mt-8">
+            <StoryHoverExpand
+              stories={stories}
+              currentIndex={currentIndex}
+              onSelect={(idx) => {
+                setCurrentIndex(idx);
+                setIsPlaying(false);
+              }}
+            />
+          </div>
         </div>
       </RevealOnScroll>
 

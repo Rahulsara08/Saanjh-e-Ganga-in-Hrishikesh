@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="py-20 px-4 border-t border-[#DFC48F]/40 bg-gradient-to-b from-[#FAF6F0] to-[#F3EDE3] text-center relative overflow-hidden">
+    <footer className="py-20 px-4 border-t border-[#DFC48F]/40 bg-gradient-to-b from-transparent to-[#F1D9D6]/35 text-center relative overflow-hidden">
       <div className="max-w-2xl mx-auto flex flex-col items-center space-y-6">
         <SanskritSeal size={54} />
 

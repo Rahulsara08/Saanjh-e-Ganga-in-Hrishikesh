@@ -1,49 +1,342 @@
-// Ambient Wedding Audio Engine synthesizing gentle acoustic harp & sitar tones in Raag Yaman
-class AmbientAudioEngine {
-  private ctx: AudioContext | null = null;
+// Qaafirana Music Engine
+// Streams the soulful wedding anthem "Qaafirana" (Kedarnath · Arijit Singh & Nikhita Gandhi · Amit Trivedi)
+// with resilient fallback to acoustic mountain sitar notes in Raag Yaman.
+
+export interface AudioState {
+  isPlaying: boolean;
+  isReady: boolean;
+  trackTitle: string;
+  artist: string;
+  source: 'youtube' | 'local' | 'synth';
+  volume: number;
+  isMuted: boolean;
+}
+
+type AudioListener = (state: AudioState) => void;
+
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: (() => void) | undefined;
+  }
+}
+
+class QaafiranaAudioEngine {
   private isPlaying = false;
-  private timerId: number | null = null;
-  private masterGain: GainNode | null = null;
+  private isReady = false;
+  private volume = 85;
+  private isMuted = false;
+  private listeners: Set<AudioListener> = new Set();
+  private ytPlayer: any = null;
+  private pendingPlay = false;
+  private localAudio: HTMLAudioElement | null = null;
+  private usingLocal = false;
 
-  // Frequencies in Raag Yaman (Key of C# / D approx, meditative scale)
-  // C4, D4, E4, F#4, G4, A4, B4, C5, D5, E5
-  private notes = [
-    261.63, // C4 (Sa)
-    293.66, // D4 (Re)
-    329.63, // E4 (Ga)
-    369.99, // F#4 (Teevra Ma)
-    392.0,  // G4 (Pa)
-    440.0,  // A4 (Dha)
-    493.88, // B4 (Ni)
-    523.25, // C5 (Taar Sa)
-    587.33, // D5 (Taar Re)
-    659.25, // E5 (Taar Ga)
-  ];
+  // Fallback acoustic synth notes (Raag Yaman)
+  private synthCtx: AudioContext | null = null;
+  private synthTimer: number | null = null;
+  private synthGain: GainNode | null = null;
+  private notes = [261.63, 293.66, 329.63, 369.99, 392.0, 440.0, 493.88, 523.25, 587.33, 659.25];
 
-  // Pluck an acoustic harp / sitar harmonic note
+  constructor() {
+    if (typeof window !== 'undefined') {
+      // Defer DOM access until ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.init());
+      } else {
+        setTimeout(() => this.init(), 100);
+      }
+    }
+  }
+
+  private init() {
+    // 1. Check for local audio file support (/qaafirana.mp3 or /audio/qaafirana.mp3)
+    try {
+      const audio = new Audio('/qaafirana.mp3');
+      audio.preload = 'metadata';
+      audio.addEventListener('canplaythrough', () => {
+        this.localAudio = audio;
+        this.usingLocal = true;
+        this.isReady = true;
+        this.notify();
+      });
+      audio.addEventListener('ended', () => {
+        if (this.isPlaying) {
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+        }
+      });
+    } catch {
+      // Local audio optional
+    }
+
+    // 2. Initialize YouTube Stream for "Qaafirana"
+    this.initYouTubePlayer();
+  }
+
+  private initYouTubePlayer() {
+    if (typeof document === 'undefined') return;
+
+    // Create offscreen container keeping iframe active in DOM
+    let container = document.getElementById('qaafirana-player-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'qaafirana-player-container';
+      container.style.position = 'fixed';
+      container.style.bottom = '0';
+      container.style.right = '0';
+      container.style.width = '160px';
+      container.style.height = '90px';
+      container.style.opacity = '0.001';
+      container.style.pointerEvents = 'none';
+      container.style.zIndex = '-999';
+      document.body.appendChild(container);
+    }
+
+    const playerId = 'qaafirana-yt-iframe';
+    let playerDiv = document.getElementById(playerId);
+    if (!playerDiv) {
+      playerDiv = document.createElement('div');
+      playerDiv.id = playerId;
+      container.appendChild(playerDiv);
+    }
+
+    const setupPlayer = () => {
+      if (window.YT && window.YT.Player) {
+        this.createYTPlayer(playerId);
+      }
+    };
+
+    if (window.YT && window.YT.Player) {
+      setupPlayer();
+    } else {
+      const prevHandler = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (prevHandler) prevHandler();
+        setupPlayer();
+      };
+
+      if (!document.getElementById('yt-iframe-api-script')) {
+        const script = document.createElement('script');
+        script.id = 'yt-iframe-api-script';
+        script.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(script);
+      }
+    }
+  }
+
+  private createYTPlayer(elementId: string) {
+    if (this.ytPlayer) return;
+
+    try {
+      this.ytPlayer = new window.YT.Player(elementId, {
+        height: '90',
+        width: '160',
+        videoId: 'k-V31x84a_Q', // Official Qaafirana | Kedarnath | Zee Music Company
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          enablejsapi: 1,
+          fs: 0,
+          loop: 1,
+          playlist: 'k-V31x84a_Q',
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+          origin: window.location.origin,
+        },
+        events: {
+          onReady: (event: any) => {
+            this.isReady = true;
+            try {
+              event.target.setVolume(this.volume);
+            } catch {
+              // Ignore
+            }
+            if (this.pendingPlay) {
+              this.pendingPlay = false;
+              this.play();
+            }
+            this.notify();
+          },
+          onStateChange: (event: any) => {
+            // YT.PlayerState: PLAYING = 1, PAUSED = 2, ENDED = 0, BUFFERING = 3
+            if (event.data === 1) {
+              this.isPlaying = true;
+              this.stopSynth();
+            } else if (event.data === 2 || event.data === 0) {
+              this.isPlaying = false;
+            }
+            this.notify();
+          },
+          onError: () => {
+            // If YouTube is restricted, seamless fallback to acoustic sitar
+            if (this.isPlaying) {
+              this.startSynth();
+            }
+          },
+        },
+      });
+    } catch (e) {
+      console.warn('YouTube Player initialization note:', e);
+    }
+  }
+
+  public subscribe(listener: AudioListener): () => void {
+    this.listeners.add(listener);
+    listener(this.getState());
+    return () => this.listeners.delete(listener);
+  }
+
+  private notify() {
+    const state = this.getState();
+    this.listeners.forEach((listener) => {
+      try {
+        listener(state);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }
+
+  public getState(): AudioState {
+    return {
+      isPlaying: this.isPlaying,
+      isReady: this.isReady,
+      trackTitle: 'Qaafirana',
+      artist: 'Arijit Singh & Nikhita Gandhi · Kedarnath',
+      source: this.usingLocal ? 'local' : this.ytPlayer ? 'youtube' : 'synth',
+      volume: this.volume,
+      isMuted: this.isMuted,
+    };
+  }
+
+  public play() {
+    this.isPlaying = true;
+
+    // 1. Try local audio if loaded
+    if (this.usingLocal && this.localAudio) {
+      this.localAudio.play().catch(() => {});
+      this.notify();
+      return;
+    }
+
+    // 2. Play YouTube stream
+    if (this.ytPlayer && typeof this.ytPlayer.playVideo === 'function') {
+      try {
+        this.ytPlayer.playVideo();
+      } catch {
+        this.startSynth();
+      }
+    } else {
+      this.pendingPlay = true;
+      // Start gentle synth until YouTube is ready
+      this.startSynth();
+    }
+    this.notify();
+  }
+
+  public pause() {
+    this.isPlaying = false;
+    this.pendingPlay = false;
+
+    if (this.usingLocal && this.localAudio) {
+      this.localAudio.pause();
+    }
+
+    if (this.ytPlayer && typeof this.ytPlayer.pauseVideo === 'function') {
+      try {
+        this.ytPlayer.pauseVideo();
+      } catch {
+        // Ignore
+      }
+    }
+
+    this.stopSynth();
+    this.notify();
+  }
+
+  public toggle(): boolean {
+    if (this.isPlaying) {
+      this.pause();
+      return false;
+    } else {
+      this.play();
+      return true;
+    }
+  }
+
+  public setVolume(vol: number) {
+    this.volume = Math.max(0, Math.min(100, vol));
+    if (this.ytPlayer && typeof this.ytPlayer.setVolume === 'function') {
+      try {
+        this.ytPlayer.setVolume(this.volume);
+      } catch {
+        // Ignore
+      }
+    }
+    if (this.localAudio) {
+      this.localAudio.volume = this.volume / 100;
+    }
+    if (this.synthGain && this.synthCtx) {
+      this.synthGain.gain.setValueAtTime((this.volume / 100) * 0.7, this.synthCtx.currentTime);
+    }
+    this.notify();
+  }
+
+  public toggleMute(): boolean {
+    this.isMuted = !this.isMuted;
+    if (this.ytPlayer) {
+      try {
+        if (this.isMuted) {
+          this.ytPlayer.mute?.();
+        } else {
+          this.ytPlayer.unMute?.();
+        }
+      } catch {
+        // Ignore
+      }
+    }
+    if (this.localAudio) {
+      this.localAudio.muted = this.isMuted;
+    }
+    this.notify();
+    return this.isMuted;
+  }
+
+  // Backwards compatibility methods
+  public start() {
+    this.play();
+  }
+
+  public stop() {
+    this.pause();
+  }
+
+  public getStatus(): boolean {
+    return this.isPlaying;
+  }
+
+  // --- Meditative Sitar Synth Fallback ---
   private playPluck(freq: number, duration = 3.5, velocity = 0.12) {
-    if (!this.ctx || !this.masterGain) return;
+    if (!this.synthCtx || !this.synthGain) return;
+    const now = this.synthCtx.currentTime;
+    const osc1 = this.synthCtx.createOscillator();
+    const osc2 = this.synthCtx.createOscillator();
+    const gainNode = this.synthCtx.createGain();
+    const filter = this.synthCtx.createBiquadFilter();
 
-    const now = this.ctx.currentTime;
-    const osc1 = this.ctx.createOscillator();
-    const osc2 = this.ctx.createOscillator();
-    const gainNode = this.ctx.createGain();
-    const filter = this.ctx.createBiquadFilter();
-
-    // Sitar / acoustic harp rich harmonic blend
     osc1.type = 'triangle';
     osc1.frequency.setValueAtTime(freq, now);
 
-    // Second harmonic with subtle sympathetic resonance
     osc2.type = 'sine';
     osc2.frequency.setValueAtTime(freq * 2, now);
 
-    // Warm resonant low-pass filter
     filter.type = 'lowpass';
     filter.frequency.setValueAtTime(freq * 3.5, now);
     filter.frequency.exponentialRampToValueAtTime(freq * 1.2, now + duration);
 
-    // Pluck envelope: sharp attack, gentle plucked decay
     gainNode.gain.setValueAtTime(0.0001, now);
     gainNode.gain.linearRampToValueAtTime(velocity, now + 0.02);
     gainNode.gain.exponentialRampToValueAtTime(velocity * 0.4, now + 0.35);
@@ -52,7 +345,7 @@ class AmbientAudioEngine {
     osc1.connect(filter);
     osc2.connect(filter);
     filter.connect(gainNode);
-    gainNode.connect(this.masterGain);
+    gainNode.connect(this.synthGain);
 
     osc1.start(now);
     osc2.start(now);
@@ -60,18 +353,14 @@ class AmbientAudioEngine {
     osc2.stop(now + duration);
   }
 
-  // Melodic sequence generator following meditative Yaman phrases
   private stepSequence = () => {
     if (!this.isPlaying) return;
-
-    // Pick meditative patterns: Ni-Re-Ga-Ma#-Dha-Ni-Sa
     const yamanIndices = [6, 1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 0, 2, 4, 7];
     const randomIndex = yamanIndices[Math.floor(Math.random() * yamanIndices.length)];
     const freq = this.notes[randomIndex % this.notes.length];
 
     this.playPluck(freq, 3.2, 0.08 + Math.random() * 0.05);
 
-    // Occasionally add a soft drone or counter-harmony
     if (Math.random() > 0.6) {
       setTimeout(() => {
         if (!this.isPlaying) return;
@@ -80,59 +369,38 @@ class AmbientAudioEngine {
       }, 400);
     }
 
-    // Schedule next note with humanized gentle timing
     const nextInterval = 1200 + Math.random() * 1600;
-    this.timerId = window.setTimeout(this.stepSequence, nextInterval);
+    this.synthTimer = window.setTimeout(this.stepSequence, nextInterval);
   };
 
-  public toggle(): boolean {
-    if (this.isPlaying) {
-      this.stop();
-      return false;
-    } else {
-      this.start();
-      return true;
-    }
-  }
-
-  public start() {
-    if (this.isPlaying) return;
-
+  private startSynth() {
     const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!this.ctx) {
-      this.ctx = new AudioContextClass();
+    if (!this.synthCtx) {
+      this.synthCtx = new AudioContextClass();
     }
-
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+    if (this.synthCtx.state === 'suspended') {
+      this.synthCtx.resume();
     }
+    this.synthGain = this.synthCtx.createGain();
+    this.synthGain.gain.setValueAtTime((this.volume / 100) * 0.7, this.synthCtx.currentTime);
+    this.synthGain.connect(this.synthCtx.destination);
 
-    this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.setValueAtTime(0.7, this.ctx.currentTime);
-    this.masterGain.connect(this.ctx.destination);
-
-    this.isPlaying = true;
-    // Initial opening chime
     this.playPluck(this.notes[0], 4.0, 0.08);
     this.playPluck(this.notes[4], 4.5, 0.06);
-
-    this.timerId = window.setTimeout(this.stepSequence, 1500);
+    this.synthTimer = window.setTimeout(this.stepSequence, 1500);
   }
 
-  public stop() {
-    this.isPlaying = false;
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-      this.timerId = null;
+  private stopSynth() {
+    if (this.synthTimer) {
+      clearTimeout(this.synthTimer);
+      this.synthTimer = null;
     }
-    if (this.masterGain && this.ctx) {
-      this.masterGain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + 0.5);
+    if (this.synthGain && this.synthCtx) {
+      this.synthGain.gain.linearRampToValueAtTime(0.0001, this.synthCtx.currentTime + 0.3);
     }
-  }
-
-  public getStatus(): boolean {
-    return this.isPlaying;
   }
 }
 
-export const ambientAudio = new AmbientAudioEngine();
+export const qaafiranaAudio = new QaafiranaAudioEngine();
+// Alias for backwards compatibility
+export const ambientAudio = qaafiranaAudio;

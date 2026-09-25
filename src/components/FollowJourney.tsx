@@ -15,7 +15,9 @@ const oneLineQuotes: { [key: string]: string } = {
   'Riverside Mehndi & High Tea': 'Intricate henna blossoms with mountain music as the sun softens.',
   'Sangeet & Himalayan Starlight Gala': 'Dhol rhythms and starlit melodies echoing across pine-scented peaks.',
   'The Royal Barat & Welcome': 'A spirited dancing procession arriving at the sacred ghat gates.',
+  'Varmala Ceremony': 'Exchanging fragrant rose and jasmine garlands with prayers by the river.',
   '7 Farre (Saat Phere) & Maha Aarti': 'Seven holy steps around the sacred fire as evening temple bells chime.',
+  'The Royal Reception': 'A starlit evening of heartfelt toasts, joyful laughter, and a grand feast.',
 };
 
 export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
@@ -30,12 +32,12 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
   };
 
   return (
-    <section id="journey" className="py-24 px-4 bg-[#FAF6F0]">
+    <section id="journey" className="py-24 px-4">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <SectionEyebrow>WEDDING CELEBRATIONS</SectionEyebrow>
-            <SectionHeading subtitle="Haldi · Mehndi · Sangeet · Barat · 7 Farre">
+            <SectionHeading subtitle="Haldi · Mehndi · Sangeet · Barat · Varmala · 7 Farre · Reception">
               Wedding Celebrations & Sacred Rites
             </SectionHeading>
           </div>
@@ -45,7 +47,7 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column: Clean Event Overview (No numbers) */}
           <div className="hidden lg:block lg:col-span-4 sticky top-28 h-fit space-y-6 select-none">
-            <div className="p-6 rounded-3xl bg-[#FAF6F0] border border-[#DFC48F]/70 shadow-2xs">
+            <div className="p-6 rounded-3xl bg-[#FAF2F0]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-2xs">
               <span className="text-[10px] font-sans font-semibold tracking-[0.3em] uppercase text-[#C6A15B] block mb-2">
                 RITUALS GUIDE
               </span>

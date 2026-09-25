@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --ivory: #FAF6F0;
-  --ivory-deep: #F3EDE3;
+  --ivory: #FAF2F0;
+  --ivory-deep: #F3E5E2;
   --blush: #F1D9D6;
   --blush-deep: #E3B9B4;
   --gold: #C6A15B;
@@ -14,8 +14,8 @@
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, Cambria, serif;
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
-  --color-ivory: #FAF6F0;
-  --color-ivory-deep: #F3EDE3;
+  --color-ivory: #FAF2F0;
+  --color-ivory-deep: #F3E5E2;
   --color-blush: #F1D9D6;
   --color-blush-deep: #E3B9B4;
   --color-gold: #C6A15B;
@@ -26,7 +26,10 @@
 
 html,
 body {
-  background-color: var(--ivory);
+  background-color: #FAF2F0;
+  background-image: url('./assets/images/paper_blush_texture.jpg');
+  background-repeat: repeat;
+  background-size: 420px auto;
   color: var(--ink);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -56,10 +59,12 @@ body {
     transform: translateY(60px) scale(0.8);
     opacity: 0;
   }
+
   65% {
     transform: translateY(-8px) scale(1.04);
     opacity: 1;
   }
+
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
@@ -69,3 +74,5 @@ body {
 .animate-hand-popup {
   animation: handPopup 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
+
+..

@@ -3,7 +3,8 @@ import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
 import { WeddingConfig, RSVPRecord } from '../types';
 import { generateICS } from '../utils/ics';
-import { Heart, CalendarPlus, CheckCircle2 } from 'lucide-react';
+import { Heart, CalendarPlus, CheckCircle2, Users } from 'lucide-react';
+import { SmoothInput } from './ui/SmoothInput';
 
 interface RSVPSectionProps {
   config: WeddingConfig;
@@ -14,7 +15,7 @@ const RSVP_STORAGE_KEY = 'meher_kabir_rsvps_warm_v4';
 
 export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitted }) => {
   const [fullName, setFullName] = useState('');
-  const [guestCount, setGuestCount] = useState(2);
+  const [guestCount, setGuestCount] = useState<number | string>(2);
   const [note, setNote] = useState('');
   const [submittedRecord, setSubmittedRecord] = useState<RSVPRecord | null>(null);
 
@@ -22,13 +23,15 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitte
     e.preventDefault();
     if (!fullName.trim()) return;
 
+    const parsedCount = typeof guestCount === 'number' ? guestCount : parseInt(guestCount, 10) || 1;
+
     const newRecord: RSVPRecord = {
       id: `rsvp-${Date.now()}`,
       attendance: 'accept',
       fullName: fullName.trim(),
       email: '',
       phone: '',
-      guestCount,
+      guestCount: Math.max(1, parsedCount),
       events: ['haldi', 'mehndi', 'sangeet', 'barat', 'ceremony'],
       dietary: '',
       note: note.trim(),
@@ -79,10 +82,10 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitte
       </RevealOnScroll>
 
       <RevealOnScroll delay={100}>
-        <div className="p-7 sm:p-9 rounded-3xl bg-[#FAF6F0] border border-[#DFC48F]/70 shadow-xs">
+        <div className="p-7 sm:p-9 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-xs">
           {submittedRecord ? (
             <div className="text-center py-6 space-y-4">
-              <div className="w-12 h-12 rounded-full bg-[#FAF6F0] border border-[#DFC48F] mx-auto flex items-center justify-center text-[#C6A15B]">
+              <div className="w-12 h-12 rounded-full bg-[#FFF6F5] border border-[#DFC48F] mx-auto flex items-center justify-center text-[#C6A15B]">
                 <CheckCircle2 size={24} />
               </div>
 
@@ -109,42 +112,85 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitte
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Guest Name */}
+              {/* Guest Name with Smooth Caret Input */}
               <div>
                 <label className="block text-xs font-sans text-[#4A4038] font-medium mb-1.5 uppercase tracking-wider text-[11px]">
                   Guest or Family Name <span className="text-[#C6A15B]">*</span>
                 </label>
-                <input
-                  type="text"
+                <SmoothInput
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Vikramaditya Sharma & Family"
-                  className="w-full px-4 py-3 rounded-2xl bg-[#FAF6F0] border border-[#DFC48F]/70 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] transition-colors"
                 />
               </div>
 
-              {/* Number of Guests */}
+              {/* Number of Guests: Typed Number Input with Smooth Caret */}
               <div>
-                <label className="block text-xs font-sans text-[#4A4038] font-medium mb-1.5 uppercase tracking-wider text-[11px]">
-                  Total Number of Attending Guests
-                </label>
-                <div className="flex items-center space-x-2.5">
-                  {[1, 2, 3, 4, 5, 6].map((num) => (
+                <div className="flex items-center justify-between mb-1.5">
+                  <label htmlFor="rsvp-guest-count" className="block text-xs font-sans text-[#4A4038] font-medium uppercase tracking-wider text-[11px]">
+                    Total Number of Attending Guests <span className="text-[#C6A15B]">*</span>
+                  </label>
+                  <span className="text-[11px] font-serif italic text-[#8A7F72]">
+                    Type any number of guests
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <SmoothInput
+                      id="rsvp-guest-count"
+                      numericOnly
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={guestCount}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === '') {
+                          setGuestCount('');
+                        } else {
+                          const num = parseInt(val, 10);
+                          if (!isNaN(num) && num >= 0 && num <= 99) {
+                            setGuestCount(num);
+                          }
+                        }
+                      }}
+                      placeholder="e.g. 1, 2, 7, 10..."
+                      className="text-base font-semibold"
+                    />
+                  </div>
+
+                  {/* Quick stepper buttons */}
+                  <div className="flex items-center gap-1 shrink-0">
                     <button
                       type="button"
-                      key={num}
-                      onClick={() => setGuestCount(num)}
-                      className={`flex-1 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
-                        guestCount === num
-                          ? 'bg-[#C6A15B] text-white border-[#C6A15B] shadow-xs'
-                          : 'bg-[#FAF6F0] text-[#4A4038] border-[#DFC48F]/70 hover:border-[#C6A15B]'
-                      }`}
+                      onClick={() => {
+                        const current = typeof guestCount === 'number' ? guestCount : parseInt(guestCount, 10) || 1;
+                        setGuestCount(Math.max(1, current - 1));
+                      }}
+                      className="w-11 h-11 rounded-2xl bg-[#FFF9F8] border border-[#DFC48F]/70 hover:border-[#C6A15B] hover:bg-[#F1D9D6]/30 text-[#4A4038] font-semibold text-lg flex items-center justify-center transition-all active:scale-95 shadow-2xs cursor-pointer"
+                      title="Decrease guest count"
+                      aria-label="Decrease guest count"
                     >
-                      {num}
+                      −
                     </button>
-                  ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const current = typeof guestCount === 'number' ? guestCount : parseInt(guestCount, 10) || 1;
+                        setGuestCount(Math.min(99, current + 1));
+                      }}
+                      className="w-11 h-11 rounded-2xl bg-[#FFF9F8] border border-[#DFC48F]/70 hover:border-[#C6A15B] hover:bg-[#F1D9D6]/30 text-[#4A4038] font-semibold text-lg flex items-center justify-center transition-all active:scale-95 shadow-2xs cursor-pointer"
+                      title="Increase guest count"
+                      aria-label="Increase guest count"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
+                <p className="text-[11px] font-sans text-[#8A7F72] mt-1.5 pl-1">
+                  Enter the exact headcount of your party attending the celebrations.
+                </p>
               </div>
 
               {/* Personal Note */}
@@ -157,7 +203,7 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitte
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="Leave a heartfelt prayer or sweet note for the couple..."
-                  className="w-full px-4 py-3 rounded-2xl bg-[#FAF6F0] border border-[#DFC48F]/70 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-2xl bg-[#FFF9F8] border border-[#DFC48F]/70 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] transition-colors resize-none"
                 />
               </div>
 

@@ -11,8 +11,10 @@ import { WishingWall } from './components/WishingWall';
 import { RSVPSection } from './components/RSVPSection';
 import { TravelStay } from './components/TravelStay';
 import { Footer } from './components/Footer';
+import { MusicPlayer } from './components/MusicPlayer';
+import paperBg from './assets/images/paper_blush_texture.jpg';
 
-const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v5';
+const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v6';
 
 export default function App() {
   const [config, setConfig] = useState<WeddingConfig>(() => {
@@ -40,7 +42,15 @@ export default function App() {
     : 'DEAR GUEST,';
 
   return (
-    <div className="min-h-screen w-full bg-[#FAF6F0] text-[#4A4038] font-sans antialiased selection:bg-[#F1D9D6] relative overflow-x-hidden">
+    <div
+      className="min-h-screen w-full text-[#4A4038] font-sans antialiased selection:bg-[#F1D9D6] relative overflow-x-hidden"
+      style={{
+        backgroundImage: `url(${paperBg})`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: '420px auto',
+        backgroundColor: '#FAF2F0',
+      }}
+    >
       {/* Sticky Top Navigation */}
       <Navbar config={config} />
 
@@ -75,6 +85,9 @@ export default function App() {
         {/* 9. Footer: Artisanal Thank You Note */}
         <Footer />
       </main>
+
+      {/* Floating Wedding Song Player: Qaafirana */}
+      <MusicPlayer />
     </div>
   );
 }

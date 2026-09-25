@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
-import { ambientAudio } from '../utils/audio';
+import { Volume2, VolumeX, Music } from 'lucide-react';
+import { qaafiranaAudio } from '../utils/audio';
 import { WeddingConfig } from '../types';
 
 interface NavbarProps {
@@ -19,9 +19,15 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = qaafiranaAudio.subscribe((state) => {
+      setIsAudioPlaying(state.isPlaying);
+    });
+    return unsubscribe;
+  }, []);
+
   const handleToggleAudio = () => {
-    const playing = ambientAudio.toggle();
-    setIsAudioPlaying(playing);
+    qaafiranaAudio.toggle();
   };
 
   const navLinks = [
@@ -41,8 +47,8 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         isScrolled
-          ? 'bg-[#FAF6F0]/95 backdrop-blur-md shadow-[0_4px_20px_-10px_rgba(74,64,56,0.08)] py-3 border-b border-[#DFC48F]/40'
-          : 'bg-[#FAF6F0]/80 backdrop-blur-sm py-4 border-b border-[#DFC48F]/20'
+          ? 'bg-[#FAF2F0]/95 backdrop-blur-md shadow-[0_4px_20px_-10px_rgba(74,64,56,0.08)] py-3 border-b border-[#DFC48F]/40'
+          : 'bg-[#FAF2F0]/80 backdrop-blur-sm py-4 border-b border-[#DFC48F]/20'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
@@ -75,30 +81,34 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
           ))}
         </nav>
 
-        {/* Right: Music button & RSVP button */}
+        {/* Right: Qaafirana song button */}
         <div className="flex items-center space-x-2.5">
           <button
             onClick={handleToggleAudio}
-            title={isAudioPlaying ? 'Mute Sitar' : 'Play Ambient Sitar'}
-            aria-label="Toggle ambient music"
-            className={`p-2 rounded-full border transition-all duration-300 flex items-center space-x-1.5 ${
+            title={isAudioPlaying ? 'Pause Qaafirana' : 'Play Qaafirana · Kedarnath (Arijit Singh & Nikhita)'}
+            aria-label="Toggle Qaafirana wedding song"
+            className={`px-3 py-1.5 rounded-full border transition-all duration-300 flex items-center space-x-2 ${
               isAudioPlaying
                 ? 'bg-[#F1D9D6] border-[#E3B9B4] text-[#4A4038] shadow-sm'
                 : 'border-[#DFC48F]/70 text-[#8A7F72] hover:text-[#4A4038] hover:border-[#C6A15B] bg-[#FAF6F0]'
             }`}
           >
-            {isAudioPlaying ? <Volume2 size={15} /> : <VolumeX size={15} />}
-            <span className="text-[10px] tracking-wider uppercase font-medium hidden sm:inline-block pr-1">
-              {isAudioPlaying ? 'Playing' : 'Music'}
+            {isAudioPlaying ? (
+              <div className="flex items-center space-x-1.5">
+                <Volume2 size={15} className="text-[#C6A15B]" />
+                <div className="flex items-end space-x-0.5 h-2.5">
+                  <span className="w-0.5 h-2 bg-[#C6A15B] animate-[bounce_0.8s_ease-in-out_infinite]" />
+                  <span className="w-0.5 h-2.5 bg-[#C6A15B] animate-[bounce_1.1s_ease-in-out_infinite]" />
+                  <span className="w-0.5 h-1.5 bg-[#C6A15B] animate-[bounce_0.7s_ease-in-out_infinite]" />
+                </div>
+              </div>
+            ) : (
+              <VolumeX size={15} />
+            )}
+            <span className="text-[10px] tracking-wider uppercase font-medium">
+              {isAudioPlaying ? 'Qaafirana ♪' : 'Qaafirana'}
             </span>
           </button>
-
-          <a
-            href="#rsvp"
-            className="px-4 py-1.5 rounded-full bg-[#EED8D3] hover:bg-[#E3C4BE] text-[#3D332A] text-[11px] font-medium tracking-[0.2em] uppercase transition-all shadow-xs border border-[#DFB6AE]"
-          >
-            RSVP
-          </a>
         </div>
       </div>
     </header>
