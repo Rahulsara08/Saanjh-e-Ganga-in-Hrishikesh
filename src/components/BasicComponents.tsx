@@ -216,18 +216,117 @@ export const SectionHeading: React.FC<{
 };
 
 /**
- * Divider: Handcrafted Ganga wave and marigold flourish
+ * Divider: Creative, pretty & simple section divider without straight lines.
+ * Features organic Ganga river ripples, a blooming sacred lotus & ambient golden starlight.
  */
-export const Divider: React.FC<{ className?: string }> = ({ className = 'my-14 sm:my-20' }) => {
+export const Divider: React.FC<{ className?: string }> = ({ className = 'my-12 sm:my-16' }) => {
   return (
-    <div className={`flex items-center justify-center max-w-md mx-auto px-4 ${className}`}>
-      <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#DFC48F] to-[#C6A15B]/40" />
-      <div className="mx-3 flex items-center space-x-2 text-[#C6A15B]">
-        <span className="text-xs">✦</span>
-        <span className="text-sm font-serif italic">गंगा</span>
-        <span className="text-xs">✦</span>
+    <div className={`w-full flex flex-col items-center justify-center select-none py-3 ${className}`}>
+      <div className="relative flex flex-col items-center justify-center px-4">
+        {/* Soft luminous ambient aura behind the emblem */}
+        <div className="absolute w-36 h-12 bg-[#F1D9D6]/60 rounded-full blur-lg -z-10 pointer-events-none" />
+
+        {/* Organic curved river ripples with central sacred lotus (no straight line) */}
+        <svg
+          width="280"
+          height="40"
+          viewBox="0 0 280 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-[#C6A15B] max-w-full drop-shadow-2xs"
+        >
+          {/* Left organic sinusoidal river wave (curved, tapered, no straight line) */}
+          <path
+            d="M12 20 C40 12, 70 28, 98 20 C110 16, 120 22, 125 20"
+            stroke="url(#divRiverWaveLeft)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M36 24 C60 18, 85 29, 108 24 C116 22, 122 25, 124 24"
+            stroke="url(#divRiverWaveLeftSoft)"
+            strokeWidth="0.75"
+            strokeDasharray="2 3"
+            strokeLinecap="round"
+          />
+
+          {/* Center Sacred Lotus Blossom & Auspicious Flame */}
+          <g transform="translate(140, 20)">
+            {/* Center lotus petal */}
+            <path
+              d="M0 -11 C4 -5, 4 0, 0 4 C-4 0, -4 -5, 0 -11 Z"
+              fill="#C6A15B"
+              opacity="0.95"
+            />
+            {/* Left lotus petal */}
+            <path
+              d="M0 4 C-3 0, -8 -2, -11 -7 C-9 -1, -5 4, 0 4 Z"
+              fill="#DFC48F"
+              opacity="0.9"
+            />
+            {/* Right lotus petal */}
+            <path
+              d="M0 4 C3 0, 8 -2, 11 -7 C9 -1, 5 4, 0 4 Z"
+              fill="#DFC48F"
+              opacity="0.9"
+            />
+            {/* River ripple boat basin */}
+            <path
+              d="M-12 7 C-6 10, 6 10, 12 7 C7 10.5, -7 10.5, -12 7 Z"
+              fill="#C6A15B"
+              opacity="0.8"
+            />
+            {/* Golden Diya Starlight Spark */}
+            <circle cx="0" cy="-14" r="1.3" fill="#9A6B0A" />
+          </g>
+
+          {/* Right organic sinusoidal river wave (curved, tapered, no straight line) */}
+          <path
+            d="M155 20 C160 22, 170 16, 182 20 C210 28, 240 12, 268 20"
+            stroke="url(#divRiverWaveRight)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M156 24 C158 25, 164 22, 172 24 C195 29, 220 18, 244 24"
+            stroke="url(#divRiverWaveRightSoft)"
+            strokeWidth="0.75"
+            strokeDasharray="2 3"
+            strokeLinecap="round"
+          />
+
+          {/* Gradients fading out softly to both edges */}
+          <defs>
+            <linearGradient id="divRiverWaveLeft" x1="12" y1="20" x2="125" y2="20" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#C6A15B" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#DFC48F" stopOpacity="0.8" />
+              <stop offset="1" stopColor="#C6A15B" stopOpacity="1" />
+            </linearGradient>
+            <linearGradient id="divRiverWaveLeftSoft" x1="36" y1="24" x2="124" y2="24" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#DFC48F" stopOpacity="0" />
+              <stop offset="1" stopColor="#DFC48F" stopOpacity="0.6" />
+            </linearGradient>
+            <linearGradient id="divRiverWaveRight" x1="268" y1="20" x2="155" y2="20" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#C6A15B" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#DFC48F" stopOpacity="0.8" />
+              <stop offset="1" stopColor="#C6A15B" stopOpacity="1" />
+            </linearGradient>
+            <linearGradient id="divRiverWaveRightSoft" x1="244" y1="24" x2="156" y2="24" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#DFC48F" stopOpacity="0" />
+              <stop offset="1" stopColor="#DFC48F" stopOpacity="0.6" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Delicate floating Vedic blessing accent */}
+        <div className="flex items-center space-x-2.5 text-[#C6A15B] font-serif text-[11px] mt-0.5 tracking-wider">
+          <span className="text-[10px] text-[#C6A15B]/70">✧</span>
+          <span className="italic tracking-[0.25em] text-[#8C6418] font-normal uppercase text-[10px]">
+            माँ गङ्गा
+          </span>
+          <span className="text-[10px] text-[#C6A15B]/70">✧</span>
+        </div>
       </div>
-      <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-[#DFC48F] to-[#C6A15B]/40" />
     </div>
   );
 };

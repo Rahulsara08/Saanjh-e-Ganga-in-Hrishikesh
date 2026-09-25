@@ -42,17 +42,19 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
   }, [config.couple.targetTimestamp]);
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden pt-16 sm:pt-28 pb-6 sm:pb-12">
-      {/* ── Background Image: Sacred Rishikesh Mandap Watercolor Artwork ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden pt-16 sm:pt-28 pb-4 sm:pb-8">
+      {/* ── Background Image: Sacred Rishikesh Mandap Watercolor Artwork with Seamless Feathering ── */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          maskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.3) 82%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.3) 82%, transparent 100%)',
+        }}
+      >
         <img
           src={rishikeshMandapBg}
           alt="Rishikesh Ganga Mandap Watercolor"
           className="w-full h-full object-cover object-top sm:object-center"
-          style={{
-            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 45%, rgba(0,0,0,0.8) 68%, rgba(0,0,0,0.2) 88%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 45%, rgba(0,0,0,0.8) 68%, rgba(0,0,0,0.2) 88%, transparent 100%)',
-          }}
         />
         {/* Soft luminous radial vignette to make text crystal clear without any card */}
         <div
@@ -61,8 +63,17 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
             background: 'radial-gradient(ellipse 75% 70% at 50% 42%, rgba(255, 252, 250, 0.78) 0%, rgba(250, 242, 240, 0.55) 55%, rgba(250, 242, 240, 0.1) 100%)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF2F0]/70 via-transparent to-[#FAF2F0]/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF2F0]/70 via-transparent to-transparent" />
       </div>
+
+      {/* Progressive theme background blur feathering into the blush paper texture */}
+      <div
+        className="absolute bottom-0 inset-x-0 h-44 sm:h-64 pointer-events-none z-0 backdrop-blur-[6px]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.25) 25%, rgba(0,0,0,0.8) 65%, black 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.25) 25%, rgba(0,0,0,0.8) 65%, black 100%)',
+        }}
+      />
 
       {/* ── Center Content: Directly on background without any card (High Contrast & Clear) ── */}
       <div className="relative z-10 w-full max-w-3xl mx-auto px-4 flex flex-col items-center my-auto">

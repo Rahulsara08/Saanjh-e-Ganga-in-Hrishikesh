@@ -12,6 +12,7 @@ import { RSVPSection } from './components/RSVPSection';
 import { TravelStay } from './components/TravelStay';
 import { Footer } from './components/Footer';
 import { MusicPlayer } from './components/MusicPlayer';
+import { Divider } from './components/BasicComponents';
 import paperBg from './assets/images/paper_blush_texture.jpg';
 
 const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v6';
@@ -57,9 +58,12 @@ export default function App() {
       {/* Main Wedding Invitation Stream */}
       <main className="w-full max-w-full min-w-0 flex flex-col items-center overflow-x-hidden">
         {/* 1. Hero: Background image restored, original warm ivory and gold theme, no cards */}
-        <section id="hero">
+        <section id="hero" className="w-full">
           <Hero config={config} guestGreeting={guestGreeting} />
         </section>
+
+        {/* Transition Divider: Creative Ganga Wave & Sacred Lotus */}
+        <Divider className="my-4 sm:my-8" />
 
         {/* 2. Our Story: First meeting, coffee shop date, and proposal (eclectic mix, no cards) */}
         <OurStory config={config} />
