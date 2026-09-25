@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WeddingConfig } from '../types';
-import rishikeshGangaSunset from '../assets/images/rishikesh_ganga_sunset_serenity_1790240916023.jpg';
+import pcMockupBg from '../assets/images/pc_mockup_backdrop_blossom.jpg';
 import paperBg from '../assets/images/paper_blush_texture.jpg';
 import { MusicPlayer } from './MusicPlayer';
 
@@ -95,30 +95,20 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 2. PC VIEW (>= 768px): Centered Phone Mockup + Rishikesh Scenery Background
-  // NO top header bar (Image 3 removed), NO bottom caption bar (clean viewport)
+  // 2. PC VIEW (>= 768px): Centered Phone Mockup + Blossom Wall Backdrop
+  // NO top header bar, NO bottom caption bar
   // ──────────────────────────────────────────────────────────────────────────
   return (
-    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6]">
-      {/* ─── BREATHTAKING PC SCENERY BACKGROUND (RISHIKESH GANGES) ─── */}
+    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#E8DDD2]">
+      {/* ─── ELEGANT BLOSSOM TEXTURED WALL BACKGROUND (USER'S IMAGE) ─── */}
       <div className="fixed inset-0 pointer-events-none -z-20 overflow-hidden">
         <img
-          src={rishikeshGangaSunset}
-          alt="Breathtaking scenery of Rishikesh Uttarakhand at golden sunset"
-          className="w-full h-full object-cover object-center scale-102"
+          src={pcMockupBg}
+          alt="Warm textured wall with blossom branch backdrop"
+          className="w-full h-full object-cover object-center scale-101"
         />
-        {/* Soft atmospheric vignette & warm cinematic grading */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#18120E]/50 via-[#18120E]/25 to-[#18120E]/65 backdrop-blur-[1px]" />
-        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#18120E]/30 to-[#18120E]/70" />
-      </div>
-
-      {/* Floating golden sparks & marigold embers */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[12%] left-[10%] w-3 h-3 rounded-full bg-[#E5A855]/70 blur-[1px] animate-pulse" />
-        <div className="absolute top-[28%] right-[14%] w-2 h-2 rounded-full bg-[#F4C47A]/80 blur-[0.5px] animate-ping" />
-        <div className="absolute top-[50%] left-[15%] w-2.5 h-2.5 rounded-full bg-[#D48B3D]/70 blur-[1px] animate-pulse" />
-        <div className="absolute top-[70%] right-[10%] w-3.5 h-3.5 rounded-full bg-[#E5A855]/60 blur-[1px] animate-bounce" />
-        <div className="absolute top-[85%] left-[22%] w-2 h-2 rounded-full bg-[#F4C47A]/80 blur-[0.5px] animate-pulse" />
+        {/* Subtle, soft ambient vignette to give the centered mockup rich depth */}
+        <div className="absolute inset-0 bg-black/10 backdrop-blur-[0.5px]" />
       </div>
 
       {/* ─── CENTER PHONE MOCKUP SCREEN (NO TOP/BOTTOM EXTERNAL BARS) ─── */}
