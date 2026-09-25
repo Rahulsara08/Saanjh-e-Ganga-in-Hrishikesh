@@ -219,6 +219,22 @@ export const defaultWeddingConfig: WeddingConfig = {
         timestamp: '19 Nov 2027',
         likes: 25,
       },
+      {
+        id: 'wish-4',
+        author: 'Rohan & Ananya',
+        message: 'From college days to sacred vows along the banks of River Ganga! Wishing you both a lifetime of happiness, laughter, and endless adventure.',
+        tag: '🌸 Warm Blessings',
+        timestamp: '20 Nov 2027',
+        likes: 34,
+      },
+      {
+        id: 'wish-5',
+        author: 'Priya Masi & Family',
+        message: 'May Maa Ganga forever bless your home with harmony, good health, and abundant joy. Can’t wait to celebrate with you both!',
+        tag: '✨ Sacred Grace',
+        timestamp: '20 Nov 2027',
+        likes: 27,
+      },
     ],
   },
   rsvp: {

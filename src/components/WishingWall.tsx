@@ -11,7 +11,7 @@ interface WishingWallProps {
   isHostMode?: boolean;
 }
 
-const STORAGE_KEY = 'meher_kabir_wishes_warm_v4';
+const STORAGE_KEY = 'meher_kabir_wishes_warm_v6';
 
 // ── Realistic Cherry Blossom Sprig SVG ──
 const CherryBlossomSprig: React.FC<{ className?: string }> = ({ className }) => (
@@ -122,7 +122,7 @@ interface ScrapbookCardProps {
   wish: Wish;
   index: number;
   totalCards: number;
-  onDismiss: (direction: 'left' | 'right' | 'down') => void;
+  onDismiss: (direction: 'left' | 'right' | 'up' | 'down') => void;
 }
 
 const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
@@ -138,6 +138,12 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
+  // Guarantee motion values are reset to 0 whenever position changes (infinite cycling)
+  useEffect(() => {
+    x.set(0);
+    y.set(0);
+  }, [wish.id, index, x, y]);
+
   // Tilt dynamically proportional to horizontal drag distance (only for top card)
   const rotate = useTransform(x, [-240, 240], [-18, 18]);
 
@@ -150,33 +156,45 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
     return 'text-base sm:text-lg leading-tight';
   };
 
+  const dismissCard = (direction: 'left' | 'right' | 'up' | 'down') => {
+    const targetX = direction === 'left' ? -650 : direction === 'right' ? 650 : 0;
+    const targetY = direction === 'up' ? -650 : direction === 'down' ? 650 : 0;
+
+    Promise.all([
+      animate(x, targetX, { duration: 0.28, ease: 'easeOut' }),
+      animate(y, targetY, { duration: 0.28, ease: 'easeOut' }),
+    ]).then(() => {
+      onDismiss(direction);
+      x.set(0);
+      y.set(0);
+    });
+  };
+
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!isTop) return;
     const { offset, velocity } = info;
-    const threshold = 95;
-    const velThreshold = 280;
+    const threshold = 60;
+    const velThreshold = 180;
 
-    // Valid dismiss directions: LEFT, RIGHT, DOWN
     if (offset.x < -threshold || velocity.x < -velThreshold) {
-      // Dismiss Left
-      animate(x, -650, { duration: 0.3, ease: 'easeOut' }).then(() => {
-        onDismiss('left');
-      });
+      dismissCard('left');
     } else if (offset.x > threshold || velocity.x > velThreshold) {
-      // Dismiss Right
-      animate(x, 650, { duration: 0.3, ease: 'easeOut' }).then(() => {
-        onDismiss('right');
-      });
+      dismissCard('right');
+    } else if (offset.y < -threshold || velocity.y < -velThreshold) {
+      dismissCard('up');
     } else if (offset.y > threshold || velocity.y > velThreshold) {
-      // Dismiss Down
-      animate(y, 750, { duration: 0.3, ease: 'easeOut' }).then(() => {
-        onDismiss('down');
-      });
+      dismissCard('down');
     } else {
       // Release before threshold: spring back to resting stack position
       animate(x, 0, { type: 'spring', stiffness: 350, damping: 25 });
       animate(y, 0, { type: 'spring', stiffness: 350, damping: 25 });
     }
+  };
+
+  const handleTap = () => {
+    if (!isTop) return;
+    // Tap to cycle card smoothly to back
+    dismissCard('right');
   };
 
   // Stack visuals: Top card resting, 2nd card slightly scaled down & offset, 3rd card deeper
@@ -194,10 +212,9 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
       animate={isTop ? undefined : stackStyle}
       transition={{ type: 'spring', stiffness: 320, damping: 26 }}
       drag={isTop}
-      // Dragging UP does nothing; card resists & snaps back if pulled upward
-      dragConstraints={{ top: 0 }}
-      dragElastic={{ top: 0.12, bottom: 1, left: 1, right: 1 }}
+      dragElastic={0.8}
       onDragEnd={handleDragEnd}
+      onTap={handleTap}
       className={`absolute inset-0 m-auto w-[295px] xs:w-[325px] sm:w-[350px] h-[375px] xs:h-[395px] sm:h-[415px] select-none ${
         isTop ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'
       }`}
@@ -430,10 +447,10 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
         </div>
       </RevealOnScroll>
 
-      {/* ── DRAGGABLE SCRAPBOOK CARD STACK (ENDLESS LOOP) ── */}
+      {/* ── DRAGGABLE SCRAPBOOK CARD STACK (ENDLESS UNLIMITED LOOP) ── */}
       <RevealOnScroll delay={150}>
         <div className="relative flex flex-col items-center justify-center my-4">
-          {/* Card Stack Viewport Container */}
+          {/* Card Stack Viewport Container (NO instruction text below) */}
           <div className="relative w-full max-w-[360px] h-[420px] sm:h-[450px] flex items-center justify-center select-none">
             {wishes.slice(0, 3).map((wish, index) => (
               <ScrapbookCard
@@ -445,11 +462,6 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
               />
             ))}
           </div>
-
-          {/* Minimalist interactive hint */}
-          <p className="text-[10px] sm:text-[11px] font-sans tracking-[0.22em] text-[#8A7F72] uppercase mt-4 text-center">
-            Swipe card left, right, or down to browse blessings
-          </p>
         </div>
       </RevealOnScroll>
 
