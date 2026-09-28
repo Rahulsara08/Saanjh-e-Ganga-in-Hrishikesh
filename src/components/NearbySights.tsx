@@ -459,9 +459,9 @@ export const NearbySights: React.FC = () => {
                 type="button"
                 onClick={() => setSelectedSight(null)}
                 aria-label="Close details"
-                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/55 hover:bg-black/80 text-white flex items-center justify-center transition-colors border-2 border-[#DFC48F]/60 shadow-lg focus:outline-none cursor-pointer"
+                className="absolute top-3.5 right-3.5 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/65 hover:bg-black/85 text-white flex items-center justify-center transition-all border-2 border-white/50 shadow-lg focus:outline-none cursor-pointer"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
 
               {/* Modal Image */}

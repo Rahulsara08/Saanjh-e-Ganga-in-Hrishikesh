@@ -1,6 +1,6 @@
 import React from 'react';
 import instagramWhiteFrame from '../assets/images/instagram_white_frame.png';
-import vintageCameraHand from '../assets/images/vintage_camera_hand_sticker.png';
+import vintageCameraHand from '../assets/images/hand_camera_transparent.png';
 import coupleAvatar from '../assets/images/couple_story_avatar.jpg';
 
 interface StoryFrameOverlayProps {
@@ -163,7 +163,7 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           <img
             src={vintageCameraHand}
             alt="Hand holding vintage camera"
-            className="w-full h-auto object-contain transition-transform duration-300"
+            className="w-full h-auto object-contain transition-transform duration-300 mix-blend-multiply"
           />
         </div>
       </div>

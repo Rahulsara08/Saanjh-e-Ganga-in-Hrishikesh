@@ -218,13 +218,14 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
             className="relative w-full max-w-lg rounded-3xl bg-[#FAF6F0] border border-[#DFC48F] p-6 sm:p-8 shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
+            {/* Close Button: Clean gold circle X button in top-right corner */}
             <button
               type="button"
               onClick={() => setActiveStoryCard(null)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-[#FAF6F0] border border-[#DFC48F] text-[#4A4038] hover:text-[#C6A15B] transition-colors cursor-pointer"
+              aria-label="Close details"
+              className="absolute top-3.5 right-3.5 z-30 w-9 h-9 rounded-full bg-[#FFF9F8] border border-[#DFC48F] text-[#8A5A00] hover:text-[#5C3D00] hover:bg-[#F3EDE3] flex items-center justify-center transition-all shadow-md cursor-pointer focus:outline-none"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
             {/* Card Content */}
