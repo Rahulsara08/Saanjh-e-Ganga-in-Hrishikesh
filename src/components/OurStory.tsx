@@ -191,7 +191,8 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
                       priority={idx === 0}
                       sizes="(max-width: 640px) 360px, (max-width: 768px) 390px, 410px"
                       className="w-full h-full"
-                      imgClassName="object-cover object-center"
+                      containerStyle={{ width: '100%', height: '100%' }}
+                      imgClassName="object-cover object-center w-full h-full"
                     />
                   </div>
                 ))}

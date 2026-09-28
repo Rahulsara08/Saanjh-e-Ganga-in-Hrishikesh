@@ -56,7 +56,8 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           disableAspectRatio={true}
           sizes="410px"
           priority={true}
-          className="absolute inset-0 w-full h-full pointer-events-none z-20"
+          className="absolute inset-0 w-full h-full pointer-events-none z-20 bg-transparent"
+          containerStyle={{ backgroundColor: 'transparent' }}
           imgClassName="object-contain"
         />
 
@@ -77,6 +78,7 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
             disableAspectRatio={true}
             sizes="50px"
             className="w-full h-full"
+            containerStyle={{ backgroundColor: 'transparent', width: '100%', height: '100%' }}
             imgClassName="object-cover object-center"
           />
         </div>
@@ -175,7 +177,8 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
             disableAspectRatio={true}
             sizes="300px"
             className="w-full h-auto bg-transparent"
-            imgClassName="object-contain transition-transform duration-300 bg-transparent"
+            containerStyle={{ backgroundColor: 'transparent' }}
+            imgClassName="object-contain transition-transform duration-300 mix-blend-multiply bg-transparent"
           />
         </div>
       </div>
