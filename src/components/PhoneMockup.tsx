@@ -3,6 +3,7 @@ import { WeddingConfig } from '../types';
 import paperBg from '../assets/images/paper_blush_texture.jpg';
 import { MusicPlayer } from './MusicPlayer';
 import { OptimizedImage } from './OptimizedImage';
+import { QrCode, Smartphone } from 'lucide-react';
 
 const pcMockupBg = 'pc_mockup_backdrop_blossom';
 
@@ -17,36 +18,53 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768;
+      return window.innerWidth < 1024;
     }
     return false;
   });
 
-  const [currentTime, setCurrentTime] = useState('9:41');
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const phoneScrollRef = useRef<HTMLDivElement>(null);
 
-  // Responsive screen dimension detection
+  // Responsive screen dimension detection (< 1024px = native full screen, >= 1024px = PC mockup)
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Digital clock for phone status bar (PC mockup only)
+  // Check prefers-reduced-motion
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      setCurrentTime(`${hours % 12 || 12}:${minutes}`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 30000);
-    return () => clearInterval(interval);
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(mediaQuery.matches);
+      const listener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+      mediaQuery.addEventListener('change', listener);
+      return () => mediaQuery.removeEventListener('change', listener);
+    }
   }, []);
+
+  // Gentle mouse-move parallax on leaf background (PC desktop mode)
+  useEffect(() => {
+    if (isMobile || prefersReducedMotion) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      const xPct = e.clientX / innerWidth - 0.5;
+      const yPct = e.clientY / innerHeight - 0.5;
+      setMouseOffset({
+        x: xPct * 12, // max 6px translate
+        y: yPct * 12,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isMobile, prefersReducedMotion]);
 
   // Smooth scroll anchor navigation inside phone viewport (PC mockup)
   useEffect(() => {
@@ -71,7 +89,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   }, [isMobile]);
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 1. MOBILE VIEW (< 768px): Pure native mobile display
+  // 1. MOBILE & TABLET VIEW (< 1024px): Pure native mobile display
   // NO phone frame, NO camera notch / Dynamic Island, NO status bar, NO chassis
   // ──────────────────────────────────────────────────────────────────────────
   if (isMobile) {
@@ -97,33 +115,58 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 2. PC VIEW (>= 768px): Centered Phone Mockup + Blossom Wall Backdrop
-  // NO top status bar (time/battery removed for full-bleed content display)
+  // 2. PC VIEW (>= 1024px): Centered Phone Mockup + Soft Leaves Backdrop
   // ──────────────────────────────────────────────────────────────────────────
   return (
-    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#E8DDD2]">
-      {/* ─── ELEGANT BLOSSOM TEXTURED WALL BACKGROUND (USER'S IMAGE 1) ─── */}
-      <div className="fixed inset-0 pointer-events-none -z-20 overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#FAF2F0]">
+      {/* ─── SOFT BLUSH-PINK LEAVES BACKGROUND WITH GENTLE PARALLAX ─── */}
+      <div
+        className="fixed inset-0 pointer-events-none -z-20 overflow-hidden transition-transform duration-300 ease-out"
+        style={{
+          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0) scale(1.02)`,
+        }}
+      >
         <OptimizedImage
           src={pcMockupBg}
-          alt="Warm textured wall with blossom branch backdrop"
+          alt="Soft blush pink leaves background"
           priority={true}
           disableAspectRatio={true}
           sizes="100vw"
           className="w-full h-full"
-          imgClassName="object-cover object-center scale-101"
+          imgClassName="object-cover object-center"
         />
-        {/* Subtle, soft ambient vignette to give the centered mockup rich depth */}
-        <div className="absolute inset-0 bg-black/10 backdrop-blur-[0.5px]" />
+        {/* Very light cream overlay for contrast */}
+        <div className="absolute inset-0 bg-[#FAF2F0]/25 backdrop-blur-[0.5px]" />
       </div>
 
-      {/* ─── CENTER PHONE MOCKUP SCREEN (NO TOP CLOCK/BATTERY BARS) ─── */}
+      {/* ─── DESKTOP EXTRA: SIDE BADGE / MOBILE HINT ─── */}
+      <div className="hidden xl:flex fixed bottom-8 right-8 z-30 items-center space-x-3 bg-[#FFF9F8]/85 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-[#DFC48F]/70 shadow-lg text-[#4A4038]">
+        <div className="w-8 h-8 rounded-xl bg-[#FAF2F0] border border-[#DFC48F] flex items-center justify-center text-[#C6A15B] shrink-0">
+          <Smartphone size={16} />
+        </div>
+        <div className="text-left">
+          <p className="font-serif text-xs font-semibold text-[#4A4038] tracking-wide">
+            Best Viewed on Mobile
+          </p>
+          <p className="text-[10px] text-[#8A7F72] font-sans">
+            Scan or browse on your phone
+          </p>
+        </div>
+        <div className="pl-1 text-[#C6A15B]">
+          <QrCode size={22} className="opacity-80" />
+        </div>
+      </div>
+
+      {/* ─── CENTER PHONE MOCKUP SCREEN ─── */}
       <main className="relative z-10 flex items-center justify-center p-3 sm:p-5 md:p-6 my-auto">
         <div className="relative flex items-center justify-center select-none">
+          {/* Soft ambient glow behind phone chassis */}
+          <div className="absolute inset-0 rounded-[54px] bg-[#C6A15B]/20 blur-2xl transform scale-95 pointer-events-none" />
+
           {/* Phone Chassis Container */}
-          <div className="w-[390px] md:w-[412px] h-[830px] md:h-[860px] max-h-[92vh] bg-[#161311] rounded-[52px] p-[10px] md:p-[12px] shadow-[0_25px_80px_-10px_rgba(0,0,0,0.85),0_0_60px_rgba(198,161,91,0.22),0_0_0_1px_rgba(255,255,255,0.12)] ring-1 ring-white/15 relative flex flex-col transition-all duration-300">
-            {/* ── HARDWARE SIDE BUTTONS (PERFECTLY FLUSH WITH CHASSIS) ── */}
-            {/* Left Side: Mute/Action Switch */}
+          <div className="w-[390px] md:w-[412px] h-[830px] md:h-[860px] max-h-[92vh] bg-[#161311] rounded-[52px] p-[10px] md:p-[12px] shadow-[0_25px_80px_-10px_rgba(0,0,0,0.85),0_0_50px_rgba(198,161,91,0.25),0_0_0_1px_rgba(255,255,255,0.12)] ring-1 ring-white/15 relative flex flex-col transition-all duration-300">
+            {/* ── HARDWARE SIDE BUTTONS (FLUSH WITH CHASSIS) ── */}
+            {/* Left Side: Mute Switch */}
             <div className="absolute -left-[5px] top-[115px] w-[5px] h-[26px] bg-gradient-to-r from-[#3A322B] via-[#241E1A] to-[#120F0D] rounded-l-md shadow-md border-l border-white/20 z-10" />
             {/* Left Side: Volume Up Button */}
             <div className="absolute -left-[5px] top-[154px] w-[5px] h-[50px] bg-gradient-to-r from-[#3A322B] via-[#241E1A] to-[#120F0D] rounded-l-md shadow-md border-l border-white/20 z-10" />
@@ -145,7 +188,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
                 backgroundColor: '#FAF2F0',
               }}
             >
-              {/* ── FLOATING SLEEK DYNAMIC ISLAND (NO CLOCK / NO BATTERY / NO 5G) ── */}
+              {/* ── FLOATING SLEEK DYNAMIC ISLAND ── */}
               <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50 w-[96px] sm:w-[104px] h-[24px] bg-black rounded-full flex items-center justify-end pr-2 space-x-1.5 shadow-md pointer-events-none">
                 {/* Front camera lens reflection */}
                 <div className="w-2.5 h-2.5 rounded-full bg-[#1A1A24] border border-[#2E2E3E]/70 flex items-center justify-center">
@@ -153,7 +196,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
                 </div>
               </div>
 
-              {/* ── SCROLLABLE PHONE SCREEN INVITATION CONTENT (FULL BLEED FROM TOP) ── */}
+              {/* ── SCROLLABLE PHONE SCREEN INVITATION CONTENT ── */}
               <div
                 ref={phoneScrollRef}
                 data-phone-scroll="true"
