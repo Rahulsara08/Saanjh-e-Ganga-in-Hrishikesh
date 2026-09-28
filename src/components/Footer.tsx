@@ -4,6 +4,10 @@ import { ArrowUp, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
+    const phoneContainer = document.querySelector('[data-phone-scroll="true"]');
+    if (phoneContainer) {
+      phoneContainer.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

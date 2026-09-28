@@ -194,8 +194,8 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
             </StoryFrameOverlay>
           </div>
 
-          {/* Story Hover Expand Navigation (Skiper UI 52 Animation) */}
-          <div className="relative z-10 w-full max-w-full -mt-4 sm:-mt-8">
+          {/* Story Hover Expand Navigation (Skiper UI Animation Edge-to-Edge) */}
+          <div className="relative z-10 w-full px-0 -mt-3 sm:-mt-6">
             <StoryHoverExpand
               stories={stories}
               currentIndex={currentIndex}

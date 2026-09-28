@@ -151,9 +151,9 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           </div>
         </div>
 
-        {/* Layer 4: Halftone Hand Holding Camera Sticker (Pop-up animation on cursor hover) */}
+        {/* Layer 4: Vintage Hand Holding Camera Sticker (Solid opaque overlay, pop-up on hover) */}
         <div
-          className="absolute z-30 pointer-events-none transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) transform group-hover:scale-115 group-hover:-translate-y-6 group-hover:-rotate-2 drop-shadow-2xl"
+          className="absolute z-30 pointer-events-none transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) transform group-hover:scale-115 group-hover:-translate-y-6 group-hover:-rotate-2 drop-shadow-xl"
           style={{
             left: '39.4%',
             top: '63.5%',
@@ -163,7 +163,7 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           <img
             src={vintageCameraHand}
             alt="Hand holding vintage camera"
-            className="w-full h-auto object-contain transition-transform duration-300 mix-blend-multiply"
+            className="w-full h-auto object-contain transition-transform duration-300"
           />
         </div>
       </div>

@@ -123,6 +123,7 @@ interface ScrapbookCardProps {
   index: number;
   totalCards: number;
   onDismiss: (direction: 'left' | 'right' | 'up' | 'down') => void;
+  autoDismissTrigger?: { wishId: string; direction: 'left' | 'right' | 'up' | 'down' } | null;
 }
 
 const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
@@ -130,6 +131,7 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
   index,
   totalCards,
   onDismiss,
+  autoDismissTrigger,
 }) => {
   const isTop = index === 0;
   const isSecond = index === 1;
@@ -161,14 +163,21 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
     const targetY = direction === 'up' ? -650 : direction === 'down' ? 650 : 0;
 
     Promise.all([
-      animate(x, targetX, { duration: 0.28, ease: 'easeOut' }),
-      animate(y, targetY, { duration: 0.28, ease: 'easeOut' }),
+      animate(x, targetX, { duration: 0.32, ease: 'easeOut' }),
+      animate(y, targetY, { duration: 0.32, ease: 'easeOut' }),
     ]).then(() => {
       onDismiss(direction);
       x.set(0);
       y.set(0);
     });
   };
+
+  // Trigger 5-second automatic sliding animation outside of the screen
+  useEffect(() => {
+    if (isTop && autoDismissTrigger && autoDismissTrigger.wishId === wish.id) {
+      dismissCard(autoDismissTrigger.direction);
+    }
+  }, [autoDismissTrigger, isTop, wish.id]);
 
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!isTop) return;
@@ -297,12 +306,26 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
   );
 };
 
+const AUTO_DISMISS_DIRECTIONS: Array<'right' | 'left' | 'down' | 'up'> = [
+  'right',
+  'left',
+  'down',
+  'up',
+];
+
 export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [author, setAuthor] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
+
+  const [directionStep, setDirectionStep] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [autoDismissTrigger, setAutoDismissTrigger] = useState<{
+    wishId: string;
+    direction: 'left' | 'right' | 'up' | 'down';
+  } | null>(null);
 
   useEffect(() => {
     try {
@@ -317,6 +340,22 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
     }
   }, [config.wishingWall.initialWishes]);
 
+  // 5-second automatic card sliding timer: right -> left -> down -> up -> loop
+  useEffect(() => {
+    if (wishes.length <= 1 || isHovered || showForm) return;
+
+    const timer = setInterval(() => {
+      const topWish = wishes[0];
+      if (topWish) {
+        const nextDirection = AUTO_DISMISS_DIRECTIONS[directionStep % 4];
+        setAutoDismissTrigger({ wishId: topWish.id, direction: nextDirection });
+        setDirectionStep((prev) => prev + 1);
+      }
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [wishes, directionStep, isHovered, showForm]);
+
   const saveWishes = (newWishes: Wish[]) => {
     setWishes(newWishes);
     try {
@@ -328,6 +367,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
 
   // When card flies off-screen, move it to the BACK of the queue so it loops endlessly!
   const handleDismissTop = () => {
+    setAutoDismissTrigger(null);
     setWishes((prev) => {
       if (prev.length <= 1) return prev;
       const [first, ...rest] = prev;
@@ -450,8 +490,14 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
       {/* ── DRAGGABLE SCRAPBOOK CARD STACK (ENDLESS UNLIMITED LOOP) ── */}
       <RevealOnScroll delay={150}>
         <div className="relative flex flex-col items-center justify-center my-4">
-          {/* Card Stack Viewport Container (NO instruction text below) */}
-          <div className="relative w-full max-w-[360px] h-[420px] sm:h-[450px] flex items-center justify-center select-none">
+          {/* Card Stack Viewport Container with 5s Auto-Slide & Hover Pause */}
+          <div
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={() => setIsHovered(true)}
+            onTouchEnd={() => setIsHovered(false)}
+            className="relative w-full max-w-[360px] h-[420px] sm:h-[450px] flex items-center justify-center select-none"
+          >
             {wishes.slice(0, 3).map((wish, index) => (
               <ScrapbookCard
                 key={wish.id}
@@ -459,6 +505,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
                 index={index}
                 totalCards={wishes.length}
                 onDismiss={handleDismissTop}
+                autoDismissTrigger={autoDismissTrigger}
               />
             ))}
           </div>

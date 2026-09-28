@@ -55,12 +55,12 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.1 }}
-      className={`w-full max-w-full sm:max-w-3xl mx-auto px-1 sm:px-2 mt-3 sm:mt-6 overflow-hidden ${className}`}
+      transition={{ duration: 0.35, delay: 0.05 }}
+      className={`w-full px-0 mt-3 sm:mt-6 overflow-hidden ${className}`}
     >
       <div
         ref={containerRef}
-        className="w-full flex items-center justify-between gap-1 sm:gap-2 py-1.5 px-0.5 no-scrollbar"
+        className="w-full flex items-center justify-between gap-1 sm:gap-2.5 py-2 px-1 sm:px-3 no-scrollbar"
       >
         {stories.map((story, index) => {
           const isActive = currentIndex === index;
@@ -69,21 +69,27 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
             <motion.div
               key={story.id}
               ref={isActive ? activeItemRef : null}
-              className={`relative cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl border-2 min-w-0 transition-all duration-300 ${
+              className={`relative cursor-pointer overflow-hidden rounded-full border-2 min-w-0 transition-all duration-200 ${
                 isActive
-                  ? 'border-[#C6A15B] ring-2 ring-[#C6A15B]/50 shadow-md scale-[1.01]'
-                  : 'border-[#DFC48F]/50 hover:border-[#C6A15B]/80 opacity-75 hover:opacity-100'
+                  ? 'border-[#C6A15B] ring-2 ring-[#C6A15B]/60 shadow-lg scale-[1.02]'
+                  : 'border-[#DFC48F]/60 hover:border-[#C6A15B]/90 opacity-70 hover:opacity-100'
               }`}
               initial={false}
               animate={{
-                flex: isActive ? (isMobile ? 3.5 : 3.0) : 1,
-                height: isMobile ? '4.2rem' : '5.5rem',
+                flex: isActive ? (isMobile ? 4.5 : 4.0) : 1,
+                height: isActive
+                  ? isMobile
+                    ? '5.8rem'
+                    : '7.8rem'
+                  : isMobile
+                  ? '4.2rem'
+                  : '5.8rem',
               }}
               transition={{
                 type: 'spring',
-                stiffness: 300,
-                damping: 25,
-                mass: 0.6,
+                stiffness: 450,
+                damping: 28,
+                mass: 0.4,
               }}
               onClick={() => onSelect(index)}
               onMouseEnter={() => onSelect(index)}
@@ -93,16 +99,16 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
               <OptimizedImage
                 src={story.image}
                 alt={story.title}
-                sizes="160px"
+                sizes="240px"
                 disableAspectRatio={true}
                 className="w-full h-full"
                 containerStyle={{ width: '100%', height: '100%' }}
-                imgClassName="object-cover object-center pointer-events-none w-full h-full"
+                imgClassName="object-cover object-center pointer-events-none w-full h-full transition-transform duration-300 hover:scale-105"
               />
 
               {/* Inactive subtle overlay */}
               {!isActive && (
-                <div className="absolute inset-0 bg-black/15 transition-opacity hover:opacity-0" />
+                <div className="absolute inset-0 bg-black/20 transition-opacity hover:opacity-0" />
               )}
             </motion.div>
           );

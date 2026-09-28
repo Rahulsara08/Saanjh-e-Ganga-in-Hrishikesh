@@ -242,26 +242,39 @@ export const NearbySights: React.FC = () => {
   // When scrolling down into section -> unpack starting from Sight 1 at top
   // When scrolling up back to top of section -> band together into the fan deck
   useEffect(() => {
+    const phoneScrollEl = document.querySelector('[data-phone-scroll="true"]');
+
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
 
-      // Hysteresis deadband:
-      // When scrolling down and section top reaches near top (<= 90px): unpack
-      if (rect.top <= 90 && isFannedRef.current) {
+      // Hysteresis threshold for smooth card unpacking:
+      // When section top moves into view near top: unpack cards into sequential list
+      const scrollThreshold = window.innerWidth >= 1024 ? 240 : 130;
+      const resetThreshold = window.innerWidth >= 1024 ? 380 : 260;
+
+      if (rect.top <= scrollThreshold && isFannedRef.current) {
         isFannedRef.current = false;
         setIsFanned(false);
-      }
-      // When scrolling back up and section top leaves upward area (> 150px): band together at top
-      else if (rect.top > 150 && !isFannedRef.current) {
+      } else if (rect.top > resetThreshold && !isFannedRef.current) {
         isFannedRef.current = true;
         setIsFanned(true);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    if (phoneScrollEl) {
+      phoneScrollEl.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (phoneScrollEl) {
+        phoneScrollEl.removeEventListener('scroll', handleScroll);
+      }
+    };
   }, []);
 
   // Keyboard accessibility: Escape to close modal
