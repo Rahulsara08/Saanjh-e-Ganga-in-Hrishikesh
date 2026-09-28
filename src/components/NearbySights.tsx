@@ -10,11 +10,13 @@ import {
 import { MapPin, X } from 'lucide-react';
 import { Divider } from './BasicComponents';
 
-import triveniImg from '../assets/images/triveni_ghat_aarti_rishikesh_1790244353114.jpg';
-import ramJhulaImg from '../assets/images/ram_jhula_suspension_bridge_1790244371749.jpg';
-import neerGarhImg from '../assets/images/neer_garh_waterfall_rishikesh_1790244391014.jpg';
-import beatlesImg from '../assets/images/beatles_ashram_rishikesh_1790244403526.jpg';
-import kunjapuriImg from '../assets/images/kunjapuri_devi_sunrise_real.png';
+import { OptimizedImage } from './OptimizedImage';
+
+const triveniImg = 'triveni_ghat_aarti_rishikesh_1790244353114';
+const ramJhulaImg = 'ram_jhula_suspension_bridge_1790244371749';
+const neerGarhImg = 'neer_garh_waterfall_rishikesh_1790244391014';
+const beatlesImg = 'beatles_ashram_rishikesh_1790244403526';
+const kunjapuriImg = 'kunjapuri_devi_sunrise_real';
 
 export interface SightItem {
   id: string;
@@ -68,12 +70,12 @@ const SIGHTS_DATA: SightItem[] = [
   },
 ];
 
-// Slow, graceful, and smooth spring physics as requested
+// Crisp, fast, and smooth spring physics for instant scroll unpacking
 const FLIGHT_SPRING = {
   type: 'spring' as const,
-  stiffness: 72,
-  damping: 20,
-  mass: 1.05,
+  stiffness: 110,
+  damping: 18,
+  mass: 0.8,
 };
 
 interface FanGeometry {
@@ -160,13 +162,16 @@ const TiltCard: React.FC<TiltCardProps> = ({
         }}
         className="w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#DFC48F]/80 bg-[#FAF6F0] shadow-md group-hover:shadow-2xl transition-shadow duration-300"
       >
-        {/* Sight Image - Pure & Uncluttered */}
+        {/* Sight Image - Pure & Uncluttered with OptimizedImage */}
         <div className="w-full h-full overflow-hidden bg-[#F3EDE3]">
-          <img
+          <OptimizedImage
             src={sight.image}
             alt={sight.title}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            disableAspectRatio={true}
+            sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
+            className="w-full h-full"
+            containerStyle={{ width: '100%', height: '100%' }}
+            imgClassName="object-cover group-hover:scale-105 transition-transform duration-700 ease-out w-full h-full"
           />
         </div>
 
@@ -200,19 +205,26 @@ export const NearbySights: React.FC = () => {
   const [isFanned, setIsFanned] = useState(true);
   const isFannedRef = useRef(true);
 
-  const [hasLoaded, setHasLoaded] = useState(false);
+  // Set hasLoaded to true instantly so cards render without artificial delay
+  const [hasLoaded, setHasLoaded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedSight, setSelectedSight] = useState<SightItem | null>(null);
 
-  // Responsive screen check
+  // Responsive screen check & instant background image preloader
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
+
+    sights.forEach((sight) => {
+      const img = new Image();
+      img.src = sight.image;
+    });
+
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [sights]);
 
   // Section in-view trigger for initial stagger entrance
   const isInView = useInView(sectionRef, { once: true, amount: 0.08 });

@@ -142,24 +142,6 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
         <div className="absolute inset-0 bg-[#FAF2F0]/25 backdrop-blur-[0.5px]" />
       </div>
 
-      {/* ─── DESKTOP EXTRA: SIDE BADGE / MOBILE HINT ─── */}
-      <div className="hidden xl:flex fixed bottom-8 right-8 z-30 items-center space-x-3 bg-[#FFF9F8]/85 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-[#DFC48F]/70 shadow-lg text-[#4A4038]">
-        <div className="w-8 h-8 rounded-xl bg-[#FAF2F0] border border-[#DFC48F] flex items-center justify-center text-[#C6A15B] shrink-0">
-          <Smartphone size={16} />
-        </div>
-        <div className="text-left">
-          <p className="font-serif text-xs font-semibold text-[#4A4038] tracking-wide">
-            Best Viewed on Mobile
-          </p>
-          <p className="text-[10px] text-[#8A7F72] font-sans">
-            Scan or browse on your phone
-          </p>
-        </div>
-        <div className="pl-1 text-[#C6A15B]">
-          <QrCode size={22} className="opacity-80" />
-        </div>
-      </div>
-
       {/* ─── CENTER PHONE MOCKUP SCREEN ─── */}
       <main className="relative z-10 flex items-center justify-center p-3 sm:p-5 md:p-6 my-auto">
         <div className="relative flex items-center justify-center select-none">
