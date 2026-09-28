@@ -9,13 +9,12 @@ import {
 } from 'framer-motion';
 import { MapPin, X } from 'lucide-react';
 import { Divider } from './BasicComponents';
-import { OptimizedImage } from './OptimizedImage';
 
-const triveniImg = 'triveni_ghat_aarti_rishikesh_1790244353114';
-const ramJhulaImg = 'ram_jhula_suspension_bridge_1790244371749';
-const neerGarhImg = 'neer_garh_waterfall_rishikesh_1790244391014';
-const beatlesImg = 'beatles_ashram_rishikesh_1790244403526';
-const kunjapuriImg = 'kunjapuri_devi_sunrise_real';
+import triveniImg from '../assets/images/triveni_ghat_aarti_rishikesh_1790244353114.jpg';
+import ramJhulaImg from '../assets/images/ram_jhula_suspension_bridge_1790244371749.jpg';
+import neerGarhImg from '../assets/images/neer_garh_waterfall_rishikesh_1790244391014.jpg';
+import beatlesImg from '../assets/images/beatles_ashram_rishikesh_1790244403526.jpg';
+import kunjapuriImg from '../assets/images/kunjapuri_devi_sunrise_real.png';
 
 export interface SightItem {
   id: string;
@@ -163,12 +162,11 @@ const TiltCard: React.FC<TiltCardProps> = ({
       >
         {/* Sight Image - Pure & Uncluttered */}
         <div className="w-full h-full overflow-hidden bg-[#F3EDE3]">
-          <OptimizedImage
+          <img
             src={sight.image}
             alt={sight.title}
-            sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
-            className="w-full h-full"
-            imgClassName="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         </div>
 
@@ -202,26 +200,31 @@ export const NearbySights: React.FC = () => {
   const [isFanned, setIsFanned] = useState(true);
   const isFannedRef = useRef(true);
 
-  // Set hasLoaded to true instantly so cards render without artificial delay
-  const [hasLoaded, setHasLoaded] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedSight, setSelectedSight] = useState<SightItem | null>(null);
 
-  // Responsive screen check & instant background image preloader
+  // Responsive screen check
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-
-    sights.forEach((sight) => {
-      const img = new Image();
-      img.src = sight.image;
-    });
-
     return () => window.removeEventListener('resize', checkMobile);
-  }, [sights]);
+  }, []);
+
+  // Section in-view trigger for initial stagger entrance
+  const isInView = useInView(sectionRef, { once: true, amount: 0.08 });
+
+  useEffect(() => {
+    if (isInView && !hasLoaded) {
+      const timer = setTimeout(() => {
+        setHasLoaded(true);
+      }, sights.length * 100 + 600);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView, hasLoaded, sights.length]);
 
   // Scroll detection relative to section top:
   // When scrolling down into section -> unpack starting from Sight 1 at top
@@ -371,31 +374,31 @@ export const NearbySights: React.FC = () => {
       )}
 
       {/* 2. SEQUENTIAL SIGHTS LIST (Sight 1 at the top, followed by 2, 3, 4, 5) */}
-      {/* Cards fly smoothly into place next to their details as user scrolls down */}
+      {/* NO outer card box: image on one side, details on the other side directly on page background */}
       {!isFanned && (
-        <div className="w-full max-w-4xl mx-auto flex flex-col space-y-10 sm:space-y-16 pt-2">
+        <div className="w-full max-w-sm mx-auto flex flex-col space-y-12 pt-2">
           {sights.map((sight, index) => (
             <div
               key={sight.id}
-              className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-8 w-full pb-8 sm:pb-0 border-b border-[#DFC48F]/40 sm:border-b-0 last:border-b-0"
+              className="flex flex-col items-start gap-3 w-full pb-8 border-b border-[#DFC48F]/40 last:border-b-0"
             >
-              {/* Image Card Only: Pure image with 3D tilt and golden rim */}
+              {/* Image Card Only: Full-width pure image with 3D tilt */}
               <motion.div
                 layoutId={`sight-card-${sight.id}`}
                 transition={FLIGHT_SPRING}
                 animate={{ rotate: 0 }}
                 onClick={() => setSelectedSight(sight)}
-                className="w-full sm:w-60 md:w-68 aspect-[4/3] sm:aspect-[3/4] shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
+                className="w-full aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
               >
                 <TiltCard sight={sight} showCaption={false} className="w-full h-full" />
               </motion.div>
 
-              {/* Details Side: Right next to the card on background */}
+              {/* Details Side: Below the card directly on background */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.12 + index * 0.04, duration: 0.5 }}
-                className="flex-1 flex flex-col justify-center text-left py-1 sm:py-2 space-y-2 min-w-0"
+                className="w-full flex flex-col justify-center text-left py-1 space-y-1.5 min-w-0"
               >
                 {/* Location Tag with Icon */}
                 <div className="flex items-center gap-1.5 text-xs text-[#8A5A00] font-sans font-bold uppercase tracking-wider">
@@ -411,7 +414,7 @@ export const NearbySights: React.FC = () => {
                   {sight.title}
                 </h3>
 
-                {/* Full Description */}
+                {/* Full Description: Same exact details as Image 1 & 2 */}
                 <p className="font-sans text-sm sm:text-base text-[#554A40] leading-relaxed">
                   {sight.description}
                 </p>
@@ -463,12 +466,10 @@ export const NearbySights: React.FC = () => {
 
               {/* Modal Image */}
               <div className="w-full h-64 sm:h-72 overflow-hidden bg-[#F3EDE3]">
-                <OptimizedImage
+                <img
                   src={selectedSight.image}
                   alt={selectedSight.title}
-                  sizes="(max-width: 640px) 100vw, 450px"
-                  className="w-full h-full"
-                  imgClassName="object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
