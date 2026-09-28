@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GangaDiya } from './BasicComponents';
 import { WeddingConfig } from '../types';
 import { Calendar, ChevronDown } from 'lucide-react';
-import rishikeshMandapBg from '../assets/images/rishikesh_mandap_watercolor_1790240774713.jpg';
+import { OptimizedImage } from './OptimizedImage';
+const rishikeshMandapBg = 'rishikesh_mandap_watercolor_1790240774713';
 
 interface HeroProps {
   config: WeddingConfig;
@@ -51,10 +52,13 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
           WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.3) 82%, transparent 100%)',
         }}
       >
-        <img
+        <OptimizedImage
           src={rishikeshMandapBg}
           alt="Rishikesh Ganga Mandap Watercolor"
-          className="w-full h-full object-cover object-top sm:object-center"
+          priority={true}
+          sizes="100vw"
+          className="w-full h-full"
+          imgClassName="object-cover object-top sm:object-center"
         />
         {/* Soft luminous radial vignette to make text crystal clear without any card */}
         <div

@@ -1,4 +1,5 @@
 import React from 'react';
+import { OptimizedImage } from './OptimizedImage';
 
 /**
  * SanskritSeal: Auspicious handcrafted letterpress seal
@@ -358,11 +359,12 @@ export const PhotoFrame: React.FC<{
         <div
           className={`overflow-hidden shadow-inner bg-[#FAF6F0] relative z-10 ${shapeClasses[shape]}`}
         >
-          <img
+          <OptimizedImage
             src={src}
             alt={alt}
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
+            sizes="300px"
+            className="w-full h-full"
+            imgClassName="object-cover object-center transition-transform duration-700 hover:scale-105"
           />
         </div>
       </div>

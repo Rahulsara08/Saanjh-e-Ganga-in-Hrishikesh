@@ -4,6 +4,7 @@ import { RevealOnScroll } from './RevealOnScroll';
 import { WeddingConfig } from '../types';
 import { StoryFrameOverlay } from './StoryFrameOverlay';
 import { StoryHoverExpand } from './StoryHoverExpand';
+import { OptimizedImage } from './OptimizedImage';
 import {
   Play,
   Pause,
@@ -14,14 +15,14 @@ import {
   Heart
 } from 'lucide-react';
 
-import firstMeetImg from '../assets/images/first_meet_rishikesh_ghat_1790243833424.jpg';
-import firstDateImg from '../assets/images/first_date_rishikesh_cafe_1790243849954.jpg';
-import mountainViewImg from '../assets/images/couple_mountain_view_himalayas_1790245267891.jpg';
-import coffeeMistyImg from '../assets/images/chai_coffee_misty_mountain_1790245285749.jpg';
-import sunsetRidgeImg from '../assets/images/sunset_couple_motorcycle_ridge_1790245296691.jpg';
-import firstProposalImg from '../assets/images/first_proposal_riverbank_1790243869300.jpg';
-import bonfireImg from '../assets/images/starry_bonfire_himalayas_1790245923608.jpg';
-import diyaAartiImg from '../assets/images/ganga_aarti_riverbank_lamps_1790245938677.jpg';
+const firstMeetImg = 'first_meet_rishikesh_ghat_1790243833424';
+const firstDateImg = 'first_date_rishikesh_cafe_1790243849954';
+const mountainViewImg = 'couple_mountain_view_himalayas_1790245267891';
+const coffeeMistyImg = 'chai_coffee_misty_mountain_1790245285749';
+const sunsetRidgeImg = 'sunset_couple_motorcycle_ridge_1790245296691';
+const firstProposalImg = 'first_proposal_riverbank_1790243869300';
+const bonfireImg = 'starry_bonfire_himalayas_1790245923608';
+const diyaAartiImg = 'ganga_aarti_riverbank_lamps_1790245938677';
 
 interface StoryItem {
   id: string;
@@ -183,10 +184,12 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
                       idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
                     }`}
                   >
-                    <img
+                    <OptimizedImage
                       src={s.image}
                       alt={s.title}
-                      className="w-full h-full object-cover"
+                      sizes="(max-width: 640px) 360px, (max-width: 768px) 390px, 410px"
+                      className="w-full h-full"
+                      imgClassName="object-cover"
                     />
                   </div>
                 ))}
@@ -230,10 +233,12 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
             {/* Card Content */}
             <div className="space-y-4">
               <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-xs">
-                <img
+                <OptimizedImage
                   src={activeStoryCard.image}
                   alt={activeStoryCard.title}
-                  className="w-full h-full object-cover"
+                  sizes="(max-width: 640px) 100vw, 500px"
+                  className="w-full h-full"
+                  imgClassName="object-cover"
                 />
               </div>
 

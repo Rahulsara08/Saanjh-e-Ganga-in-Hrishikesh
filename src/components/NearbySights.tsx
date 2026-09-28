@@ -9,12 +9,13 @@ import {
 } from 'framer-motion';
 import { MapPin, X } from 'lucide-react';
 import { Divider } from './BasicComponents';
+import { OptimizedImage } from './OptimizedImage';
 
-import triveniImg from '../assets/images/triveni_ghat_aarti_rishikesh_1790244353114.jpg';
-import ramJhulaImg from '../assets/images/ram_jhula_suspension_bridge_1790244371749.jpg';
-import neerGarhImg from '../assets/images/neer_garh_waterfall_rishikesh_1790244391014.jpg';
-import beatlesImg from '../assets/images/beatles_ashram_rishikesh_1790244403526.jpg';
-import kunjapuriImg from '../assets/images/kunjapuri_devi_sunrise_real.png';
+const triveniImg = 'triveni_ghat_aarti_rishikesh_1790244353114';
+const ramJhulaImg = 'ram_jhula_suspension_bridge_1790244371749';
+const neerGarhImg = 'neer_garh_waterfall_rishikesh_1790244391014';
+const beatlesImg = 'beatles_ashram_rishikesh_1790244403526';
+const kunjapuriImg = 'kunjapuri_devi_sunrise_real';
 
 export interface SightItem {
   id: string;
@@ -162,11 +163,12 @@ const TiltCard: React.FC<TiltCardProps> = ({
       >
         {/* Sight Image - Pure & Uncluttered */}
         <div className="w-full h-full overflow-hidden bg-[#F3EDE3]">
-          <img
+          <OptimizedImage
             src={sight.image}
             alt={sight.title}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
+            className="w-full h-full"
+            imgClassName="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         </div>
 
@@ -466,10 +468,12 @@ export const NearbySights: React.FC = () => {
 
               {/* Modal Image */}
               <div className="w-full h-64 sm:h-72 overflow-hidden bg-[#F3EDE3]">
-                <img
+                <OptimizedImage
                   src={selectedSight.image}
                   alt={selectedSight.title}
-                  className="w-full h-full object-cover"
+                  sizes="(max-width: 640px) 100vw, 450px"
+                  className="w-full h-full"
+                  imgClassName="object-cover"
                 />
               </div>
 

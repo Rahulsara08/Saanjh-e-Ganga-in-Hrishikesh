@@ -1,6 +1,7 @@
 import React from 'react';
 import { WeddingConfig } from '../types';
 import { X, ExternalLink, MapPin, Compass, Navigation } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
 
 interface VenueMapModalProps {
   isOpen: boolean;
@@ -34,11 +35,12 @@ export const VenueMapModal: React.FC<VenueMapModalProps> = ({ isOpen, onClose, c
         <div className="p-6 space-y-5">
           {/* Venue Image Banner */}
           <div className="relative rounded-2xl overflow-hidden border border-[#DFC48F]/50 aspect-[16/9] shadow-inner">
-            <img
+            <OptimizedImage
               src={venueMap.photoUrl}
               alt="Anand Kashi Rishikesh"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
+              sizes="(max-width: 640px) 100vw, 650px"
+              className="w-full h-full"
+              imgClassName="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#2D241D]/80 via-transparent to-transparent flex items-end p-4">
               <div className="text-white">

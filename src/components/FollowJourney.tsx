@@ -4,6 +4,7 @@ import { RevealOnScroll } from './RevealOnScroll';
 import { WeddingConfig, JourneyEvent } from '../types';
 import { generateICS } from '../utils/ics';
 import { CalendarPlus, MapPin, Sparkles } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
 
 interface FollowJourneyProps {
   config: WeddingConfig;
@@ -52,11 +53,12 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
                   {/* Event Image */}
                   {event.imageUrl && (
                     <div className="w-full aspect-[16/10] sm:aspect-[2/1] rounded-3xl overflow-hidden shadow-xs mb-3">
-                      <img
+                      <OptimizedImage
                         src={event.imageUrl}
                         alt={event.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-102"
+                        sizes="(max-width: 640px) 100vw, 600px"
+                        className="w-full h-full"
+                        imgClassName="object-cover transition-transform duration-700 hover:scale-102"
                       />
                     </div>
                   )}

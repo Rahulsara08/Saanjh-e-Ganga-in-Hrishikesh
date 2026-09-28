@@ -2,14 +2,15 @@ import React from 'react';
 import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
 import { Sparkles, Camera } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
 
-import sunsetGanga from '../assets/images/rishikesh_ganga_sunset_serenity_1790240916023.jpg';
-import aartiImg from '../assets/images/rishikesh_ganga_aarti_wedding_1790240746434.jpg';
-import haldiImg from '../assets/images/rishikesh_haldi_ceremony_1790240673486.jpg';
-import mehndiImg from '../assets/images/rishikesh_mehndi_evening_1790240685474.jpg';
-import sangeetImg from '../assets/images/rishikesh_sangeet_night_1790240698617.jpg';
-import baratImg from '../assets/images/rishikesh_baraat_procession_1790240715482.jpg';
-import saatPhereImg from '../assets/images/rishikesh_saat_phere_vows_1790240732445.jpg';
+const sunsetGanga = 'rishikesh_ganga_sunset_serenity_1790240916023';
+const aartiImg = 'rishikesh_ganga_aarti_wedding_1790240746434';
+const haldiImg = 'rishikesh_haldi_ceremony_1790240673486';
+const mehndiImg = 'rishikesh_mehndi_evening_1790240685474';
+const sangeetImg = 'rishikesh_sangeet_night_1790240698617';
+const baratImg = 'rishikesh_baraat_procession_1790240715482';
+const saatPhereImg = 'rishikesh_saat_phere_vows_1790240732445';
 
 interface GalleryItem {
   src: string;
@@ -92,11 +93,12 @@ export const RishikeshGallery: React.FC = () => {
             className={`${item.span || 'md:col-span-4'} group`}
           >
             <div className="relative h-full min-h-[260px] sm:min-h-[300px] rounded-3xl overflow-hidden border border-[#DFC48F]/60 bg-[#FAF6F0] shadow-[0_6px_25px_-5px_rgba(74,64,56,0.08)]">
-              <img
+              <OptimizedImage
                 src={item.src}
                 alt={item.title}
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                className="w-full h-full"
+                imgClassName="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
 
               {/* Gradient Scrim */}

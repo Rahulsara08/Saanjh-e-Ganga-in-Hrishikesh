@@ -24,6 +24,11 @@
   --color-ink-soft: #8A7F72;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 html,
 body {
   background-color: #FAF2F0;
@@ -35,6 +40,30 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+}
+
+/* Off-screen section rendering optimization for smooth 60fps scrolling */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+/* Hardware-accelerated GPU animation helper */
+.gpu-layer {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Reduced motion preference override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar {

@@ -1,7 +1,9 @@
 import React from 'react';
-import instagramWhiteFrame from '../assets/images/instagram_white_frame.png';
-import vintageCameraHand from '../assets/images/vintage_camera_hand_sticker.png';
-import coupleAvatar from '../assets/images/couple_story_avatar.jpg';
+import { OptimizedImage } from './OptimizedImage';
+
+const instagramWhiteFrame = 'instagram_white_frame';
+const vintageCameraHand = 'vintage_camera_hand_sticker';
+const coupleAvatar = 'couple_story_avatar';
 
 interface StoryFrameOverlayProps {
   userName?: string;
@@ -48,10 +50,13 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
         </div>
 
         {/* Layer 2: White Instagram Frame Artwork (Crisp transparent photo cutout, story ring, action icons, 3 dots, and solid red liked heart) */}
-        <img
+        <OptimizedImage
           src={instagramWhiteFrame}
           alt="Instagram White Post Frame"
-          className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+          sizes="410px"
+          priority={true}
+          className="absolute inset-0 w-full h-full pointer-events-none z-20"
+          imgClassName="object-contain"
         />
 
         {/* Layer 3: Dynamic Instagram Top Header */}
@@ -65,10 +70,12 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
             aspectRatio: '1/1',
           }}
         >
-          <img
+          <OptimizedImage
             src={coupleAvatar}
             alt="Meher & Kabir"
-            className="w-full h-full object-cover object-center"
+            sizes="50px"
+            className="w-full h-full"
+            imgClassName="object-cover object-center"
           />
         </div>
 
@@ -160,10 +167,12 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
             width: '64.2%',
           }}
         >
-          <img
+          <OptimizedImage
             src={vintageCameraHand}
             alt="Hand holding vintage camera"
-            className="w-full h-auto object-contain transition-transform duration-300"
+            sizes="300px"
+            className="w-full h-auto"
+            imgClassName="object-contain transition-transform duration-300"
           />
         </div>
       </div>

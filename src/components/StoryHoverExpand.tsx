@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { OptimizedImage } from './OptimizedImage';
 
 interface StoryHoverItem {
   id: string;
@@ -98,10 +99,12 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
               onHoverStart={() => onSelect(index)}
             >
               {/* Photo */}
-              <img
+              <OptimizedImage
                 src={story.image}
                 alt={story.title}
-                className="w-full h-full object-cover pointer-events-none"
+                sizes="160px"
+                className="w-full h-full"
+                imgClassName="object-cover pointer-events-none"
               />
 
               {/* Inactive subtle overlay */}

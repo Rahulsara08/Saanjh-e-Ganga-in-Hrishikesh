@@ -1,17 +1,18 @@
 import { WeddingConfig } from '../types';
-import couplePortrait from '../assets/images/rishikesh_couple_1790236101823.jpg';
-import venueGhat from '../assets/images/rishikesh_ganga_ghat_1790236124502.jpg';
-import brideParents from '../assets/images/bride_parents_1790235687448.jpg';
-import groomParents from '../assets/images/groom_parents_1790235700968.jpg';
+
+const couplePortrait = 'rishikesh_couple_1790236101823';
+const venueGhat = 'rishikesh_ganga_ghat_1790236124502';
+const brideParents = 'bride_parents_1790235687448';
+const groomParents = 'groom_parents_1790235700968';
 
 // Rishikesh Celebration Event Images
-import haldiImg from '../assets/images/rishikesh_haldi_ceremony_1790240673486.jpg';
-import mehndiImg from '../assets/images/rishikesh_mehndi_evening_1790240685474.jpg';
-import sangeetImg from '../assets/images/rishikesh_sangeet_night_1790240698617.jpg';
-import baratImg from '../assets/images/rishikesh_baraat_procession_1790240715482.jpg';
-import varmalaImg from '../assets/images/rishikesh_varmala_ceremony.jpg';
-import saatPhereImg from '../assets/images/rishikesh_saat_phere_vows_1790240732445.jpg';
-import receptionImg from '../assets/images/rishikesh_wedding_reception.jpg';
+const haldiImg = 'rishikesh_haldi_ceremony_1790240673486';
+const mehndiImg = 'rishikesh_mehndi_evening_1790240685474';
+const sangeetImg = 'rishikesh_sangeet_night_1790240698617';
+const baratImg = 'rishikesh_baraat_procession_1790240715482';
+const varmalaImg = 'rishikesh_varmala_ceremony';
+const saatPhereImg = 'rishikesh_saat_phere_vows_1790240732445';
+const receptionImg = 'rishikesh_wedding_reception';
 
 export const defaultWeddingConfig: WeddingConfig = {
   couple: {

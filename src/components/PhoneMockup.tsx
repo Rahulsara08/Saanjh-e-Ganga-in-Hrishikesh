@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WeddingConfig } from '../types';
-import pcMockupBg from '../assets/images/pc_mockup_backdrop_blossom.jpg';
 import paperBg from '../assets/images/paper_blush_texture.jpg';
 import { MusicPlayer } from './MusicPlayer';
+import { OptimizedImage } from './OptimizedImage';
+
+const pcMockupBg = 'pc_mockup_backdrop_blossom';
 
 interface PhoneMockupProps {
   config: WeddingConfig;
@@ -102,10 +104,13 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
     <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#E8DDD2]">
       {/* ─── ELEGANT BLOSSOM TEXTURED WALL BACKGROUND (USER'S IMAGE) ─── */}
       <div className="fixed inset-0 pointer-events-none -z-20 overflow-hidden">
-        <img
+        <OptimizedImage
           src={pcMockupBg}
           alt="Warm textured wall with blossom branch backdrop"
-          className="w-full h-full object-cover object-center scale-101"
+          priority={true}
+          sizes="100vw"
+          className="w-full h-full"
+          imgClassName="object-cover object-center scale-101"
         />
         {/* Subtle, soft ambient vignette to give the centered mockup rich depth */}
         <div className="absolute inset-0 bg-black/10 backdrop-blur-[0.5px]" />
