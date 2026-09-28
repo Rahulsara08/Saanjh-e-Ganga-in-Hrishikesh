@@ -163,8 +163,8 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
       {/* ── Slideshow Player in User's Camera Overlay Frame with no background ── */}
       <RevealOnScroll delay={100} className="w-full max-w-full">
         <div className="w-full max-w-full flex flex-col items-center justify-center mx-auto">
-          {/* User's Exact Camera Overlay Frame (Floating with no outer wrapper background) */}
-          <div className="w-full flex justify-center items-center relative z-20 mb-2 sm:mb-4">
+          {/* User's Exact Camera Overlay Frame */}
+          <div className="w-full flex justify-center items-center relative z-20 mb-6 sm:mb-8">
             <StoryFrameOverlay
               userName={`${config.couple.brideName.toLowerCase()}.${config.couple.groomName.toLowerCase()}`}
               location="Rishikesh, Uttarakhand"
@@ -194,8 +194,8 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
             </StoryFrameOverlay>
           </div>
 
-          {/* Story Hover Expand Navigation (Skiper UI Animation Edge-to-Edge) */}
-          <div className="relative z-10 w-full px-0 -mt-3 sm:-mt-6">
+          {/* Story Hover Expand Navigation (Skiper UI Animation Edge-to-Edge, no overlap with frame) */}
+          <div className="relative z-10 w-full px-0 mt-2 sm:mt-4">
             <StoryHoverExpand
               stories={stories}
               currentIndex={currentIndex}

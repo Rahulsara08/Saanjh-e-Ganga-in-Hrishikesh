@@ -64,10 +64,10 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
         <div
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(ellipse 75% 70% at 50% 42%, rgba(255, 252, 250, 0.78) 0%, rgba(250, 242, 240, 0.55) 55%, rgba(250, 242, 240, 0.1) 100%)',
+            background: 'radial-gradient(ellipse 80% 75% at 50% 42%, rgba(255, 253, 251, 0.90) 0%, rgba(250, 242, 240, 0.72) 60%, rgba(250, 242, 240, 0.25) 100%)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF2F0]/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF2F0]/80 via-transparent to-[#FAF2F0]/60" />
       </div>
 
       {/* Progressive theme background blur feathering into the blush paper texture */}
@@ -79,50 +79,50 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
         }}
       />
 
-      {/* ── Center Content: Directly on background without any card (High Contrast & Clear) ── */}
+      {/* ── Center Content: Highly Visible, Bold, High-Contrast Typography ── */}
       <div className="relative z-10 w-full max-w-3xl mx-auto px-4 flex flex-col items-center my-auto">
         {/* Guest Salutation */}
-        <div className="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full bg-[#FFF8F7]/95 backdrop-blur-xs border border-[#8A5A00]/80 text-[#6B4200] text-[10px] font-sans font-bold tracking-[0.25em] uppercase mb-2 shadow-2xs">
-          <span className="text-[9px]">✦</span>
+        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#FFF9F8] border border-[#8A5A00] text-[#5C3900] text-[10.5px] font-sans font-extrabold tracking-[0.25em] uppercase mb-2 shadow-xs">
+          <span className="text-[10px] text-[#A6731B]">✦</span>
           <span>{guestGreeting || 'DEAR GUEST,'}</span>
-          <span className="text-[9px]">✦</span>
+          <span className="text-[10px] text-[#A6731B]">✦</span>
         </div>
 
         {/* Save the date cursive - Deep, Rich, High-Contrast Royal Gold */}
-        <p className="font-serif italic text-2xl xs:text-3xl text-[#7A4F00] font-bold tracking-wide my-0.5 leading-tight drop-shadow-sm">
+        <p className="font-serif italic text-2xl xs:text-3xl sm:text-4xl text-[#6D4200] font-extrabold tracking-wide my-1 leading-tight drop-shadow-[0_1px_6px_rgba(255,255,255,1)]">
           save the date
         </p>
 
-        {/* Couple Names - Elegant, Majestic Serif Ink (Balanced Mobile Scale matching Image 4) */}
-        <h1 className="font-serif text-3xl xs:text-4xl sm:text-[42px] font-black text-[#0A0705] tracking-tight uppercase leading-[1.1] mt-1 mb-1.5 drop-shadow-[0_2px_10px_rgba(255,255,255,0.95)]">
+        {/* Couple Names - Elegant, Majestic Serif Ink, Crisp & Bold */}
+        <h1 className="font-serif text-3xl xs:text-4xl sm:text-[44px] font-black text-[#140D07] tracking-tight uppercase leading-[1.1] mt-1 mb-1.5 drop-shadow-[0_2px_12px_rgba(255,255,255,1)]">
           {config.couple.brideName}{' '}
-          <span className="font-serif italic text-2xl xs:text-3xl text-[#8A5A00] font-bold lowercase">
+          <span className="font-serif italic text-2xl xs:text-3xl sm:text-4xl text-[#7D4D00] font-extrabold lowercase">
             &
           </span>{' '}
           {config.couple.groomName}
         </h1>
 
-        {/* Invitation Sentence - High Clarity */}
-        <p className="font-serif italic text-xs xs:text-sm text-[#1A1108] font-bold my-1.5 max-w-xs leading-relaxed drop-shadow-[0_1px_6px_rgba(255,255,255,0.95)]">
+        {/* Invitation Sentence - High Clarity, Bold */}
+        <p className="font-serif italic text-xs xs:text-sm sm:text-base text-[#1F140A] font-extrabold my-2 max-w-sm leading-relaxed drop-shadow-[0_1px_6px_rgba(255,255,255,1)]">
           are getting married along the sacred flowing waters of River Ganga
         </p>
 
         {/* Gold Framed Date Ribbon */}
-        <div className="w-full max-w-xs flex items-center justify-center my-2 space-x-2.5">
+        <div className="w-full max-w-xs flex items-center justify-center my-2.5 space-x-2.5">
           <div className="h-[1.5px] flex-1 bg-[#8A5A00]" />
-          <span className="px-3 py-0.5 text-xs xs:text-sm font-serif tracking-[0.22em] text-[#6B4200] uppercase font-black drop-shadow-[0_1px_4px_rgba(255,255,255,1)]">
+          <span className="px-4 py-1 rounded-full bg-[#FFFDFB] border border-[#8A5A00] text-xs xs:text-sm font-serif tracking-[0.25em] text-[#523300] uppercase font-black shadow-2xs">
             {config.couple.weddingDateString}
           </span>
           <div className="h-[1.5px] flex-1 bg-[#8A5A00]" />
         </div>
 
         {/* Venue Name - Solid & Clear */}
-        <p className="text-base xs:text-lg font-serif text-[#0A0705] tracking-wide mt-0.5 font-extrabold drop-shadow-[0_1px_6px_rgba(255,255,255,1)]">
+        <p className="text-base xs:text-lg sm:text-xl font-serif text-[#140D07] tracking-wide mt-1 font-black drop-shadow-[0_1px_6px_rgba(255,255,255,1)]">
           {config.couple.venueName}
         </p>
 
         {/* Venue City & Country - Crisp Uppercase */}
-        <p className="text-[10px] xs:text-[11px] font-sans text-[#20150C] tracking-[0.25em] uppercase mt-0.5 font-bold drop-shadow-[0_1px_4px_rgba(255,255,255,1)]">
+        <p className="text-[10.5px] xs:text-[11.5px] font-sans text-[#2A1B0E] tracking-[0.28em] uppercase mt-0.5 font-extrabold drop-shadow-[0_1px_4px_rgba(255,255,255,1)]">
           {config.couple.venueCity}, {config.couple.venueCountry}
         </p>
 
@@ -132,8 +132,8 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
         </div>
 
         {/* Minimalist Countdown Timer */}
-        <div className="mb-2.5 w-full max-w-[280px] mx-auto">
-          <div className="grid grid-cols-4 gap-1.5 bg-[#FFF6F5]/90 backdrop-blur-xs py-1.5 px-2 rounded-xl border border-[#C6A15B] shadow-2xs">
+        <div className="mb-3.5 w-full max-w-[280px] mx-auto">
+          <div className="grid grid-cols-4 gap-1.5 bg-[#FFFDFB]/95 py-1.5 px-2 rounded-xl border border-[#C6A15B] shadow-xs">
             {[
               { label: 'DAYS', value: timeLeft.days },
               { label: 'HOURS', value: timeLeft.hours },
@@ -141,10 +141,10 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
               { label: 'SECS', value: timeLeft.seconds },
             ].map((item) => (
               <div key={item.label} className="flex flex-col items-center">
-                <span className="font-serif text-base text-[#140F0A] font-bold">
+                <span className="font-serif text-base sm:text-lg text-[#140D07] font-black">
                   {String(item.value).padStart(2, '0')}
                 </span>
-                <span className="text-[7px] font-sans tracking-[0.2em] text-[#9A6B0A] font-extrabold mt-0.5">
+                <span className="text-[7px] font-sans tracking-[0.2em] text-[#7A4F00] font-black mt-0.5">
                   {item.label}
                 </span>
               </div>
@@ -152,19 +152,13 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
           </div>
         </div>
 
-        {/* Call to Action Buttons */}
-        <div className="flex flex-col xs:flex-row items-center justify-center gap-2 w-full max-w-[290px]">
-          <a
-            href="#rsvp"
-            className="w-full xs:w-auto flex-1 px-4 py-2 rounded-full bg-[#EED8D3] hover:bg-[#E3C4BE] text-[#2C2219] text-[10px] font-bold tracking-[0.2em] uppercase transition-all shadow-xs border border-[#DFB6AE] text-center"
-          >
-            Kindly Reply (RSVP)
-          </a>
+        {/* Call to Action Button: Celebrations (Centered) */}
+        <div className="flex items-center justify-center w-full max-w-[260px]">
           <a
             href="#journey"
-            className="w-full xs:w-auto flex-1 px-4 py-2 rounded-full bg-[#FFF6F5]/90 hover:bg-[#F3E5E2] text-[#2C2219] text-[10px] font-bold tracking-[0.2em] uppercase transition-all border border-[#C6A15B] flex items-center justify-center space-x-1.5 shadow-2xs text-center"
+            className="w-full px-6 py-2.5 rounded-full bg-[#FFFDFB] hover:bg-[#F5ECE8] text-[#2C2219] text-[10.5px] sm:text-[11px] font-bold tracking-[0.22em] uppercase transition-all border border-[#8A5A00] flex items-center justify-center space-x-2 shadow-xs text-center"
           >
-            <Calendar size={11} className="text-[#9A6B0A]" />
+            <Calendar size={13} className="text-[#8A5A00]" />
             <span>Celebrations</span>
           </a>
         </div>

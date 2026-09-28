@@ -70,12 +70,11 @@ const SIGHTS_DATA: SightItem[] = [
   },
 ];
 
-// Crisp, fast, and smooth spring physics for instant scroll unpacking
+// Unified spring physics from service-cards-banner-scroll-animation.md
 const FLIGHT_SPRING = {
   type: 'spring' as const,
-  stiffness: 110,
-  damping: 18,
-  mass: 0.8,
+  damping: 22,
+  stiffness: 120,
 };
 
 interface FanGeometry {
@@ -93,11 +92,10 @@ const getFanGeometry = (index: number, total: number, isMobile: boolean): FanGeo
   const mid = (total - 1) / 2;
   const offset = index - mid; // e.g. for total=5: -2, -1, 0, 1, 2
 
-  const angleStep = isMobile ? 3.2 : 5.8;
-  const xStep = isMobile ? 22 : 46;
-  const yFactor = isMobile ? 2.5 : 4.2;
+  const xStep = isMobile ? 24 : 48;
+  const yFactor = isMobile ? 3.0 : 4.5;
 
-  const rotate = offset * angleStep;
+  const rotate = 0; // ZERO TILT: cards stay strictly straight and level
   const x = offset * xStep;
   const y = Math.pow(offset, 2) * yFactor;
   const zIndex = Math.round(50 - Math.abs(offset) * 2);
@@ -105,7 +103,7 @@ const getFanGeometry = (index: number, total: number, isMobile: boolean): FanGeo
   return { x, y, rotate, zIndex };
 };
 
-interface TiltCardProps {
+interface SightCardProps {
   sight: SightItem;
   className?: string;
   onClick?: () => void;
@@ -113,62 +111,28 @@ interface TiltCardProps {
 }
 
 /**
- * 3D Tilt-on-hover card component with rotateX/rotateY via spring.
- * Image only with 3D depth — text details are kept outside next to the card.
+ * Flat, elegant card component with smooth hover scaling and zero tilt.
  */
-const TiltCard: React.FC<TiltCardProps> = ({
+const SightCard: React.FC<SightCardProps> = ({
   sight,
   className = '',
   onClick,
   showCaption = false,
 }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 220, damping: 22 });
-  const mouseYSpring = useSpring(y, { stiffness: 220, damping: 22 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / rect.width - 0.5;
-    const yPct = mouseY / rect.height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
   return (
     <div
       onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`relative group [perspective:1000px] cursor-pointer ${className}`}
+      className={`relative group cursor-pointer ${className}`}
     >
-      <motion.div
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d',
-        }}
-        className="w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#DFC48F]/80 bg-[#FAF6F0] shadow-md group-hover:shadow-2xl transition-shadow duration-300"
-      >
-        {/* Sight Image - Pure & Uncluttered with OptimizedImage */}
+      <div className="w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#DFC48F]/80 bg-[#FAF6F0] shadow-md group-hover:shadow-2xl transition-shadow duration-300">
+        {/* Sight Image - Pure & Uncluttered with OptimizedImage (eager priority for instant load) */}
         <div className="w-full h-full overflow-hidden bg-[#F3EDE3]">
           <OptimizedImage
             src={sight.image}
             alt={sight.title}
+            priority={true}
             disableAspectRatio={true}
-            sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
+            sizes="(max-width: 640px) 350px, (max-width: 1024px) 450px, 600px"
             className="w-full h-full"
             containerStyle={{ width: '100%', height: '100%' }}
             imgClassName="object-cover group-hover:scale-105 transition-transform duration-700 ease-out w-full h-full"
@@ -178,10 +142,6 @@ const TiltCard: React.FC<TiltCardProps> = ({
         {/* Small subtle caption overlay only in fan view */}
         {showCaption && (
           <div
-            style={{
-              transform: 'translateZ(20px)',
-              transformStyle: 'preserve-3d',
-            }}
             className="absolute inset-x-0 bottom-0 pt-8 pb-3 px-3 bg-gradient-to-t from-black/80 via-black/35 to-transparent pointer-events-none"
           >
             <p className="font-serif text-xs text-white font-medium leading-snug drop-shadow-sm text-center truncate">
@@ -189,7 +149,7 @@ const TiltCard: React.FC<TiltCardProps> = ({
             </p>
           </div>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -246,17 +206,28 @@ export const NearbySights: React.FC = () => {
 
     const handleScroll = () => {
       if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionRect = sectionRef.current.getBoundingClientRect();
 
-      // Hysteresis threshold for smooth card unpacking:
-      // When section top moves into view near top: unpack cards into sequential list
-      const scrollThreshold = window.innerWidth >= 1024 ? 240 : 130;
-      const resetThreshold = window.innerWidth >= 1024 ? 380 : 260;
+      let relativeTop = sectionRect.top;
+      let containerHeight = window.innerHeight;
 
-      if (rect.top <= scrollThreshold && isFannedRef.current) {
+      if (phoneScrollEl) {
+        const phoneRect = phoneScrollEl.getBoundingClientRect();
+        relativeTop = sectionRect.top - phoneRect.top;
+        containerHeight = phoneScrollEl.clientHeight;
+      }
+
+      // Hysteresis threshold for smooth card flight:
+      // When user arrives at the section, the fanned deck is centered.
+      // Scrolling down past the center triggers smooth flight down to the description rows.
+      // Scrolling back up re-fans the deck smoothly.
+      const unpackThreshold = containerHeight * 0.18;
+      const refanThreshold = containerHeight * 0.38;
+
+      if (relativeTop <= unpackThreshold && isFannedRef.current) {
         isFannedRef.current = false;
         setIsFanned(false);
-      } else if (rect.top > resetThreshold && !isFannedRef.current) {
+      } else if (relativeTop > refanThreshold && !isFannedRef.current) {
         isFannedRef.current = true;
         setIsFanned(true);
       }
@@ -367,30 +338,31 @@ export const NearbySights: React.FC = () => {
                   e.stopPropagation();
                   setSelectedSight(sight);
                 }}
-                whileHover={{ scale: 1.06, zIndex: 60 }}
+                whileHover={{ scale: 1.05, zIndex: 60 }}
                 style={{
                   position: 'absolute',
                   zIndex: geom.zIndex,
                   originX: 0.5,
-                  originY: 1.0,
+                  originY: 0.5,
+                  rotate: 0,
                 }}
                 animate={{
                   x: geom.x,
                   y: geom.y,
-                  rotate: geom.rotate,
+                  rotate: 0,
                 }}
                 initial={
                   !hasLoaded
                     ? { opacity: 0, y: 50, scale: 0.88, rotate: 0 }
                     : false
                 }
-                className="cursor-pointer select-none rounded-2xl sm:rounded-3xl"
+                className="w-38 h-52 sm:w-46 sm:h-64 md:w-52 md:h-72 cursor-pointer select-none rounded-2xl sm:rounded-3xl"
               >
-                <TiltCard
+                <SightCard
                   sight={sight}
                   onClick={() => setSelectedSight(sight)}
                   showCaption={true}
-                  className="w-38 h-52 sm:w-46 sm:h-64 md:w-52 md:h-72"
+                  className="w-full h-full"
                 />
               </motion.div>
             );
@@ -399,7 +371,7 @@ export const NearbySights: React.FC = () => {
       )}
 
       {/* 2. SEQUENTIAL SIGHTS LIST (Sight 1 at the top, followed by 2, 3, 4, 5) */}
-      {/* NO outer card box: image on one side, details on the other side directly on page background */}
+      {/* Cards sit completely flat and level with ZERO tilt, fitting their place perfectly */}
       {!isFanned && (
         <div className="w-full max-w-sm mx-auto flex flex-col space-y-12 pt-2">
           {sights.map((sight, index) => (
@@ -407,15 +379,20 @@ export const NearbySights: React.FC = () => {
               key={sight.id}
               className="flex flex-col items-start gap-3 w-full pb-8 border-b border-[#DFC48F]/40 last:border-b-0"
             >
-              {/* Image Card Only: Full-width pure image with 3D tilt */}
+              {/* Image Card: Flies smoothly from the fan deck into this row spot with ZERO tilt */}
               <motion.div
                 layoutId={`sight-card-${sight.id}`}
                 transition={FLIGHT_SPRING}
-                animate={{ rotate: 0 }}
+                style={{
+                  originX: 0.5,
+                  originY: 0.5,
+                  rotate: 0,
+                }}
+                animate={{ rotate: 0, x: 0, y: 0 }}
                 onClick={() => setSelectedSight(sight)}
-                className="w-full aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
+                className="w-full aspect-[16/10] shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
               >
-                <TiltCard sight={sight} showCaption={false} className="w-full h-full" />
+                <SightCard sight={sight} showCaption={false} className="w-full h-full" />
               </motion.div>
 
               {/* Details Side: Below the card directly on background */}

@@ -5,7 +5,7 @@ import { MusicPlayer } from './MusicPlayer';
 import { OptimizedImage } from './OptimizedImage';
 import { QrCode, Smartphone } from 'lucide-react';
 
-const pcMockupBg = 'pc_mockup_backdrop_blossom';
+import pcMockupBackdrop from '../assets/images/pc_mockup_backdrop_blossom.jpg';
 
 interface PhoneMockupProps {
   config: WeddingConfig;
@@ -23,8 +23,6 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
     return false;
   });
 
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const phoneScrollRef = useRef<HTMLDivElement>(null);
 
   // Responsive screen dimension detection (< 1024px = native full screen, >= 1024px = PC mockup)
@@ -37,34 +35,8 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Check prefers-reduced-motion
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      setPrefersReducedMotion(mediaQuery.matches);
-      const listener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-      mediaQuery.addEventListener('change', listener);
-      return () => mediaQuery.removeEventListener('change', listener);
-    }
-  }, []);
 
-  // Gentle mouse-move parallax on leaf background (PC desktop mode)
-  useEffect(() => {
-    if (isMobile || prefersReducedMotion) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const xPct = e.clientX / innerWidth - 0.5;
-      const yPct = e.clientY / innerHeight - 0.5;
-      setMouseOffset({
-        x: xPct * 12, // max 6px translate
-        y: yPct * 12,
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [isMobile, prefersReducedMotion]);
 
   // Smooth scroll anchor navigation inside phone viewport (PC mockup)
   useEffect(() => {
@@ -121,25 +93,16 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   // 2. PC VIEW (>= 1024px): Centered Phone Mockup + Soft Leaves Backdrop
   // ──────────────────────────────────────────────────────────────────────────
   return (
-    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#FAF2F0]">
-      {/* ─── SOFT BLUSH-PINK LEAVES BACKGROUND WITH GENTLE PARALLAX ─── */}
-      <div
-        className="fixed inset-0 pointer-events-none -z-20 overflow-hidden transition-transform duration-300 ease-out"
-        style={{
-          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0) scale(1.02)`,
-        }}
-      >
-        <OptimizedImage
-          src={pcMockupBg}
-          alt="Soft blush pink leaves background"
-          priority={true}
-          disableAspectRatio={true}
-          sizes="100vw"
-          className="w-full h-full"
-          imgClassName="object-cover object-center"
+    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#F7EFEA]">
+      {/* ─── FULL-PAGE AESTHETIC BLUSH-PINK LEAVES BACKGROUND (FIXED, NO ANIMATION / BLOBBING, ZOOMED OUT) ─── */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#FAF2F0]">
+        <img
+          src={pcMockupBackdrop}
+          alt="Soft blush pink leaves and shadows background"
+          className="w-full h-full object-cover object-left-top"
         />
-        {/* Very light cream overlay for contrast */}
-        <div className="absolute inset-0 bg-[#FAF2F0]/25 backdrop-blur-[0.5px]" />
+        {/* Subtle warm ambient tint */}
+        <div className="absolute inset-0 bg-[#FAF2F0]/10" />
       </div>
 
       {/* ─── CENTER PHONE MOCKUP SCREEN ─── */}
