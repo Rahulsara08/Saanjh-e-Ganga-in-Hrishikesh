@@ -202,31 +202,26 @@ export const NearbySights: React.FC = () => {
   const [isFanned, setIsFanned] = useState(true);
   const isFannedRef = useRef(true);
 
-  const [hasLoaded, setHasLoaded] = useState(false);
+  // Set hasLoaded to true instantly so cards render without artificial delay
+  const [hasLoaded, setHasLoaded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedSight, setSelectedSight] = useState<SightItem | null>(null);
 
-  // Responsive screen check
+  // Responsive screen check & instant background image preloader
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
+
+    sights.forEach((sight) => {
+      const img = new Image();
+      img.src = sight.image;
+    });
+
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Section in-view trigger for initial stagger entrance
-  const isInView = useInView(sectionRef, { once: true, amount: 0.08 });
-
-  useEffect(() => {
-    if (isInView && !hasLoaded) {
-      const timer = setTimeout(() => {
-        setHasLoaded(true);
-      }, sights.length * 100 + 600);
-      return () => clearTimeout(timer);
-    }
-  }, [isInView, hasLoaded, sights.length]);
+  }, [sights]);
 
   // Scroll detection relative to section top:
   // When scrolling down into section -> unpack starting from Sight 1 at top
