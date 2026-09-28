@@ -1,61 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
-import { WeddingConfig, RSVPRecord } from '../types';
+import { WeddingConfig } from '../types';
 import { generateICS } from '../utils/ics';
-import { Heart, CalendarPlus, CheckCircle2, Users } from 'lucide-react';
-import { SmoothInput } from './ui/SmoothInput';
+import { Heart, CalendarPlus, CheckCircle2 } from 'lucide-react';
+import { FloatingHearts, FloatingHeartsRef } from './FloatingHearts';
 
 interface RSVPSectionProps {
   config: WeddingConfig;
   onRSVPSubmitted?: () => void;
+  onAccept?: () => void;
 }
 
-const RSVP_STORAGE_KEY = 'meher_kabir_rsvps_warm_v4';
+const RSVP_ACCEPT_KEY = 'meher_kabir_rsvp_accepted_v5';
 
-export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitted }) => {
-  const [fullName, setFullName] = useState('');
-  const [guestCount, setGuestCount] = useState<number | string>(2);
-  const [note, setNote] = useState('');
-  const [submittedRecord, setSubmittedRecord] = useState<RSVPRecord | null>(null);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!fullName.trim()) return;
-
-    const parsedCount = typeof guestCount === 'number' ? guestCount : parseInt(guestCount, 10) || 1;
-
-    const newRecord: RSVPRecord = {
-      id: `rsvp-${Date.now()}`,
-      attendance: 'accept',
-      fullName: fullName.trim(),
-      email: '',
-      phone: '',
-      guestCount: Math.max(1, parsedCount),
-      events: ['haldi', 'mehndi', 'sangeet', 'barat', 'ceremony'],
-      dietary: '',
-      note: note.trim(),
-      submittedAt: new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      }),
-    };
-
+export const RSVPSection: React.FC<RSVPSectionProps> = ({
+  config,
+  onRSVPSubmitted,
+  onAccept,
+}) => {
+  const [isAccepted, setIsAccepted] = useState<boolean>(() => {
     try {
-      const existing = localStorage.getItem(RSVP_STORAGE_KEY);
-      const parsed: RSVPRecord[] = existing ? JSON.parse(existing) : [];
-      const updated = [newRecord, ...parsed];
-      localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(updated));
-    } catch (err) {
-      console.error(err);
+      const saved = localStorage.getItem(RSVP_ACCEPT_KEY);
+      return saved === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
+
+  const heartsRef = useRef<FloatingHeartsRef>(null);
+
+  const handleAcceptClick = () => {
+    if (isAccepted) return;
+
+    // Trigger floating hearts animation
+    if (heartsRef.current) {
+      heartsRef.current.trigger();
     }
 
-    setSubmittedRecord(newRecord);
+    // Save accepted state to localStorage
+    try {
+      localStorage.setItem(RSVP_ACCEPT_KEY, 'true');
+    } catch (e) {
+      console.error('Failed to save RSVP state in localStorage', e);
+    }
+
+    // Update state to thank you message
+    setIsAccepted(true);
+
+    // Callbacks
+    if (onAccept) onAccept();
     if (onRSVPSubmitted) onRSVPSubmitted();
   };
 
-  const handleDownloadFullWeddingCalendar = () => {
+  const handleDownloadCalendar = () => {
     generateICS({
       title: `${config.couple.brideName} & ${config.couple.groomName}'s Rishikesh Wedding`,
       description: `Wedding celebration of ${config.couple.brideName} & ${config.couple.groomName} at ${config.couple.venueName}, ${config.couple.venueCity}.\n\nSacred Vedic union on the banks of River Ganga.`,
@@ -66,159 +64,74 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ config, onRSVPSubmitte
   };
 
   return (
-    <section id="rsvp" className="py-20 px-4 max-w-xl mx-auto">
+    <section id="rsvp" className="py-20 px-4 max-w-xl mx-auto relative">
+      {/* Floating Hearts Animation Layer */}
+      <FloatingHearts ref={heartsRef} />
+
+      {/* Header */}
       <RevealOnScroll>
         <div className="text-center mb-8">
           <SectionEyebrow>
             {config.rsvp.eyebrow} · {config.rsvp.deadlineText}
           </SectionEyebrow>
-          <SectionHeading>
-            Kindly Reply
-          </SectionHeading>
-          <p className="font-serif italic text-base text-[#8A7F72] mt-2">
+          <SectionHeading>Kindly Reply</SectionHeading>
+          <p className="font-serif italic text-base sm:text-lg text-[#8A7F72] mt-2">
             “Your presence completes our celebration beside the sacred River Ganga.”
           </p>
         </div>
       </RevealOnScroll>
 
+      {/* Prominent Acceptance Container */}
       <RevealOnScroll delay={100}>
-        <div className="p-7 sm:p-9 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-xs">
-          {submittedRecord ? (
-            <div className="text-center py-6 space-y-4">
-              <div className="w-12 h-12 rounded-full bg-[#FFF6F5] border border-[#DFC48F] mx-auto flex items-center justify-center text-[#C6A15B]">
-                <CheckCircle2 size={24} />
-              </div>
+        <div className="p-8 sm:p-10 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-sm text-center flex flex-col items-center justify-center space-y-6">
+          {/* Prominent Single Acceptance Button */}
+          <div className="w-full flex flex-col items-center justify-center">
+            <button
+              type="button"
+              disabled={isAccepted}
+              onClick={handleAcceptClick}
+              aria-label={
+                isAccepted
+                  ? 'RSVP already accepted, see you at the wedding'
+                  : 'Joyfully accept wedding invitation'
+              }
+              className={`w-full max-w-md min-h-[54px] px-8 py-4 rounded-full font-sans text-xs sm:text-sm font-semibold tracking-[0.22em] uppercase transition-all duration-500 ease-out flex items-center justify-center space-x-2.5 outline-none focus:ring-2 focus:ring-[#C6A15B] focus:ring-offset-2 select-none cursor-pointer ${
+                isAccepted
+                  ? 'bg-[#F3E5E2] text-[#4A4038] border border-[#DFC48F]/80 shadow-inner cursor-default opacity-95 scale-100'
+                  : 'bg-gradient-to-r from-[#C6A15B] via-[#B88E4C] to-[#C6A15B] hover:from-[#B88E4C] hover:to-[#9A6B0A] text-white shadow-md hover:shadow-[0_12px_28px_-6px_rgba(198,161,91,0.45)] hover:scale-[1.03] active:scale-[0.98]'
+              }`}
+            >
+              {isAccepted ? (
+                <span className="flex items-center space-x-2 transition-opacity duration-500 animate-fade-in">
+                  <CheckCircle2 size={16} className="text-[#9A6B0A] shrink-0" />
+                  <span>Thank you, see you at the wedding!</span>
+                </span>
+              ) : (
+                <span className="flex items-center space-x-2 transition-opacity duration-500">
+                  <Heart size={15} className="fill-white shrink-0 animate-pulse" />
+                  <span>Joyfully Accept</span>
+                </span>
+              )}
+            </button>
 
-              <div>
-                <h3 className="font-serif text-3xl text-[#4A4038] font-normal mb-1">
-                  We Await You with Joy!
-                </h3>
-                <p className="font-serif italic text-[#8A7F72] text-base max-w-md mx-auto">
-                  Thank you, {submittedRecord.fullName}. Your gracious RSVP for a party of{' '}
-                  {submittedRecord.guestCount} has been recorded.
-                </p>
-              </div>
+            {isAccepted && (
+              <p className="font-serif italic text-sm text-[#8A7F72] mt-3 animate-fade-in">
+                Your acceptance has been graciously recorded.
+              </p>
+            )}
+          </div>
 
-              <div className="pt-2 flex justify-center">
-                <button
-                  type="button"
-                  onClick={handleDownloadFullWeddingCalendar}
-                  className="px-6 py-2.5 rounded-full bg-[#EED8D3] hover:bg-[#E3C4BE] text-[#3D332A] text-xs font-semibold tracking-wider uppercase transition-all shadow-xs border border-[#DFB6AE] flex items-center space-x-2"
-                >
-                  <CalendarPlus size={14} className="text-[#C6A15B]" />
-                  <span>Add to Calendar (.ics)</span>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Guest Name with Smooth Caret Input */}
-              <div>
-                <label className="block text-xs font-sans text-[#4A4038] font-medium mb-1.5 uppercase tracking-wider text-[11px]">
-                  Guest or Family Name <span className="text-[#C6A15B]">*</span>
-                </label>
-                <SmoothInput
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="e.g. Vikramaditya Sharma & Family"
-                />
-              </div>
-
-              {/* Number of Guests: Typed Number Input with Smooth Caret */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label htmlFor="rsvp-guest-count" className="block text-xs font-sans text-[#4A4038] font-medium uppercase tracking-wider text-[11px]">
-                    Total Number of Attending Guests <span className="text-[#C6A15B]">*</span>
-                  </label>
-                  <span className="text-[11px] font-serif italic text-[#8A7F72]">
-                    Type any number of guests
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="relative flex-1">
-                    <SmoothInput
-                      id="rsvp-guest-count"
-                      numericOnly
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      value={guestCount}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        if (val === '') {
-                          setGuestCount('');
-                        } else {
-                          const num = parseInt(val, 10);
-                          if (!isNaN(num) && num >= 0 && num <= 99) {
-                            setGuestCount(num);
-                          }
-                        }
-                      }}
-                      placeholder="e.g. 1, 2, 7, 10..."
-                      className="text-base font-semibold"
-                    />
-                  </div>
-
-                  {/* Quick stepper buttons */}
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const current = typeof guestCount === 'number' ? guestCount : parseInt(guestCount, 10) || 1;
-                        setGuestCount(Math.max(1, current - 1));
-                      }}
-                      className="w-11 h-11 rounded-2xl bg-[#FFF9F8] border border-[#DFC48F]/70 hover:border-[#C6A15B] hover:bg-[#F1D9D6]/30 text-[#4A4038] font-semibold text-lg flex items-center justify-center transition-all active:scale-95 shadow-2xs cursor-pointer"
-                      title="Decrease guest count"
-                      aria-label="Decrease guest count"
-                    >
-                      −
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const current = typeof guestCount === 'number' ? guestCount : parseInt(guestCount, 10) || 1;
-                        setGuestCount(Math.min(99, current + 1));
-                      }}
-                      className="w-11 h-11 rounded-2xl bg-[#FFF9F8] border border-[#DFC48F]/70 hover:border-[#C6A15B] hover:bg-[#F1D9D6]/30 text-[#4A4038] font-semibold text-lg flex items-center justify-center transition-all active:scale-95 shadow-2xs cursor-pointer"
-                      title="Increase guest count"
-                      aria-label="Increase guest count"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <p className="text-[11px] font-sans text-[#8A7F72] mt-1.5 pl-1">
-                  Enter the exact headcount of your party attending the celebrations.
-                </p>
-              </div>
-
-              {/* Personal Note */}
-              <div>
-                <label className="block text-xs font-sans text-[#4A4038] font-medium mb-1.5 uppercase tracking-wider text-[11px]">
-                  A Note or Blessing for Meher & Kabir
-                </label>
-                <textarea
-                  rows={3}
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder="Leave a heartfelt prayer or sweet note for the couple..."
-                  className="w-full px-4 py-3 rounded-2xl bg-[#FFF9F8] border border-[#DFC48F]/70 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] transition-colors resize-none"
-                />
-              </div>
-
-              {/* Single ONLY Accept Button */}
-              <div className="pt-2 text-center">
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto px-12 py-3.5 rounded-full bg-[#C6A15B] hover:bg-[#B88E4C] text-white text-xs font-semibold tracking-[0.25em] uppercase transition-all shadow-md inline-flex items-center justify-center space-x-2"
-                >
-                  <Heart size={14} className="fill-white" />
-                  <span>Joyfully Accept & RSVP</span>
-                </button>
-              </div>
-            </form>
-          )}
+          {/* Add to Calendar Option */}
+          <div className="pt-2 flex justify-center border-t border-[#DFC48F]/30 w-full">
+            <button
+              type="button"
+              onClick={handleDownloadCalendar}
+              className="px-6 py-2.5 rounded-full bg-[#FAF6F0] hover:bg-[#F3EDE3] text-[#4A4038] text-[11px] font-sans font-medium tracking-wider uppercase transition-colors border border-[#DFC48F] flex items-center space-x-2 shadow-2xs cursor-pointer"
+            >
+              <CalendarPlus size={13} className="text-[#C6A15B]" />
+              <span>Add to Calendar (.ics)</span>
+            </button>
+          </div>
         </div>
       </RevealOnScroll>
 

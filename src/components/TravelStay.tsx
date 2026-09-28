@@ -3,7 +3,7 @@ import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
 import { VenueMapModal } from './VenueMapModal';
 import { WeddingConfig } from '../types';
-import { Copy, Check, Map } from 'lucide-react';
+import { Map } from 'lucide-react';
 
 interface TravelStayProps {
   config: WeddingConfig;
@@ -11,13 +11,6 @@ interface TravelStayProps {
 
 export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
-  const [copiedCode, setCopiedCode] = useState(false);
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(config.travel.roomBlock.promoCode);
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 2500);
-  };
 
   return (
     <section id="travel" className="py-20 px-4 max-w-5xl mx-auto">
@@ -131,30 +124,17 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
             </div>
 
             <div className="space-y-2 pl-1">
-              <p className="text-xs text-[#8A7F72] font-sans">
-                Quote Wedding Retreat Code:{' '}
-                <span className="font-mono font-bold text-[#C6A15B] bg-[#F3EDE3] px-2 py-0.5 rounded-md border border-[#DFC48F]/50">
-                  {config.travel.roomBlock.promoCode}
-                </span>{' '}
-                for exclusive courtesy rates.
+              <p className="text-xs text-[#4A4038] font-light leading-relaxed">
+                Stunning luxury heritage property right on the bank of the Ganges river with private ghat access and mountain view suites.
               </p>
               <div className="flex items-center space-x-2 pt-1">
                 <button
                   type="button"
-                  onClick={handleCopyCode}
-                  className="px-3.5 py-1.5 rounded-full bg-[#FFF9F8] hover:bg-[#F3E5E2] text-[#4A4038] text-[10px] font-sans tracking-wide transition-colors border border-[#DFC48F] flex items-center space-x-1.5"
-                >
-                  {copiedCode ? <Check size={11} className="text-emerald-700" /> : <Copy size={11} className="text-[#C6A15B]" />}
-                  <span>{copiedCode ? 'Code Copied' : 'Copy Promo Code'}</span>
-                </button>
-
-                <button
-                  type="button"
                   onClick={() => setIsMapModalOpen(true)}
-                  className="px-3.5 py-1.5 rounded-full bg-[#FFF9F8] hover:bg-[#F3E5E2] text-[#4A4038] text-[10px] font-sans tracking-wide transition-colors border border-[#DFC48F] flex items-center space-x-1.5"
+                  className="px-4 py-2 rounded-full bg-[#FFF9F8] hover:bg-[#F3E5E2] text-[#4A4038] text-[11px] font-sans tracking-wide transition-colors border border-[#DFC48F] flex items-center space-x-1.5 shadow-2xs"
                 >
-                  <Map size={11} className="text-[#C6A15B]" />
-                  <span>Sanctuary Map</span>
+                  <Map size={12} className="text-[#C6A15B]" />
+                  <span>Sanctuary Map & Directions</span>
                 </button>
               </div>
             </div>
