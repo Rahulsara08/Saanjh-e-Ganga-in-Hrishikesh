@@ -98,11 +98,11 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
 
   // ──────────────────────────────────────────────────────────────────────────
   // 2. PC VIEW (>= 768px): Centered Phone Mockup + Blossom Wall Backdrop
-  // NO top header bar, NO bottom caption bar
+  // NO top status bar (time/battery removed for full-bleed content display)
   // ──────────────────────────────────────────────────────────────────────────
   return (
     <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center selection:bg-[#F1D9D6] bg-[#E8DDD2]">
-      {/* ─── ELEGANT BLOSSOM TEXTURED WALL BACKGROUND (USER'S IMAGE) ─── */}
+      {/* ─── ELEGANT BLOSSOM TEXTURED WALL BACKGROUND (USER'S IMAGE 1) ─── */}
       <div className="fixed inset-0 pointer-events-none -z-20 overflow-hidden">
         <OptimizedImage
           src={pcMockupBg}
@@ -116,17 +116,21 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
         <div className="absolute inset-0 bg-black/10 backdrop-blur-[0.5px]" />
       </div>
 
-      {/* ─── CENTER PHONE MOCKUP SCREEN (NO TOP/BOTTOM EXTERNAL BARS) ─── */}
+      {/* ─── CENTER PHONE MOCKUP SCREEN (NO TOP CLOCK/BATTERY BARS) ─── */}
       <main className="relative z-10 flex items-center justify-center p-3 sm:p-5 md:p-6 my-auto">
         <div className="relative flex items-center justify-center select-none">
-          {/* Phone Hardware Side Buttons */}
-          <div className="absolute -left-[13px] top-[135px] w-[5px] h-[30px] bg-[#2E2822] rounded-l-sm shadow-md" />
-          <div className="absolute -left-[13px] top-[185px] w-[5px] h-[52px] bg-[#2E2822] rounded-l-sm shadow-md" />
-          <div className="absolute -left-[13px] top-[250px] w-[5px] h-[52px] bg-[#2E2822] rounded-l-sm shadow-md" />
-          <div className="absolute -right-[13px] top-[185px] w-[5px] h-[78px] bg-[#2E2822] rounded-r-sm shadow-md" />
-
           {/* Phone Chassis Container */}
           <div className="w-[390px] md:w-[412px] h-[830px] md:h-[860px] max-h-[92vh] bg-[#161311] rounded-[52px] p-[10px] md:p-[12px] shadow-[0_25px_80px_-10px_rgba(0,0,0,0.85),0_0_60px_rgba(198,161,91,0.22),0_0_0_1px_rgba(255,255,255,0.12)] ring-1 ring-white/15 relative flex flex-col transition-all duration-300">
+            {/* ── HARDWARE SIDE BUTTONS (PERFECTLY FLUSH WITH CHASSIS) ── */}
+            {/* Left Side: Mute/Action Switch */}
+            <div className="absolute -left-[5px] top-[115px] w-[5px] h-[26px] bg-gradient-to-r from-[#3A322B] via-[#241E1A] to-[#120F0D] rounded-l-md shadow-md border-l border-white/20 z-10" />
+            {/* Left Side: Volume Up Button */}
+            <div className="absolute -left-[5px] top-[154px] w-[5px] h-[50px] bg-gradient-to-r from-[#3A322B] via-[#241E1A] to-[#120F0D] rounded-l-md shadow-md border-l border-white/20 z-10" />
+            {/* Left Side: Volume Down Button */}
+            <div className="absolute -left-[5px] top-[216px] w-[5px] h-[50px] bg-gradient-to-r from-[#3A322B] via-[#241E1A] to-[#120F0D] rounded-l-md shadow-md border-l border-white/20 z-10" />
+            {/* Right Side: Power / Lock Button */}
+            <div className="absolute -right-[5px] top-[170px] w-[5px] h-[75px] bg-gradient-to-l from-[#3A322B] via-[#241E1A] to-[#120F0D] rounded-r-md shadow-md border-r border-white/20 z-10" />
+
             {/* Speaker Earpiece micro-slit on top frame */}
             <div className="absolute top-2 inset-x-0 mx-auto w-14 h-1 bg-[#0A0807] rounded-full z-50 pointer-events-none" />
 
@@ -140,31 +144,15 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
                 backgroundColor: '#FAF2F0',
               }}
             >
-              {/* ── TOP PHONE STATUS BAR & DYNAMIC ISLAND (PC MOCKUP ONLY) ── */}
-              <div className="w-full h-11 z-40 shrink-0 px-6 sm:px-7 flex items-center justify-between text-[#4A4038] font-sans text-xs relative select-none bg-[#FAF2F0]/85 backdrop-blur-sm border-b border-[#DFC48F]/20">
-                {/* Digital Clock */}
-                <span className="font-semibold tracking-tight text-[11px] text-[#4A4038]">
-                  {currentTime}
-                </span>
-
-                {/* Dynamic Island Pill (Image 2) */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-2 w-[104px] sm:w-[112px] h-[26px] bg-black rounded-full flex items-center justify-end pr-2.5 space-x-1.5 shadow-inner">
-                  {/* Front camera lens reflection */}
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#1A1A24] border border-[#2E2E3E]/70 flex items-center justify-center">
-                    <div className="w-1 h-1 rounded-full bg-[#121B33]" />
-                  </div>
-                </div>
-
-                {/* Network 5G & Battery Icons */}
-                <div className="flex items-center space-x-1.5 text-[10px]">
-                  <span className="font-bold text-[9px] tracking-wider uppercase text-[#8A7F72]">5G</span>
-                  <div className="w-5 h-2.5 rounded-[3px] border border-[#4A4038] p-0.5 flex items-center">
-                    <div className="w-full h-full bg-[#4A4038] rounded-[1px]" />
-                  </div>
+              {/* ── FLOATING SLEEK DYNAMIC ISLAND (NO CLOCK / NO BATTERY / NO 5G) ── */}
+              <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50 w-[96px] sm:w-[104px] h-[24px] bg-black rounded-full flex items-center justify-end pr-2 space-x-1.5 shadow-md pointer-events-none">
+                {/* Front camera lens reflection */}
+                <div className="w-2.5 h-2.5 rounded-full bg-[#1A1A24] border border-[#2E2E3E]/70 flex items-center justify-center">
+                  <div className="w-1 h-1 rounded-full bg-[#121B33]" />
                 </div>
               </div>
 
-              {/* ── SCROLLABLE PHONE SCREEN INVITATION CONTENT (MOBILE VIEW) ── */}
+              {/* ── SCROLLABLE PHONE SCREEN INVITATION CONTENT (FULL BLEED FROM TOP) ── */}
               <div
                 ref={phoneScrollRef}
                 data-phone-scroll="true"
@@ -177,7 +165,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
               <MusicPlayer className="absolute bottom-6 right-5 z-40" />
 
               {/* ── BOTTOM IOS HOME INDICATOR BAR ── */}
-              <div className="w-full h-5 bg-[#FAF2F0]/85 backdrop-blur-xs shrink-0 flex items-center justify-center select-none pointer-events-none">
+              <div className="w-full h-4 bg-[#FAF2F0]/85 backdrop-blur-xs shrink-0 flex items-center justify-center select-none pointer-events-none z-30">
                 <div className="w-32 h-1 bg-[#4A4038]/30 rounded-full" />
               </div>
             </div>
