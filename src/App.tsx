@@ -44,9 +44,6 @@ export default function App() {
   return (
     <PhoneMockup config={config}>
       <div className="min-h-full w-full text-[#4A4038] font-sans antialiased selection:bg-[#F1D9D6] relative overflow-x-hidden">
-        {/* Sticky Top Navigation */}
-        <Navbar config={config} />
-
         {/* Main Wedding Invitation Stream */}
         <main className="w-full max-w-full min-w-0 flex flex-col items-center overflow-x-hidden">
           {/* 1. Hero */}

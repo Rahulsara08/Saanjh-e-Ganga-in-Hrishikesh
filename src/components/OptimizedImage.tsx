@@ -7,6 +7,7 @@ export interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageEl
   width?: number;
   height?: number;
   aspectRatio?: number | string;
+  disableAspectRatio?: boolean;
   priority?: boolean;
   sizes?: string;
   className?: string;
@@ -54,6 +55,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   width: customWidth,
   height: customHeight,
   aspectRatio: customAspectRatio,
+  disableAspectRatio = false,
   priority = false,
   sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 1200px',
   className = '',
@@ -77,7 +79,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   // Derive width, height, aspect ratio
   const width = customWidth || meta?.width;
   const height = customHeight || meta?.height;
-  const aspectRatio = customAspectRatio || meta?.aspectRatio || (width && height ? width / height : undefined);
+  const aspectRatio = disableAspectRatio ? undefined : (customAspectRatio || meta?.aspectRatio || (width && height ? width / height : undefined));
 
   const blurDataURL = customBlurDataURL || meta?.blurDataURL;
   const dominantColor = customDominantColor || meta?.dominantColor || '#FAF2F0';

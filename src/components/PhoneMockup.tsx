@@ -108,6 +108,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
           src={pcMockupBg}
           alt="Warm textured wall with blossom branch backdrop"
           priority={true}
+          disableAspectRatio={true}
           sizes="100vw"
           className="w-full h-full"
           imgClassName="object-cover object-center scale-101"
