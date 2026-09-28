@@ -94,17 +94,20 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   // ──────────────────────────────────────────────────────────────────────────
   if (isMobile) {
     return (
-      <div
-        className="min-h-screen w-full relative overflow-x-hidden selection:bg-[#F1D9D6]"
-        style={{
-          backgroundImage: `url(${paperBg})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '420px auto',
-          backgroundColor: '#FAF2F0',
-        }}
-      >
+      <div className="min-h-screen w-full relative overflow-x-hidden selection:bg-[#F1D9D6] bg-[#FAF2F0]">
+        {/* Fixed paper texture background layer (does NOT move while scrolling) */}
+        <div
+          className="fixed inset-0 pointer-events-none z-0"
+          style={{
+            backgroundImage: `url(${paperBg})`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '420px auto',
+            backgroundColor: '#FAF2F0',
+          }}
+        />
+
         {/* Full-bleed native mobile application */}
-        <div className="w-full min-h-screen relative overflow-x-hidden">
+        <div className="w-full min-h-screen relative overflow-x-hidden z-10">
           {children}
         </div>
 
@@ -179,15 +182,18 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
             <div className="absolute top-2 inset-x-0 mx-auto w-14 h-1 bg-[#0A0807] rounded-full z-50 pointer-events-none" />
 
             {/* Inner Phone Screen Window */}
-            <div
-              className="w-full h-full rounded-[42px] overflow-hidden relative flex flex-col shadow-inner"
-              style={{
-                backgroundImage: `url(${paperBg})`,
-                backgroundRepeat: 'repeat',
-                backgroundSize: '420px auto',
-                backgroundColor: '#FAF2F0',
-              }}
-            >
+            <div className="w-full h-full rounded-[42px] overflow-hidden relative flex flex-col shadow-inner bg-[#FAF2F0]">
+              {/* Fixed paper texture background layer inside phone window */}
+              <div
+                className="absolute inset-0 pointer-events-none z-0"
+                style={{
+                  backgroundImage: `url(${paperBg})`,
+                  backgroundRepeat: 'repeat',
+                  backgroundSize: '420px auto',
+                  backgroundColor: '#FAF2F0',
+                }}
+              />
+
               {/* ── FLOATING SLEEK DYNAMIC ISLAND ── */}
               <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50 w-[96px] sm:w-[104px] h-[24px] bg-black rounded-full flex items-center justify-end pr-2 space-x-1.5 shadow-md pointer-events-none">
                 {/* Front camera lens reflection */}
@@ -200,7 +206,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
               <div
                 ref={phoneScrollRef}
                 data-phone-scroll="true"
-                className="flex-1 w-full overflow-y-auto overflow-x-hidden phone-scrollbar scroll-smooth relative"
+                className="flex-1 w-full overflow-y-auto overflow-x-hidden phone-scrollbar scroll-smooth relative z-10"
               >
                 {children}
               </div>
