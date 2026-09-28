@@ -123,6 +123,7 @@ interface ScrapbookCardProps {
   index: number;
   totalCards: number;
   onDismiss: (direction: 'left' | 'right' | 'up' | 'down') => void;
+  autoDismissTrigger?: number;
 }
 
 const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
@@ -130,6 +131,7 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
   index,
   totalCards,
   onDismiss,
+  autoDismissTrigger = 0,
 }) => {
   const isTop = index === 0;
   const isSecond = index === 1;
@@ -161,14 +163,21 @@ const ScrapbookCard: React.FC<ScrapbookCardProps> = ({
     const targetY = direction === 'up' ? -650 : direction === 'down' ? 650 : 0;
 
     Promise.all([
-      animate(x, targetX, { duration: 0.28, ease: 'easeOut' }),
-      animate(y, targetY, { duration: 0.28, ease: 'easeOut' }),
+      animate(x, targetX, { duration: 0.35, ease: 'easeOut' }),
+      animate(y, targetY, { duration: 0.35, ease: 'easeOut' }),
     ]).then(() => {
       onDismiss(direction);
       x.set(0);
       y.set(0);
     });
   };
+
+  // Auto-dismiss trigger effect to slide card to the side automatically
+  useEffect(() => {
+    if (isTop && autoDismissTrigger > 0) {
+      dismissCard('right');
+    }
+  }, [autoDismissTrigger, isTop]);
 
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!isTop) return;
@@ -304,6 +313,10 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  // Auto-slide state: triggers automatic sliding of top card to the side
+  const [autoDismissTrigger, setAutoDismissTrigger] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -316,6 +329,17 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
       setWishes(config.wishingWall.initialWishes);
     }
   }, [config.wishingWall.initialWishes]);
+
+  // Automatic slide-to-side timer: triggers every 2 seconds unless paused or form is open
+  useEffect(() => {
+    if (isPaused || showForm || wishes.length <= 1) return;
+
+    const timer = setInterval(() => {
+      setAutoDismissTrigger((prev) => prev + 1);
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, [isPaused, showForm, wishes.length]);
 
   const saveWishes = (newWishes: Wish[]) => {
     setWishes(newWishes);
@@ -447,11 +471,17 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
         </div>
       </RevealOnScroll>
 
-      {/* ── DRAGGABLE SCRAPBOOK CARD STACK (ENDLESS UNLIMITED LOOP) ── */}
+      {/* ── DRAGGABLE & AUTO-SLIDING SCRAPBOOK CARD STACK ── */}
       <RevealOnScroll delay={150}>
         <div className="relative flex flex-col items-center justify-center my-4">
-          {/* Card Stack Viewport Container (NO instruction text below) */}
-          <div className="relative w-full max-w-[360px] h-[420px] sm:h-[450px] flex items-center justify-center select-none">
+          {/* Card Stack Viewport Container with hover/touch pause handlers */}
+          <div
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+            className="relative w-full max-w-[360px] h-[420px] sm:h-[450px] flex items-center justify-center select-none"
+          >
             {wishes.slice(0, 3).map((wish, index) => (
               <ScrapbookCard
                 key={wish.id}
@@ -459,6 +489,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
                 index={index}
                 totalCards={wishes.length}
                 onDismiss={handleDismissTop}
+                autoDismissTrigger={index === 0 ? autoDismissTrigger : 0}
               />
             ))}
           </div>
