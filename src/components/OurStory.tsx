@@ -187,9 +187,11 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
                     <OptimizedImage
                       src={s.image}
                       alt={s.title}
+                      disableAspectRatio={true}
+                      priority={idx === 0}
                       sizes="(max-width: 640px) 360px, (max-width: 768px) 390px, 410px"
                       className="w-full h-full"
-                      imgClassName="object-cover"
+                      imgClassName="object-cover object-center"
                     />
                   </div>
                 ))}

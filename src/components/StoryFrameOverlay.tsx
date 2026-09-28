@@ -2,7 +2,7 @@ import React from 'react';
 import { OptimizedImage } from './OptimizedImage';
 
 const instagramWhiteFrame = 'instagram_white_frame';
-const vintageCameraHand = 'vintage_camera_hand_sticker';
+const vintageCameraHand = 'hand_camera_transparent';
 const coupleAvatar = 'couple_story_avatar';
 
 interface StoryFrameOverlayProps {
@@ -38,7 +38,7 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
         {/* Cutout window coordinates in 577x956 frame: left=12px (2.08%), top=84px (8.78%), width=553px (95.84%), height=608px (63.60%) */}
         {/* Slight 0.3% bleed under the white frame border ensures zero gap/hairline */}
         <div
-          className="absolute overflow-hidden bg-[#FAF6F0] z-10"
+          className="absolute overflow-hidden bg-[#FAF6F0] z-10 rounded-[14px]"
           style={{
             left: '1.8%',
             top: '8.4%',
@@ -49,10 +49,11 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           {children}
         </div>
 
-        {/* Layer 2: White Instagram Frame Artwork (Crisp transparent photo cutout, story ring, action icons, 3 dots, and solid red liked heart) */}
+        {/* Layer 2: White Instagram Frame Artwork */}
         <OptimizedImage
           src={instagramWhiteFrame}
           alt="Instagram White Post Frame"
+          disableAspectRatio={true}
           sizes="410px"
           priority={true}
           className="absolute inset-0 w-full h-full pointer-events-none z-20"
@@ -73,6 +74,7 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           <OptimizedImage
             src={coupleAvatar}
             alt="Meher & Kabir"
+            disableAspectRatio={true}
             sizes="50px"
             className="w-full h-full"
             imgClassName="object-cover object-center"
@@ -95,7 +97,7 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
             </span>
             {/* Instagram Blue Verified Badge */}
             <svg
-              className="w-3 h-3 text-[#0095F6] shrink-0"
+              className="w-3.5 h-3.5 text-[#0095F6] shrink-0"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -158,21 +160,22 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           </div>
         </div>
 
-        {/* Layer 4: Halftone Hand Holding Camera Sticker (Pop-up animation on cursor hover) */}
+        {/* Layer 4: Transparent Halftone Hand Holding Camera Sticker */}
         <div
-          className="absolute z-30 pointer-events-none transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) transform group-hover:scale-115 group-hover:-translate-y-6 group-hover:-rotate-2 drop-shadow-2xl"
+          className="absolute z-30 pointer-events-none transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) transform group-hover:scale-115 group-hover:-translate-y-6 group-hover:-rotate-2 filter drop-shadow-xl"
           style={{
-            left: '39.4%',
-            top: '63.5%',
-            width: '64.2%',
+            left: '38%',
+            top: '60%',
+            width: '66%',
           }}
         >
           <OptimizedImage
             src={vintageCameraHand}
             alt="Hand holding vintage camera"
+            disableAspectRatio={true}
             sizes="300px"
-            className="w-full h-auto"
-            imgClassName="object-contain transition-transform duration-300"
+            className="w-full h-auto bg-transparent"
+            imgClassName="object-contain transition-transform duration-300 bg-transparent"
           />
         </div>
       </div>
