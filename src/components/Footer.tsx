@@ -23,8 +23,8 @@ export const Footer: React.FC = () => {
           <h3 className="font-serif text-3xl sm:text-4xl text-[#4A4038] font-light">
             Thank You for Blessing Our Journey
           </h3>
-          <p className="font-serif italic text-base sm:text-lg text-[#8A7F72] font-light max-w-lg mx-auto leading-relaxed">
-            “Your presence, cherished prayers, and love along the sacred banks of River Ganga mean more to us than words can ever hold. Thank you for traveling across mountains and rivers to celebrate with us.”
+          <p className="font-serif italic text-base sm:text-lg text-[#8A7F72] font-light max-w-md mx-auto leading-relaxed">
+            “Your presence, prayers, and love along the sacred Ganga mean more to us than words can hold.”
           </p>
         </div>
 

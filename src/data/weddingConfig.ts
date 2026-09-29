@@ -5,12 +5,18 @@ const venueGhat = 'rishikesh_ganga_ghat_1790236124502';
 const brideParents = 'bride_parents_1790235687448';
 const groomParents = 'groom_parents_1790235700968';
 
-// Rishikesh Celebration Event Images
-const haldiImg = 'rishikesh_haldi_ceremony_1790240673486';
-const mehndiImg = 'rishikesh_mehndi_evening_1790240685474';
-const sangeetImg = 'rishikesh_sangeet_night_1790240698617';
-const baratImg = 'rishikesh_baraat_procession_1790240715482';
-const varmalaImg = 'rishikesh_varmala_ceremony';
+import haldiIllustration from '../assets/images/ceremony_haldi_illustration.png';
+import mehndiIllustration from '../assets/images/ceremony_mehndi_illustration.png';
+import sangeetIllustration from '../assets/images/ceremony_sangeet_illustration.png';
+import baratIllustration from '../assets/images/ceremony_barat_illustration.png';
+import varmalaIllustration from '../assets/images/ceremony_varmala_illustration.png';
+
+// Rishikesh Celebration Event Images (Custom Illustrated)
+const haldiImg = haldiIllustration;
+const mehndiImg = mehndiIllustration;
+const sangeetImg = sangeetIllustration;
+const baratImg = baratIllustration;
+const varmalaImg = varmalaIllustration;
 const saatPhereImg = 'rishikesh_saat_phere_vows_1790240732445';
 const receptionImg = 'rishikesh_wedding_reception';
 

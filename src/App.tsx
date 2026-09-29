@@ -14,7 +14,7 @@ import { TravelStay } from './components/TravelStay';
 import { Footer } from './components/Footer';
 import { Divider } from './components/BasicComponents';
 
-const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v6';
+const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v7';
 
 export default function App() {
   const [config, setConfig] = useState<WeddingConfig>(() => {

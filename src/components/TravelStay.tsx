@@ -4,6 +4,7 @@ import { RevealOnScroll } from './RevealOnScroll';
 import { VenueMapModal } from './VenueMapModal';
 import { WeddingConfig } from '../types';
 import { Map } from 'lucide-react';
+import himalayanPanoramicImg from '../assets/images/himalayan_mountain_river_panoramic.png';
 
 interface TravelStayProps {
   config: WeddingConfig;
@@ -13,10 +14,28 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   return (
-    <section id="travel" className="py-20 px-4 max-w-5xl mx-auto">
+    <section id="travel" className="pt-10 sm:pt-14 pb-20 px-4 max-w-5xl mx-auto w-full relative">
+      {/* ── TOP PANORAMIC HIMALAYAN MOUNTAINS & RIVER ARTWORK ── */}
       <RevealOnScroll>
-        <div className="text-center max-w-xl mx-auto mb-14">
-          <SectionEyebrow>{config.travel.eyebrow}</SectionEyebrow>
+        <div className="relative w-full max-w-md sm:max-w-lg mx-auto flex items-center justify-center select-none pointer-events-none mb-4">
+          <img
+            src={himalayanPanoramicImg}
+            alt="Watercolor Himalayan Mountains and Sacred Ganga River"
+            className="w-full h-auto object-contain pointer-events-none select-none drop-shadow-xs"
+            style={{
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+            }}
+          />
+        </div>
+      </RevealOnScroll>
+
+      {/* ── SECTION HEADING: 'YOUR JOURNEY TO RISHIKESH' & 'TRAVEL & MOUNTAIN STAYS' ── */}
+      <RevealOnScroll delay={100}>
+        <div className="text-center max-w-xl mx-auto mb-12 relative z-10">
+          <SectionEyebrow className="text-[#A27324] font-semibold tracking-[0.3em]">
+            {config.travel.eyebrow}
+          </SectionEyebrow>
           <SectionHeading subtitle="Reaching the peaceful mountain valley of Rishikesh">
             {config.travel.heading}
           </SectionHeading>

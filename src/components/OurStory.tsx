@@ -14,7 +14,7 @@ import {
   Heart
 } from 'lucide-react';
 
-import firstMeetImg from '../assets/images/first_meet_rishikesh_ghat_1790243833424.jpg';
+import firstMeetImg from '../assets/images/first_glance_rishikesh_ghat.jpg';
 import firstDateImg from '../assets/images/first_date_rishikesh_cafe_1790243849954.jpg';
 import mountainViewImg from '../assets/images/couple_mountain_view_himalayas_1790245267891.jpg';
 import coffeeMistyImg from '../assets/images/chai_coffee_misty_mountain_1790245285749.jpg';

@@ -51,17 +51,31 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
                 {/* Clean container without card boxes */}
                 <div className="space-y-3 pb-12 border-b border-[#DFC48F]/40 last:border-b-0">
                   {/* Event Image */}
-                  {event.imageUrl && (
-                    <div className="w-full aspect-[16/10] sm:aspect-[2/1] rounded-3xl overflow-hidden shadow-xs mb-3">
-                      <OptimizedImage
-                        src={event.imageUrl}
-                        alt={event.title}
-                        sizes="(max-width: 640px) 100vw, 600px"
-                        className="w-full h-full"
-                        imgClassName="object-cover transition-transform duration-700 hover:scale-102"
-                      />
-                    </div>
-                  )}
+                  {event.imageUrl && (() => {
+                    const isIllustration =
+                      typeof event.imageUrl === 'string' &&
+                      (event.imageUrl.includes('illustration') || event.imageUrl.endsWith('.png'));
+
+                    return isIllustration ? (
+                      <div className="w-full aspect-[4/3] sm:aspect-[1.3/1] rounded-3xl overflow-hidden shadow-xs mb-3 bg-gradient-to-b from-[#FFFDF9] via-[#FAF2F0] to-[#F5EDE8] border border-[#DFC48F]/60 p-2 sm:p-3 flex items-center justify-center">
+                        <img
+                          src={event.imageUrl}
+                          alt={event.title}
+                          className="w-full h-full object-contain object-center transition-transform duration-700 hover:scale-102 drop-shadow-sm select-none"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full aspect-[16/10] sm:aspect-[2/1] rounded-3xl overflow-hidden shadow-xs mb-3">
+                        <OptimizedImage
+                          src={event.imageUrl}
+                          alt={event.title}
+                          sizes="(max-width: 640px) 100vw, 600px"
+                          className="w-full h-full"
+                          imgClassName="object-cover transition-transform duration-700 hover:scale-102"
+                        />
+                      </div>
+                    );
+                  })()}
 
                   {/* Date Badge (Clean text, no numbering) */}
                   <div>

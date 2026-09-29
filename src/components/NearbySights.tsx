@@ -92,12 +92,11 @@ const getFanGeometry = (index: number, total: number, isMobile: boolean): FanGeo
   const mid = (total - 1) / 2;
   const offset = index - mid; // e.g. for total=5: -2, -1, 0, 1, 2
 
-  const xStep = isMobile ? 24 : 48;
-  const yFactor = isMobile ? 3.0 : 4.5;
+  const xStep = isMobile ? 26 : 42;
 
   const rotate = 0; // ZERO TILT: cards stay strictly straight and level
   const x = offset * xStep;
-  const y = Math.pow(offset, 2) * yFactor;
+  const y = 0; // All cards flush and aligned at bottom - prevents bottom edges protruding
   const zIndex = Math.round(50 - Math.abs(offset) * 2);
 
   return { x, y, rotate, zIndex };
@@ -139,14 +138,14 @@ const SightCard: React.FC<SightCardProps> = ({
           />
         </div>
 
-        {/* Small subtle caption overlay only in fan view */}
+        {/* Refined frosted caption pill in fan view (No harsh black gradient) */}
         {showCaption && (
-          <div
-            className="absolute inset-x-0 bottom-0 pt-8 pb-3 px-3 bg-gradient-to-t from-black/80 via-black/35 to-transparent pointer-events-none"
-          >
-            <p className="font-serif text-xs text-white font-medium leading-snug drop-shadow-sm text-center truncate">
-              {sight.title}
-            </p>
+          <div className="absolute inset-x-0 bottom-2.5 flex justify-center px-2 pointer-events-none z-10">
+            <div className="bg-[#FAF2F0]/92 backdrop-blur-md px-3 py-1 rounded-full border border-[#DFC48F]/80 shadow-[0_2px_8px_rgba(74,64,56,0.15)] max-w-[94%] flex items-center justify-center">
+              <p className="font-serif text-[11px] sm:text-xs text-[#3A2E26] font-semibold leading-tight text-center truncate tracking-wide">
+                {sight.title}
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -173,7 +172,9 @@ export const NearbySights: React.FC = () => {
   // Responsive screen check & instant background image preloader
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
+      setIsMobile(
+        window.innerWidth < 640 || !!document.querySelector('[data-phone-scroll="true"]')
+      );
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -468,10 +469,14 @@ export const NearbySights: React.FC = () => {
 
               {/* Modal Image */}
               <div className="w-full h-64 sm:h-72 overflow-hidden bg-[#F3EDE3]">
-                <img
+                <OptimizedImage
                   src={selectedSight.image}
                   alt={selectedSight.title}
-                  className="w-full h-full object-cover"
+                  priority={true}
+                  disableAspectRatio={true}
+                  className="w-full h-full"
+                  containerStyle={{ width: '100%', height: '100%' }}
+                  imgClassName="w-full h-full object-cover"
                 />
               </div>
 
