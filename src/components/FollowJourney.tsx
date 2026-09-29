@@ -57,11 +57,11 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
                       (event.imageUrl.includes('illustration') || event.imageUrl.endsWith('.png'));
 
                     return isIllustration ? (
-                      <div className="w-full aspect-[4/3] sm:aspect-[1.3/1] rounded-3xl overflow-hidden shadow-xs mb-3 bg-gradient-to-b from-[#FFFDF9] via-[#FAF2F0] to-[#F5EDE8] border border-[#DFC48F]/60 p-2 sm:p-3 flex items-center justify-center">
+                      <div className="w-full aspect-[4/3] sm:aspect-[1.3/1] flex items-center justify-center mb-4">
                         <img
                           src={event.imageUrl}
                           alt={event.title}
-                          className="w-full h-full object-contain object-center transition-transform duration-700 hover:scale-102 drop-shadow-sm select-none"
+                          className="w-full h-full object-contain object-center transition-transform duration-700 hover:scale-105 drop-shadow-md select-none"
                         />
                       </div>
                     ) : (

@@ -10,6 +10,8 @@ import mehndiIllustration from '../assets/images/ceremony_mehndi_illustration.pn
 import sangeetIllustration from '../assets/images/ceremony_sangeet_illustration.png';
 import baratIllustration from '../assets/images/ceremony_barat_illustration.png';
 import varmalaIllustration from '../assets/images/ceremony_varmala_illustration.png';
+import saatPhereIllustration from '../assets/images/ceremony_saat_phere_illustration.png';
+import receptionIllustration from '../assets/images/ceremony_reception_illustration.png';
 
 // Rishikesh Celebration Event Images (Custom Illustrated)
 const haldiImg = haldiIllustration;
@@ -17,8 +19,8 @@ const mehndiImg = mehndiIllustration;
 const sangeetImg = sangeetIllustration;
 const baratImg = baratIllustration;
 const varmalaImg = varmalaIllustration;
-const saatPhereImg = 'rishikesh_saat_phere_vows_1790240732445';
-const receptionImg = 'rishikesh_wedding_reception';
+const saatPhereImg = saatPhereIllustration;
+const receptionImg = receptionIllustration;
 
 export const defaultWeddingConfig: WeddingConfig = {
   couple: {
