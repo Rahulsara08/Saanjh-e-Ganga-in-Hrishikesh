@@ -3,6 +3,7 @@ import { GangaDiya } from './BasicComponents';
 import { WeddingConfig } from '../types';
 import { Calendar, ChevronDown } from 'lucide-react';
 import { OptimizedImage } from './OptimizedImage';
+import { FlowerSketchAccent } from './FlowerSketchAccent';
 const rishikeshMandapBg = 'rishikesh_mandap_watercolor_1790240774713';
 
 interface HeroProps {
@@ -69,6 +70,13 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#FAF2F0]/80 via-transparent to-[#FAF2F0]/60" />
       </div>
+
+      {/* Subtle Flower Sketch Background Accent */}
+      <FlowerSketchAccent
+        className="absolute -bottom-8 -right-6 w-36 sm:w-44 h-[240px] pointer-events-none z-0 hidden xs:block"
+        opacity={0.18}
+        rotation={14}
+      />
 
       {/* Progressive theme background blur feathering into the blush paper texture */}
       <div

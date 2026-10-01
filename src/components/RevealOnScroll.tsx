@@ -18,8 +18,7 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
 
   useEffect(() => {
     // Check prefers-reduced-motion
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setIsVisible(true);
       return;
     }
@@ -27,12 +26,11 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
     const element = ref.current;
     if (!element) return;
 
-    // Find closest scrollable ancestor (e.g. phone screen scroll container)
+    // Detect actual scroll container (e.g. phone screen scroll container)
     let parent = element.parentElement;
     let scrollRoot: HTMLElement | null = null;
     while (parent) {
-      const overflowY = window.getComputedStyle(parent).overflowY;
-      if (overflowY === 'auto' || overflowY === 'scroll') {
+      if (parent.getAttribute('data-phone-scroll') === 'true') {
         scrollRoot = parent;
         break;
       }
@@ -50,16 +48,16 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
         {
           root: scrollRoot,
           threshold,
-          rootMargin: '0px 0px 40px 0px',
+          rootMargin: '0px 0px -40px 0px',
         }
       );
 
       observer.observe(element);
 
-      // Fallback timeout so content is always visible if intersection doesn't fire
+      // Fallback timer so content is never stuck invisible
       const fallbackTimer = setTimeout(() => {
         setIsVisible(true);
-      }, 1800);
+      }, 1500);
 
       return () => {
         observer.disconnect();
@@ -75,12 +73,12 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
       ref={ref}
       style={{
         transitionDelay: `${delay}ms`,
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(22px) scale(0.96)',
+        transition: 'opacity 480ms cubic-bezier(0.16, 1, 0.3, 1), transform 480ms cubic-bezier(0.16, 1, 0.3, 1)',
+        willChange: 'opacity, transform',
       }}
-      className={`transition-all duration-700 ease-out transform ${
-        isVisible
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-3 pointer-events-none'
-      } ${className}`}
+      className={`w-full ${className}`}
     >
       {children}
     </div>

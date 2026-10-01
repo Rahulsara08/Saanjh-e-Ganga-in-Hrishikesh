@@ -83,6 +83,14 @@ body {
   font-family: 'Montserrat', system-ui, sans-serif;
 }
 
+.font-display {
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-script {
+  font-family: 'Alex Brush', 'Dancing Script', cursive;
+}
+
 @keyframes handPopup {
   0% {
     transform: translateY(60px) scale(0.8);

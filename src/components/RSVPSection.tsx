@@ -6,6 +6,10 @@ import { generateICS } from '../utils/ics';
 import { Heart, CalendarPlus, CheckCircle2 } from 'lucide-react';
 import { FloatingHearts, FloatingHeartsRef } from './FloatingHearts';
 
+import bfPinkSoft from '../assets/images/butterfly-pink-soft.png';
+import bfBlue from '../assets/images/butterfly-blue.png';
+import bfPinkSpotted from '../assets/images/butterfly-pink-spotted.png';
+
 interface RSVPSectionProps {
   config: WeddingConfig;
   onRSVPSubmitted?: () => void;
@@ -29,6 +33,179 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
   });
 
   const heartsRef = useRef<FloatingHeartsRef>(null);
+
+  // Butterfly animation elements and lifecycle refs
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const bf1Ref = useRef<HTMLDivElement>(null);
+  const bf2Ref = useRef<HTMLDivElement>(null);
+  const bf3Ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const RM = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const section = sectionRef.current;
+    const card = cardRef.current;
+    const bfEls = [bf1Ref.current, bf2Ref.current, bf3Ref.current];
+
+    if (!section || !card || bfEls.some(el => !el)) return;
+
+    const bees = bfEls.map((el, i) => ({
+      el: el!,
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      currentAngle: 0,
+      seed: Math.random() * 1000 + i * 137,
+      flapSeed: Math.random() * 1000,
+    }));
+
+    let flying = false;
+    let raf: number | null = null;
+
+    function restingSpots() {
+      if (!card || !section) return [];
+      const cr = card.getBoundingClientRect();
+      const sr = section.getBoundingClientRect();
+      const top = cr.top - sr.top;
+      const left = cr.left - sr.left;
+      return [
+        { x: left + cr.width * 0.18, y: top - 18, r: -8 },
+        { x: left + cr.width * 0.50, y: top - 28, r: 4  },
+        { x: left + cr.width * 0.82, y: top - 14, r: 10 },
+      ];
+    }
+
+    function settle() {
+      const spots = restingSpots();
+      if (!spots.length) return;
+      bees.forEach((b, i) => {
+        b.x = spots[i].x;
+        b.y = spots[i].y;
+        b.vx = 0;
+        b.vy = 0;
+        b.currentAngle = spots[i].r;
+        b.el.style.transition = 'transform .7s cubic-bezier(0.2, 0.8, 0.25, 1)';
+        b.el.style.transform = `translate3d(${b.x.toFixed(1)}px, ${b.y.toFixed(1)}px, 0px) rotate(${spots[i].r}deg) scaleX(1)`;
+      });
+    }
+
+    function startFlying() {
+      if (flying || RM) return;
+      flying = true;
+      bees.forEach(b => {
+        b.el.style.transition = 'none';
+      });
+      loop();
+    }
+
+    function stopFlying() {
+      flying = false;
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = null;
+      }
+      settle();
+    }
+
+    function loop(t: number = performance.now()) {
+      if (!flying) return;
+      if (!section || !card) return;
+
+      const sr = section.getBoundingClientRect();
+      const cr = card.getBoundingClientRect();
+      const noGo = { // keep clear of the card's text/button
+        left: cr.left - sr.left + cr.width * 0.10,
+        right: cr.left - sr.left + cr.width * 0.90,
+        top: cr.top - sr.top + cr.height * 0.15,
+        bottom: cr.top - sr.top + cr.height * 0.85,
+      };
+
+      const tSec = t / 1000;
+      bees.forEach((b, i) => {
+        // Calm harmonic Lissajous drift around the card
+        const s = tSec * 0.38 + b.seed;
+        const spanX = sr.width * 0.40;
+        const spanY = Math.min(125, sr.height * 0.20);
+
+        // Target anchor point centered gently above each resting quadrant
+        const anchorX = cr.left - sr.left + cr.width * (0.2 + 0.3 * i);
+        const anchorY = cr.top - sr.top - 25;
+
+        let gx = anchorX + Math.sin(s * 0.55) * spanX * 0.5 + Math.cos(s * 0.28) * 30;
+        let gy = anchorY + Math.cos(s * 0.45) * spanY * 0.55 + Math.sin(s * 0.35) * 18;
+
+        // Smooth repulsion if approaching card text/buttons
+        if (gx > noGo.left - 15 && gx < noGo.right + 15 && gy > noGo.top - 15 && gy < noGo.bottom + 15) {
+          gy = noGo.top - 32 - Math.abs(Math.sin(s * 0.6)) * 25;
+        }
+
+        // Soft viewport boundaries
+        gx = Math.max(15, Math.min(sr.width - 55, gx));
+        gy = Math.max(10, Math.min(sr.height - 40, gy));
+
+        // Smooth, soft acceleration (no sudden jerks)
+        b.vx += (gx - b.x) * 0.012 - b.vx * 0.085;
+        b.vy += (gy - b.y) * 0.012 - b.vy * 0.085;
+        b.x += b.vx;
+        b.y += b.vy;
+
+        // Smooth angle lerp (no snapping or fast jitter)
+        const targetAngle = Math.atan2(b.vy, b.vx) * (180 / Math.PI) * 0.30;
+        let diff = targetAngle - b.currentAngle;
+        while (diff > 180) diff -= 360;
+        while (diff < -180) diff += 360;
+        b.currentAngle += diff * 0.08;
+
+        // Serene wing flutter (gentle 4-5 flaps/sec)
+        const flap = 0.74 + 0.26 * Math.cos(tSec * 9.5 + b.flapSeed);
+
+        b.el.style.transform = `translate3d(${b.x.toFixed(1)}px, ${b.y.toFixed(1)}px, 0px) rotate(${b.currentAngle.toFixed(1)}deg) scaleX(${flap.toFixed(3)})`;
+      });
+
+      raf = requestAnimationFrame(loop);
+    }
+
+    settle();
+    const timer1 = setTimeout(settle, 100);
+    const timer2 = setTimeout(settle, 300);
+
+    const handleResize = () => { if (!flying) settle(); };
+    window.addEventListener('resize', handleResize);
+
+    // Scroll root detection for phone mockup or native window
+    const phoneScroll = document.querySelector<HTMLElement>('[data-phone-scroll="true"]');
+    const isPhoneMockupActive = Boolean(
+      phoneScroll &&
+      phoneScroll.clientHeight > 0 &&
+      typeof window !== 'undefined' &&
+      window.innerWidth >= 1024
+    );
+    const scrollRoot = isPhoneMockupActive ? phoneScroll : null;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          startFlying();
+        } else {
+          stopFlying();
+        }
+      });
+    }, {
+      root: scrollRoot,
+      threshold: 0.25,
+    });
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      window.removeEventListener('resize', handleResize);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   const handleAcceptClick = () => {
     if (isAccepted) return;
@@ -64,9 +241,37 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
   };
 
   return (
-    <section id="rsvp" className="py-20 px-4 max-w-xl mx-auto relative">
+    <section id="rsvp" ref={sectionRef} className="rsvp-section py-20 px-4 max-w-xl mx-auto relative overflow-visible">
       {/* Floating Hearts Animation Layer */}
       <FloatingHearts ref={heartsRef} />
+
+      {/* Butterfly Animation Layer */}
+      <div className="bf-layer absolute inset-0 pointer-events-none overflow-visible z-30" id="bfLayer">
+        <div
+          ref={bf1Ref}
+          id="bf1"
+          className="bf absolute w-[48px] h-[48px] sm:w-[52px] sm:h-[52px] will-change-transform select-none flex items-center justify-center"
+          style={{ transformOrigin: '50% 60%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,.15))' }}
+        >
+          <img src={bfPinkSoft} alt="" className="block max-w-full max-h-full w-auto h-auto object-contain select-none pointer-events-none" />
+        </div>
+        <div
+          ref={bf2Ref}
+          id="bf2"
+          className="bf absolute w-[48px] h-[48px] sm:w-[52px] sm:h-[52px] will-change-transform select-none flex items-center justify-center"
+          style={{ transformOrigin: '50% 60%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,.15))' }}
+        >
+          <img src={bfBlue} alt="" className="block max-w-full max-h-full w-auto h-auto object-contain select-none pointer-events-none" />
+        </div>
+        <div
+          ref={bf3Ref}
+          id="bf3"
+          className="bf absolute w-[48px] h-[48px] sm:w-[52px] sm:h-[52px] will-change-transform select-none flex items-center justify-center"
+          style={{ transformOrigin: '50% 60%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,.15))' }}
+        >
+          <img src={bfPinkSpotted} alt="" className="block max-w-full max-h-full w-auto h-auto object-contain select-none pointer-events-none" />
+        </div>
+      </div>
 
       {/* Header */}
       <RevealOnScroll>
@@ -83,7 +288,11 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
 
       {/* Prominent Acceptance Container */}
       <RevealOnScroll delay={100}>
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-sm text-center flex flex-col items-center justify-center space-y-6">
+        <div
+          ref={cardRef}
+          id="rsvpCard"
+          className="rsvp-card p-8 sm:p-10 rounded-3xl bg-[#FFF9F8]/85 backdrop-blur-xs border border-[#DFC48F]/70 shadow-sm text-center flex flex-col items-center justify-center space-y-6 relative z-10"
+        >
           {/* Prominent Single Acceptance Button */}
           <div className="w-full flex flex-col items-center justify-center">
             <button

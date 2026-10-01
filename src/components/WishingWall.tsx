@@ -23,12 +23,19 @@ interface WishingWallProps {
 
 export type FloralTheme = 'pink' | 'blue' | 'purple' | 'peach';
 
-export interface FloralTemplate {
+interface SafeZone {
+  top: string;
+  bottom: string;
+  left: string;
+  right: string;
+}
+
+interface FloralTemplate {
   theme: FloralTheme;
   name: string;
   image: string;
   alt: string;
-  tagStyle: string;
+  safeZone: SafeZone;
   textStyle: string;
   authorStyle: string;
   heartStyle: string;
@@ -37,16 +44,21 @@ export interface FloralTemplate {
   dotColor: string;
 }
 
-export const FLORAL_TEMPLATES: Record<FloralTheme, FloralTemplate> = {
+const FLORAL_TEMPLATES: Record<FloralTheme, FloralTemplate> = {
   pink: {
     theme: 'pink',
     name: 'Blush Rose',
     image: floralCardPink,
     alt: 'Handcrafted floral card with delicate pink cherry blossoms and botanical vines',
-    tagStyle: 'bg-[#FFF0F2] text-[#9E3E50] border-[#F7C6CE]',
-    textStyle: 'text-[#3E292C]',
-    authorStyle: 'text-[#8E3A4B]',
-    heartStyle: 'text-[#9E3E50]/75 hover:text-[#9E3E50] hover:bg-[#FFE8EC]/60',
+    safeZone: {
+      top: '23%',
+      bottom: '17%',
+      left: '33%',
+      right: '14%',
+    },
+    textStyle: 'text-[#241913]',
+    authorStyle: 'text-[#8B2E3E]',
+    heartStyle: 'text-[#8B2E3E]/75 hover:text-[#8B2E3E] hover:bg-[#FFE8EC]/60',
     activeHeartStyle: 'text-[#D83A56] fill-[#D83A56] bg-[#FFE4E8]',
     accentBorder: '#E6A2AE',
     dotColor: '#E6A2AE',
@@ -56,10 +68,15 @@ export const FLORAL_TEMPLATES: Record<FloralTheme, FloralTemplate> = {
     name: 'River Ganga Blue',
     image: floralCardBlue,
     alt: 'Handcrafted floral card with royal blue blossoms and gilded watercolor foliage',
-    tagStyle: 'bg-[#F0F6FD] text-[#215380] border-[#C4DCF3]',
-    textStyle: 'text-[#203244]',
-    authorStyle: 'text-[#1D4A73]',
-    heartStyle: 'text-[#215380]/75 hover:text-[#215380] hover:bg-[#E4F0FB]/60',
+    safeZone: {
+      top: '25%',
+      bottom: '21%',
+      left: '18%',
+      right: '34%',
+    },
+    textStyle: 'text-[#241913]',
+    authorStyle: 'text-[#164268]',
+    heartStyle: 'text-[#164268]/75 hover:text-[#164268] hover:bg-[#E4F0FB]/60',
     activeHeartStyle: 'text-[#1E70BA] fill-[#1E70BA] bg-[#DEEDFA]',
     accentBorder: '#8BB8E1',
     dotColor: '#8BB8E1',
@@ -69,10 +86,15 @@ export const FLORAL_TEMPLATES: Record<FloralTheme, FloralTemplate> = {
     name: 'Orchid Amethyst',
     image: floralCardPurple,
     alt: 'Handcrafted floral card with lavender orchid blossoms and gilded berries',
-    tagStyle: 'bg-[#F7F2FB] text-[#633979] border-[#DFC9EE]',
-    textStyle: 'text-[#34233C]',
-    authorStyle: 'text-[#5E3473]',
-    heartStyle: 'text-[#633979]/75 hover:text-[#633979] hover:bg-[#EFE3F7]/60',
+    safeZone: {
+      top: '25%',
+      bottom: '19%',
+      left: '33%',
+      right: '18%',
+    },
+    textStyle: 'text-[#241913]',
+    authorStyle: 'text-[#532766]',
+    heartStyle: 'text-[#532766]/75 hover:text-[#532766] hover:bg-[#EFE3F7]/60',
     activeHeartStyle: 'text-[#853EA6] fill-[#853EA6] bg-[#F2E4FA]',
     accentBorder: '#B993D6',
     dotColor: '#B993D6',
@@ -82,10 +104,15 @@ export const FLORAL_TEMPLATES: Record<FloralTheme, FloralTemplate> = {
     name: 'Himalayan Sunrise',
     image: floralCardPeach,
     alt: 'Handcrafted floral card with warm peach blossoms and botanical greenery',
-    tagStyle: 'bg-[#FDF5ED] text-[#934C24] border-[#F4D7C2]',
-    textStyle: 'text-[#3B2C21]',
-    authorStyle: 'text-[#8C4620]',
-    heartStyle: 'text-[#934C24]/75 hover:text-[#934C24] hover:bg-[#FCEAD9]/60',
+    safeZone: {
+      top: '24%',
+      bottom: '18%',
+      left: '33%',
+      right: '21%',
+    },
+    textStyle: 'text-[#241913]',
+    authorStyle: 'text-[#7D3915]',
+    heartStyle: 'text-[#7D3915]/75 hover:text-[#7D3915] hover:bg-[#FCEAD9]/60',
     activeHeartStyle: 'text-[#D06028] fill-[#D06028] bg-[#FDE5D4]',
     accentBorder: '#E6A882',
     dotColor: '#E6A882',
@@ -220,6 +247,19 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
 
   const template = FLORAL_TEMPLATES[card.theme];
 
+  // Dynamic font size calculation so blessing fits comfortably regardless of message length
+  const getBlessingFontSize = (text: string) => {
+    if (text.length > 85) {
+      return 'text-[13px] xs:text-[14px] leading-tight';
+    }
+    if (text.length > 50) {
+      return 'text-[14px] xs:text-[15px] leading-snug';
+    }
+    return 'text-[15px] xs:text-[16px] leading-snug';
+  };
+
+  const fontSizeClass = getBlessingFontSize(card.message);
+
   return (
     <motion.div
       style={isTop ? { x, y, rotate, zIndex: 30 } : { zIndex: stackStyle.zIndex }}
@@ -230,7 +270,7 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
       whileDrag={{ scale: 1.02 }}
       onDragEnd={handleDragEnd}
       onTap={handleTap}
-      className={`absolute inset-0 m-auto w-[330px] xs:w-[350px] max-w-[92%] aspect-[2/1] select-none touch-none ${
+      className={`absolute inset-0 m-auto w-[335px] xs:w-[360px] sm:w-[380px] max-w-[94%] aspect-[2/1] select-none touch-none ${
         isTop ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'
       }`}
     >
@@ -243,45 +283,44 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
           draggable={false}
         />
 
-        {/* ── Heartfelt Craft Blessing Overlay on Floral Canvas ── */}
-        <div className="absolute inset-0 flex flex-col justify-between items-center text-center px-14 xs:px-16 py-3.5 xs:py-4.5 select-none">
-          {/* Header Row: Category Badge & Timestamp */}
-          <div className="flex items-center space-x-1.5 xs:space-x-2 pointer-events-auto">
-            <span
-              className={`inline-flex items-center px-2 xs:px-2.5 py-0.5 rounded-full text-[9px] xs:text-[10px] font-sans font-semibold tracking-wider uppercase border shadow-2xs ${template.tagStyle}`}
-            >
-              {card.tag}
-            </span>
-            <span className="text-[9px] xs:text-[10px] font-sans text-[#8A7F72]/80 hidden xs:inline">
-              · {card.timestamp}
-            </span>
-          </div>
+        {/* ── Safe Content Zone: Inset from flowers, stems & borders on all 4 sides ── */}
+        <div
+          style={{
+            top: template.safeZone.top,
+            bottom: template.safeZone.bottom,
+            left: template.safeZone.left,
+            right: template.safeZone.right,
+          }}
+          className="absolute flex flex-col justify-between items-center text-center select-none overflow-hidden"
+        >
+          {/* Subtle soft panel for maximum contrast without obscuring floral art */}
+          <div className="absolute inset-0 bg-white/40 rounded-xl backdrop-blur-[0.5px] pointer-events-none -z-10" />
 
-          {/* Center Message: Heartfelt Wish in Cormorant Garamond Italic */}
-          <div className="my-auto px-1 max-w-[96%] flex items-center justify-center">
+          {/* Center Message: Clean, highly legible serif font with auto-sizing */}
+          <div className="flex-1 w-full flex items-center justify-center px-1.5 my-auto overflow-hidden">
             <p
-              className={`font-['Cormorant_Garamond'] italic font-medium leading-tight xs:leading-snug text-[13px] xs:text-[14px] line-clamp-3 ${template.textStyle}`}
+              className={`font-serif font-medium tracking-normal text-[#241913] ${fontSizeClass} line-clamp-3`}
             >
               “{card.message}”
             </p>
           </div>
 
-          {/* Footer Row: Author Signature & Interactive Heart Likes */}
-          <div className="w-full flex items-center justify-between pointer-events-auto pt-1 border-t border-[#4A4038]/12">
+          {/* Footer Row: Author Name & Interactive Heart Likes */}
+          <div className="w-full flex items-center justify-between pointer-events-auto pt-1 border-t border-[#4A4038]/15 gap-2 shrink-0">
             <span
-              className={`font-serif font-semibold text-[10px] xs:text-[11px] tracking-wide truncate max-w-[65%] text-left ${template.authorStyle}`}
+              className={`font-sans font-semibold text-[13px] xs:text-[14px] tracking-wide truncate max-w-[70%] text-left ${template.authorStyle}`}
             >
               — {card.author}
             </span>
 
-            {/* Heart Likes Button */}
+            {/* Heart Likes Button: Nudged fully inside safe zone */}
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 onLike(card.id);
               }}
-              className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] xs:text-[11px] font-sans font-medium transition-all duration-200 cursor-pointer active:scale-90 ${
+              className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-sans font-medium transition-all duration-200 cursor-pointer active:scale-90 shrink-0 ${
                 isLiked ? template.activeHeartStyle : template.heartStyle
               }`}
               title="Bless this wish with a heart"
@@ -504,7 +543,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
             onMouseLeave={() => setIsHovered(false)}
             onTouchStart={() => setIsHovered(true)}
             onTouchEnd={() => setIsHovered(false)}
-            className="relative w-full max-w-[380px] h-[200px] xs:h-[220px] flex items-center justify-center select-none"
+            className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none"
           >
             {cards.slice(0, 4).map((card, index) => (
               <FloralCardStackItem

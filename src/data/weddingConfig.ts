@@ -2,8 +2,11 @@ import { WeddingConfig } from '../types';
 
 const couplePortrait = 'rishikesh_couple_1790236101823';
 const venueGhat = 'rishikesh_ganga_ghat_1790236124502';
-const brideParents = 'bride_parents_1790235687448';
-const groomParents = 'groom_parents_1790235700968';
+import brideParentsImg from '../assets/images/bride_parents_1790235687448.jpg';
+import groomParentsImg from '../assets/images/groom_parents_1790235700968.jpg';
+
+const brideParents = brideParentsImg;
+const groomParents = groomParentsImg;
 
 import haldiIllustration from '../assets/images/ceremony_haldi_illustration.png';
 import mehndiIllustration from '../assets/images/ceremony_mehndi_illustration.png';
@@ -207,7 +210,7 @@ export const defaultWeddingConfig: WeddingConfig = {
       {
         id: 'wish-1',
         author: 'Dadi & Dada Ji',
-        message: 'May Lord Shiva and Maa Ganga bless your union with eternal peace, mutual devotion, and pure joy. So proud of you both.',
+        message: 'May Lord Shiva and Maa Ganga bless your union with eternal peace and love.',
         tag: '✨ Divine Blessings',
         timestamp: '18 Nov 2027',
         likes: 38,
@@ -215,7 +218,7 @@ export const defaultWeddingConfig: WeddingConfig = {
       {
         id: 'wish-2',
         author: 'Aarav & Simran',
-        message: 'From mountain treks together to exchanging 7 farre by the holy river! Can’t wait to dance at the Sangeet!',
+        message: 'Can’t wait to dance the night away with you both at the Sangeet!',
         tag: '❤️ Endless Love',
         timestamp: '19 Nov 2027',
         likes: 29,
@@ -223,7 +226,7 @@ export const defaultWeddingConfig: WeddingConfig = {
       {
         id: 'wish-3',
         author: 'The Malhotra Family',
-        message: 'Meher, you bring so much warmth to our lives. Counting down the moments until the Barat arrives in Rishikesh!',
+        message: 'Counting down the moments to celebrate your grand Barat in Rishikesh!',
         tag: '🌿 Mountain Joy',
         timestamp: '19 Nov 2027',
         likes: 25,
@@ -231,7 +234,7 @@ export const defaultWeddingConfig: WeddingConfig = {
       {
         id: 'wish-4',
         author: 'Rohan & Ananya',
-        message: 'From college days to sacred vows along the banks of River Ganga! Wishing you both a lifetime of happiness, laughter, and endless adventure.',
+        message: 'Wishing you a lifetime of laughter, mountain adventures, and sacred joy!',
         tag: '🌸 Warm Blessings',
         timestamp: '20 Nov 2027',
         likes: 34,
@@ -239,7 +242,7 @@ export const defaultWeddingConfig: WeddingConfig = {
       {
         id: 'wish-5',
         author: 'Priya Masi & Family',
-        message: 'May Maa Ganga forever bless your home with harmony, good health, and abundant joy. Can’t wait to celebrate with you both!',
+        message: 'May Maa Ganga bless your new home with harmony, health, and abundant joy.',
         tag: '✨ Sacred Grace',
         timestamp: '20 Nov 2027',
         likes: 27,

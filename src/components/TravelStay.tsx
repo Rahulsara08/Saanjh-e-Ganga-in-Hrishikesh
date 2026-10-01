@@ -5,6 +5,7 @@ import { VenueMapModal } from './VenueMapModal';
 import { WeddingConfig } from '../types';
 import { Map } from 'lucide-react';
 import himalayanPanoramicImg from '../assets/images/himalayan_mountain_river_panoramic.png';
+import { FlowerSketchAccent } from './FlowerSketchAccent';
 
 interface TravelStayProps {
   config: WeddingConfig;
@@ -160,6 +161,13 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
           </div>
         </RevealOnScroll>
       </div>
+
+      {/* Subtle Flower Sketch Background Accent */}
+      <FlowerSketchAccent
+        className="absolute bottom-8 right-2 sm:right-6 w-32 sm:w-44 h-[220px] pointer-events-none z-0 hidden xs:block"
+        opacity={0.18}
+        rotation={8}
+      />
 
       <VenueMapModal
         isOpen={isMapModalOpen}

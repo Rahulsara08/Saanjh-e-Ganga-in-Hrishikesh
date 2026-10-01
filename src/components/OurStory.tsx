@@ -4,6 +4,7 @@ import { RevealOnScroll } from './RevealOnScroll';
 import { WeddingConfig } from '../types';
 import { StoryFrameOverlay } from './StoryFrameOverlay';
 import { StoryHoverExpand } from './StoryHoverExpand';
+import { FlowerSketchAccent } from './FlowerSketchAccent';
 import {
   Play,
   Pause,
@@ -148,8 +149,15 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
   return (
     <section
       id="our-story"
-      className="py-16 sm:py-24 px-4 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center overflow-hidden"
+      className="py-16 sm:py-24 px-4 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center overflow-hidden relative"
     >
+      {/* Subtle Flower Sketch Background Accent */}
+      <FlowerSketchAccent
+        className="absolute -top-8 -left-6 w-36 sm:w-48 h-[240px] pointer-events-none z-0 hidden xs:block"
+        opacity={0.16}
+        rotation={-15}
+      />
+
       {/* Section Header */}
       <RevealOnScroll className="w-full max-w-full">
         <div className="text-center w-full max-w-xl mx-auto mb-8 sm:mb-10 px-2">

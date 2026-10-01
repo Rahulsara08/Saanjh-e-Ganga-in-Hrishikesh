@@ -11,10 +11,11 @@ import { FollowJourney } from './components/FollowJourney';
 import { WishingWall } from './components/WishingWall';
 import { RSVPSection } from './components/RSVPSection';
 import { TravelStay } from './components/TravelStay';
+import { HelpingDesk } from './components/HelpingDesk';
 import { Footer } from './components/Footer';
 import { Divider } from './components/BasicComponents';
 
-const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v7';
+const CONFIG_STORAGE_KEY = 'meher_kabir_rishikesh_wedding_v9';
 
 export default function App() {
   const [config, setConfig] = useState<WeddingConfig>(() => {
@@ -60,11 +61,11 @@ export default function App() {
           {/* 3. With Our Families */}
           <WithOurFamilies config={config} />
 
-          {/* 4. Nearby Sights */}
-          <NearbySights />
-
-          {/* 5. Wedding Celebrations & Sacred Rites */}
+          {/* 4. Wedding Celebrations & Sacred Rites */}
           <FollowJourney config={config} />
+
+          {/* 5. Sightseeing & Valley Exploration (Between Celebrations and Blessings) */}
+          <NearbySights />
 
           {/* 6. Blessings Section */}
           <WishingWall config={config} />
@@ -75,7 +76,10 @@ export default function App() {
           {/* 8. Travel & Stay */}
           <TravelStay config={config} />
 
-          {/* 9. Footer */}
+          {/* 9. Helping Desk & Guest Concierge (Between Travel/Stay and Thank You Note) */}
+          <HelpingDesk />
+
+          {/* 10. Footer (Thank You Note) */}
           <Footer />
         </main>
       </div>
