@@ -15,7 +15,7 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   return (
-    <section id="travel" className="pt-10 sm:pt-14 pb-20 px-4 max-w-5xl mx-auto w-full relative">
+    <section id="travel" className="pt-10 sm:pt-14 pb-12 sm:pb-14 px-4 max-w-5xl mx-auto w-full relative">
       {/* ── TOP PANORAMIC HIMALAYAN MOUNTAINS & RIVER ARTWORK ── */}
       <RevealOnScroll>
         <div className="relative w-full max-w-md sm:max-w-lg mx-auto flex items-center justify-center select-none pointer-events-none mb-4">

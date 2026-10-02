@@ -561,7 +561,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
         </div>
       </RevealOnScroll>
 
-      <Divider className="mt-12" />
+      <Divider className="mt-6 sm:mt-8" />
     </section>
   );
 };

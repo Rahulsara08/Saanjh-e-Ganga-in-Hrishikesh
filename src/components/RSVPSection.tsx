@@ -9,6 +9,7 @@ import { FloatingHearts, FloatingHeartsRef } from './FloatingHearts';
 import bfPinkSoft from '../assets/images/butterfly-pink-soft.png';
 import bfBlue from '../assets/images/butterfly-blue.png';
 import bfPinkSpotted from '../assets/images/butterfly-pink-spotted.png';
+import rsvpWheatBouquet from '../assets/images/rsvp_wheat_bouquet.png';
 
 interface RSVPSectionProps {
   config: WeddingConfig;
@@ -241,7 +242,7 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
   };
 
   return (
-    <section id="rsvp" ref={sectionRef} className="rsvp-section py-20 px-4 max-w-xl mx-auto relative overflow-visible">
+    <section id="rsvp" ref={sectionRef} className="rsvp-section pt-12 pb-14 px-4 max-w-xl mx-auto relative overflow-visible">
       {/* Floating Hearts Animation Layer */}
       <FloatingHearts ref={heartsRef} />
 
@@ -343,6 +344,18 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
           </div>
         </div>
       </RevealOnScroll>
+
+      {/* ── Botanical Wheat & Pampas Bouquet Accent at Bottom Right (Tucked neatly inside phone border) ── */}
+      <div
+        aria-hidden="true"
+        className="absolute right-1 xs:right-2 sm:right-4 bottom-1 sm:bottom-2 w-28 xs:w-34 sm:w-40 h-auto pointer-events-none select-none z-20 opacity-90 transition-transform duration-700 hover:scale-105"
+      >
+        <img
+          src={rsvpWheatBouquet}
+          alt=""
+          className="w-full h-auto object-contain drop-shadow-[0_4px_12px_rgba(74,64,56,0.10)]"
+        />
+      </div>
 
       <Divider />
     </section>

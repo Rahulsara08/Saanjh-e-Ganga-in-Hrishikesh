@@ -121,3 +121,49 @@ body {
 .phone-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(198, 161, 91, 0.6);
 }
+
+/* ── Hero reveal: plays after the envelope intro ── */
+[data-hero][data-revealed="false"] .hero-bg,
+[data-hero][data-revealed="false"] .hero-stagger > *,
+[data-hero][data-revealed="false"] .hero-last {
+  opacity: 0;
+}
+
+[data-hero][data-revealed="true"] .hero-bg {
+  animation: heroFade 1.8s ease both;
+}
+
+[data-hero][data-revealed="true"] .hero-stagger > * {
+  animation: heroRise .9s cubic-bezier(.2, .7, .2, 1) both;
+}
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(1)  { animation-delay: .25s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(2)  { animation-delay: .40s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(3)  { animation-delay: .55s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(4)  { animation-delay: .75s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(5)  { animation-delay: .90s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(6)  { animation-delay: 1.05s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(7)  { animation-delay: 1.15s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(8)  { animation-delay: 1.30s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(9)  { animation-delay: 1.45s; }
+[data-hero][data-revealed="true"] .hero-stagger > :nth-child(10) { animation-delay: 1.60s; }
+[data-hero][data-revealed="true"] .hero-last {
+  animation: heroFade 1s ease 1.9s both;
+}
+
+@keyframes heroRise {
+  from { opacity: 0; translate: 0 10px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes heroFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-hero] .hero-bg,
+  [data-hero] .hero-stagger > *,
+  [data-hero] .hero-last {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}

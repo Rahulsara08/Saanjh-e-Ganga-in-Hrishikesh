@@ -220,7 +220,7 @@ export const SectionHeading: React.FC<{
  * Divider: Creative, pretty & simple section divider without straight lines.
  * Features organic Ganga river ripples, a blooming sacred lotus & ambient golden starlight.
  */
-export const Divider: React.FC<{ className?: string }> = ({ className = 'my-12 sm:my-16' }) => {
+export const Divider: React.FC<{ className?: string }> = ({ className = 'my-4 sm:my-6' }) => {
   return (
     <div className={`w-full flex flex-col items-center justify-center select-none py-3 ${className}`}>
       <div className="relative flex flex-col items-center justify-center px-4">

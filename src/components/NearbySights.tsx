@@ -308,10 +308,16 @@ export const NearbySights: React.FC = () => {
     <section
       id="nearby-sights"
       ref={sectionRef}
-      className="relative w-full py-16 sm:py-24 px-4 max-w-5xl mx-auto"
+      className="relative w-full py-14 sm:py-20 px-4 max-w-5xl mx-auto"
     >
+      {/* Crafted Background Aura & Subtle Borders */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-2 inset-y-4 rounded-3xl bg-gradient-to-b from-[#FDF9F5]/40 via-transparent to-[#F9EFE9]/40 border border-[#DFC48F]/20 pointer-events-none -z-10"
+      />
+
       {/* Section title (Clean, elegant, static) */}
-      <div className="text-center max-w-xl mx-auto mb-8 sm:mb-12 pointer-events-none">
+      <div className="text-center max-w-xl mx-auto mb-8 sm:mb-12 pointer-events-none relative z-10">
         <span className="text-[11px] sm:text-xs font-sans tracking-[0.25em] text-[#8A5A00] uppercase font-bold">
           NEARBY EXPERIENCES
         </span>
@@ -396,31 +402,31 @@ export const NearbySights: React.FC = () => {
                 <SightCard sight={sight} showCaption={false} className="w-full h-full" />
               </motion.div>
 
-              {/* Details Side: Below the card directly on background */}
+              {/* Details Side: Below the card directly on background (Only Location and Name of place) */}
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12 + index * 0.04, duration: 0.5 }}
-                className="w-full flex flex-col justify-center text-left py-1 space-y-1.5 min-w-0"
+                transition={{ delay: 0.12 + index * 0.04, duration: 0.45 }}
+                className="w-full flex flex-col justify-center text-left py-1 space-y-1 min-w-0"
               >
                 {/* Location Tag with Icon */}
-                <div className="flex items-center gap-1.5 text-xs text-[#8A5A00] font-sans font-bold uppercase tracking-wider">
-                  <MapPin size={14} className="shrink-0 text-[#8A5A00]" />
+                <div className="flex items-center gap-1.5 text-xs text-[#B88E4C] font-sans font-semibold uppercase tracking-wider">
+                  <MapPin size={13} className="shrink-0 text-[#B88E4C]" />
                   <span>{sight.location}</span>
                 </div>
 
-                {/* Sight Title */}
-                <h3
+                {/* Sight Title with Tap Trigger */}
+                <div
                   onClick={() => setSelectedSight(sight)}
-                  className="font-serif text-2xl sm:text-3xl text-[#140F0A] font-bold leading-snug cursor-pointer hover:text-[#8A5A00] transition-colors"
+                  className="flex items-center justify-between group cursor-pointer"
                 >
-                  {sight.title}
-                </h3>
-
-                {/* Full Description: Same exact details as Image 1 & 2 */}
-                <p className="font-sans text-sm sm:text-base text-[#554A40] leading-relaxed">
-                  {sight.description}
-                </p>
+                  <h3 className="font-serif text-2xl sm:text-[26px] text-[#241A12] font-semibold leading-snug group-hover:text-[#B88E4C] transition-colors">
+                    {sight.title}
+                  </h3>
+                  <span className="text-xs font-sans font-medium tracking-wide text-[#B88E4C] group-hover:translate-x-1 transition-transform shrink-0 ml-2">
+                    Explore →
+                  </span>
+                </div>
               </motion.div>
             </div>
           ))}

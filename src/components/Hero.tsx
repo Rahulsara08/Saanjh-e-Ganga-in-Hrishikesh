@@ -9,9 +9,10 @@ const rishikeshMandapBg = 'rishikesh_mandap_watercolor_1790240774713';
 interface HeroProps {
   config: WeddingConfig;
   guestGreeting: string;
+  revealed?: boolean;
 }
 
-export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
+export const Hero: React.FC<HeroProps> = ({ config, guestGreeting, revealed = true }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -44,10 +45,14 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
   }, [config.couple.targetTimestamp]);
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden py-8 px-3">
+    <section
+      className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden py-8 px-3"
+      data-hero
+      data-revealed={revealed}
+    >
       {/* ── Background Image: Sacred Rishikesh Mandap Watercolor Artwork with Seamless Feathering ── */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none"
+        className="hero-bg absolute inset-0 z-0 pointer-events-none"
         style={{
           maskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.3) 82%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.3) 82%, transparent 100%)',
@@ -88,7 +93,7 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
       />
 
       {/* ── Center Content: Highly Visible, Bold, High-Contrast Typography ── */}
-      <div className="relative z-10 w-full max-w-3xl mx-auto px-4 flex flex-col items-center my-auto">
+      <div className="hero-stagger relative z-10 w-full max-w-3xl mx-auto px-4 flex flex-col items-center my-auto">
         {/* Guest Salutation */}
         <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#FFF9F8] border border-[#8A5A00] text-[#5C3900] text-[10.5px] font-sans font-extrabold tracking-[0.25em] uppercase mb-2 shadow-xs">
           <span className="text-[10px] text-[#A6731B]">✦</span>
@@ -173,7 +178,7 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting }) => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="relative z-10 pt-2 sm:pt-6 flex flex-col items-center">
+      <div className="hero-last relative z-10 pt-2 sm:pt-6 flex flex-col items-center">
         <a
           href="#our-story"
           className="text-[#9A6B0A] hover:text-[#735315] transition-transform hover:scale-110 flex flex-col items-center"

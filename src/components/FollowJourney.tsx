@@ -138,7 +138,7 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
         </div>
       </div>
 
-      <Divider className="my-12 sm:my-16" />
+      <Divider className="my-4 sm:my-6" />
     </section>
   );
 };

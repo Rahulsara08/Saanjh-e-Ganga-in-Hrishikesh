@@ -2,8 +2,6 @@ import React from 'react';
 import { Phone, MessageCircle, Clock, HeartHandshake } from 'lucide-react';
 import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
-import floralBgImg from '../assets/images/floral_frame_transparent.png';
-import plantSketchImg from '../assets/images/flower-sketch.png';
 
 interface ContactPerson {
   name: string;
@@ -43,42 +41,17 @@ export const HelpingDesk: React.FC = () => {
   ];
 
   return (
-    <section id="helpdesk" className="py-20 px-4 max-w-3xl mx-auto relative overflow-hidden">
-      {/* ── Crafted Botanical Background Illustrations ── */}
-      {/* Soft watercolor floral corner accent from user reference */}
-      <div
-        aria-hidden="true"
-        className="absolute -left-14 -bottom-10 w-52 sm:w-64 h-auto opacity-[0.22] pointer-events-none select-none z-0"
-      >
-        <img
-          src={floralBgImg}
-          alt=""
-          className="w-full h-auto object-contain transform -rotate-12"
-        />
-      </div>
-
-      {/* Second delicate botanical plant sketch on opposite side */}
-      <div
-        aria-hidden="true"
-        className="absolute -right-8 -top-8 w-40 sm:w-48 h-auto opacity-[0.20] pointer-events-none select-none z-0"
-      >
-        <img
-          src={plantSketchImg}
-          alt=""
-          className="w-full h-auto object-contain transform rotate-6"
-        />
-      </div>
-
+    <section id="helpdesk" className="pt-12 pb-14 sm:pt-14 sm:pb-16 px-4 max-w-3xl mx-auto relative overflow-hidden">
       <div className="relative z-10">
         {/* Section Header */}
         <RevealOnScroll>
-          <div className="text-center max-w-xl mx-auto mb-14">
+          <div className="text-center max-w-xl mx-auto mb-10 sm:mb-12">
             <SectionEyebrow>WE ARE HERE FOR YOU</SectionEyebrow>
-            <SectionHeading subtitle="Dedicated hospitality & logistics team to assist your pilgrimage">
+            <SectionHeading>
               Helping Desk & Guest Concierge
             </SectionHeading>
-            <p className="font-serif italic text-xs xs:text-sm text-[#8A7F72] mt-2 max-w-md mx-auto leading-relaxed">
-              Whether you need travel coordination, room check-in help, or local guidance along the Ganges, our wedding team is just a call or message away.
+            <p className="font-serif italic text-xs xs:text-sm text-[#8A7F72] mt-2 max-w-md mx-auto">
+              Here for your convenience
             </p>
           </div>
         </RevealOnScroll>
@@ -141,7 +114,7 @@ export const HelpingDesk: React.FC = () => {
         </div>
       </div>
 
-      <Divider className="mt-16" />
+      <Divider className="mt-6 sm:mt-8" />
     </section>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 
 interface PetalItem {
   id: number;
-  shape: 0 | 1 | 2; // 0: Rose petal, 1: Tulip petal, 2: Cupped petal
+  shape: 0 | 1 | 2 | 3; // 0: Rose petal, 1: Tulip petal, 2: Cupped petal, 3: Watercolor leaf
   color: string;
   strokeColor: string;
   size: number;
@@ -15,16 +15,31 @@ interface PetalItem {
   initialY?: number; // for initial staggered petals on load
 }
 
-const PALETTE = [
+const PETAL_PALETTE = [
   { fill: '#FCEAEB', stroke: '#E8B6BA' }, // pale blush pink
   { fill: '#F8D7D9', stroke: '#DB989D' }, // soft blush
   { fill: '#EFB0B4', stroke: '#CE787F' }, // soft rose red
   { fill: '#F5D3D6', stroke: '#DE999E' }, // gentle petal pink
+  { fill: '#F9E8DF', stroke: '#DCBCA0' }, // peach rose
+];
+
+const LEAF_PALETTE = [
+  { fill: '#DEE8D6', stroke: '#9EB892' }, // sage leaf
+  { fill: '#E4ECD9', stroke: '#AEC09E' }, // soft botanical leaf
+  { fill: '#D3E2CB', stroke: '#8DAE80' }, // olive green leaf
 ];
 
 let petalCounter = 0;
 
-export const FallingPetals: React.FC = () => {
+interface FallingPetalsProps {
+  className?: string;
+  isAbsolute?: boolean;
+}
+
+export const FallingPetals: React.FC<FallingPetalsProps> = ({
+  className = '',
+  isAbsolute = false,
+}) => {
   const [petals, setPetals] = useState<PetalItem[]>([]);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const isVisibleRef = useRef(true);
@@ -40,20 +55,25 @@ export const FallingPetals: React.FC = () => {
 
   const createPetal = useCallback((initialProgress = 0): PetalItem => {
     petalCounter += 1;
-    const colorTheme = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-    const duration = 9 + Math.random() * 5; // 9s to 14s
+    // 70% petals, 30% botanical leaves
+    const isLeaf = Math.random() < 0.32;
+    const shape = (isLeaf ? 3 : Math.floor(Math.random() * 3)) as 0 | 1 | 2 | 3;
+    const palette = isLeaf ? LEAF_PALETTE : PETAL_PALETTE;
+    const colorTheme = palette[Math.floor(Math.random() * palette.length)];
+    const duration = 8.5 + Math.random() * 5.5; // 8.5s to 14s
+
     return {
       id: petalCounter,
-      shape: (Math.floor(Math.random() * 3)) as 0 | 1 | 2,
+      shape,
       color: colorTheme.fill,
       strokeColor: colorTheme.stroke,
-      size: 16 + Math.random() * 10, // 16px to 26px
+      size: isLeaf ? 15 + Math.random() * 8 : 16 + Math.random() * 10,
       leftPercent: 3 + Math.random() * 94, // 3% to 97% across screen
-      swayDistance: 20 + Math.random() * 30, // 20px to 50px side sway
+      swayDistance: 18 + Math.random() * 28, // 18px to 46px side sway
       fallDuration: duration,
-      swayDuration: 3 + Math.random() * 2, // 3s to 5s sway period
+      swayDuration: 2.8 + Math.random() * 2.2, // 2.8s to 5s sway period
       rotateDeg: (Math.random() > 0.5 ? 1 : -1) * (140 + Math.random() * 220),
-      opacity: 0.42 + Math.random() * 0.18, // 42% to 60%
+      opacity: isLeaf ? 0.48 + Math.random() * 0.2 : 0.45 + Math.random() * 0.22,
       initialY: initialProgress > 0 ? initialProgress * 100 : undefined,
     };
   }, []);
@@ -62,7 +82,7 @@ export const FallingPetals: React.FC = () => {
   useEffect(() => {
     if (isReducedMotion) return;
     const initial: PetalItem[] = [];
-    const count = 5;
+    const count = 6;
     for (let i = 0; i < count; i++) {
       initial.push(createPetal((i + 1) / (count + 1)));
     }
@@ -86,11 +106,11 @@ export const FallingPetals: React.FC = () => {
       if (!isVisibleRef.current) return;
 
       setPetals((prev) => {
-        // Keep density low: handful on screen (max 10)
-        if (prev.length >= 10) return prev;
+        // Keep density balanced: max 12 petals/leaves on screen
+        if (prev.length >= 12) return prev;
         return [...prev, createPetal()];
       });
-    }, 1400);
+    }, 1200);
 
     return () => clearInterval(interval);
   }, [isReducedMotion, createPetal]);
@@ -104,16 +124,20 @@ export const FallingPetals: React.FC = () => {
     return null;
   }
 
+  const containerClass = isAbsolute
+    ? `absolute inset-0 pointer-events-none z-20 overflow-hidden select-none ${className}`
+    : `fixed inset-0 pointer-events-none z-20 overflow-hidden select-none ${className}`;
+
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-15 overflow-hidden select-none"
+      className={containerClass}
       style={{ perspective: 1000 }}
     >
       <style>{`
         @keyframes petal-fall {
           0% {
-            transform: translate3d(0, -50px, 0);
+            transform: translate3d(0, -40px, 0);
             opacity: 0;
           }
           10% {
@@ -230,6 +254,36 @@ export const FallingPetals: React.FC = () => {
                     stroke={petal.strokeColor}
                     strokeWidth="0.5"
                     strokeOpacity="0.45"
+                  />
+                </g>
+              )}
+
+              {petal.shape === 3 && (
+                /* Delicate Botanical Watercolor Leaf with spine & side veins */
+                <g>
+                  <path
+                    d="M 12 1 C 6 6, 4 16, 7 23 C 9 26, 12 28, 12 28 C 12 28, 15 26, 17 23 C 20 16, 18 6, 12 1 Z"
+                    fill={petal.color}
+                    stroke={petal.strokeColor}
+                    strokeWidth="0.85"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Central leaf spine / stem */}
+                  <path
+                    d="M 12 2 C 12 10, 12 19, 12 28"
+                    fill="none"
+                    stroke={petal.strokeColor}
+                    strokeWidth="0.6"
+                    strokeOpacity="0.65"
+                  />
+                  {/* Delicate lateral branch veins */}
+                  <path
+                    d="M 12 9 L 8.5 7.5 M 12 14 L 15.5 12.5 M 12 19 L 9 18"
+                    fill="none"
+                    stroke={petal.strokeColor}
+                    strokeWidth="0.45"
+                    strokeOpacity="0.5"
                   />
                 </g>
               )}

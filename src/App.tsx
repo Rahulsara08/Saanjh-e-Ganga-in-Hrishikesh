@@ -4,6 +4,7 @@ import { WeddingConfig } from './types';
 import { PhoneMockup } from './components/PhoneMockup';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { Intro } from './components/Intro';
 import { OurStory } from './components/OurStory';
 import { WithOurFamilies } from './components/WithOurFamilies';
 import { NearbySights } from './components/NearbySights';
@@ -29,6 +30,15 @@ export default function App() {
   });
 
   const [guestParam, setGuestParam] = useState<string>('');
+  const [introDone, setIntroDone] = useState<boolean>(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return params.has('skipintro');
+    } catch {
+      return false;
+    }
+  });
+  const [revealed, setRevealed] = useState<boolean>(introDone);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -43,17 +53,30 @@ export default function App() {
     : 'DEAR GUEST,';
 
   return (
-    <PhoneMockup config={config}>
+    <PhoneMockup
+      config={config}
+      overlay={
+        !introDone && (
+          <Intro
+            brideName={config.couple.brideName}
+            groomName={config.couple.groomName}
+            guestName={guestParam}
+            onEnter={() => setRevealed(true)}
+            onDone={() => setIntroDone(true)}
+          />
+        )
+      }
+    >
       <div className="min-h-full w-full text-[#4A4038] font-sans antialiased selection:bg-[#F1D9D6] relative overflow-x-hidden">
         {/* Main Wedding Invitation Stream */}
         <main className="w-full max-w-full min-w-0 flex flex-col items-center overflow-x-hidden">
           {/* 1. Hero */}
           <section id="hero" className="w-full">
-            <Hero config={config} guestGreeting={guestGreeting} />
+            <Hero config={config} guestGreeting={guestGreeting} revealed={revealed} />
           </section>
 
           {/* Transition Divider: Creative Ganga Wave & Sacred Lotus */}
-          <Divider className="my-4 sm:my-8" />
+          <Divider className="my-2 sm:my-4" />
 
           {/* 2. Our Story */}
           <OurStory config={config} />

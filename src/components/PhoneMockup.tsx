@@ -3,6 +3,7 @@ import { WeddingConfig } from '../types';
 import paperBg from '../assets/images/paper_blush_texture.jpg';
 import { MusicPlayer } from './MusicPlayer';
 import { OptimizedImage } from './OptimizedImage';
+import { FallingPetals } from './FallingPetals';
 import { QrCode, Smartphone } from 'lucide-react';
 
 import pcMockupBackdrop from '../assets/images/pc_mockup_backdrop_blossom.jpg';
@@ -10,11 +11,13 @@ import pcMockupBackdrop from '../assets/images/pc_mockup_backdrop_blossom.jpg';
 interface PhoneMockupProps {
   config: WeddingConfig;
   children: React.ReactNode;
+  overlay?: React.ReactNode;
 }
 
 export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   config,
   children,
+  overlay,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
@@ -83,8 +86,14 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
           {children}
         </div>
 
+        {/* Ambient Falling Petals and Botanical Leaves across entire site */}
+        <FallingPetals />
+
         {/* Floating Wedding Song Player for native mobile */}
         <MusicPlayer className="fixed bottom-6 right-5 z-40" />
+
+        {/* Fullscreen Overlay (Intro animation) */}
+        {overlay && <div className="fixed inset-0 z-50 overflow-hidden">{overlay}</div>}
       </div>
     );
   }
@@ -104,6 +113,9 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
         {/* Subtle warm ambient tint */}
         <div className="absolute inset-0 bg-[#FAF2F0]/10" />
       </div>
+
+      {/* Gentle falling petals across desktop backdrop */}
+      <FallingPetals className="hidden lg:block opacity-60" />
 
       {/* ─── CENTER PHONE MOCKUP SCREEN ─── */}
       <main className="relative z-10 flex items-center justify-center p-3 sm:p-5 md:p-6 my-auto">
@@ -156,6 +168,9 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
                 {children}
               </div>
 
+              {/* Ambient Falling Petals and Botanical Leaves inside phone mockup screen */}
+              <FallingPetals isAbsolute className="rounded-[42px]" />
+
               {/* Floating Wedding Song Player inside phone frame */}
               <MusicPlayer className="absolute bottom-6 right-5 z-40" />
 
@@ -163,6 +178,13 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
               <div className="w-full h-4 bg-[#FAF2F0]/85 backdrop-blur-xs shrink-0 flex items-center justify-center select-none pointer-events-none z-30">
                 <div className="w-32 h-1 bg-[#4A4038]/30 rounded-full" />
               </div>
+
+              {/* Screen Overlay (Intro animation) */}
+              {overlay && (
+                <div className="absolute inset-0 z-[45] rounded-[42px] overflow-hidden">
+                  {overlay}
+                </div>
+              )}
             </div>
           </div>
         </div>
