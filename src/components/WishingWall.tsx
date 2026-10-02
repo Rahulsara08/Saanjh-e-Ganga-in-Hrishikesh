@@ -432,8 +432,21 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const currentTopTemplate = currentTopCard ? FLORAL_TEMPLATES[currentTopCard.theme] : null;
 
   return (
-    <section id="wishes" className="py-12 sm:py-20 px-3 sm:px-4 max-w-4xl mx-auto w-full">
-      <RevealOnScroll>
+    <section id="wishes" className="relative py-12 sm:py-20 px-3 sm:px-4 max-w-4xl mx-auto w-full overflow-hidden">
+      {/* ── Decorative Transparent Cherry-Blossom Tree Layer (Left framing, behind content) ── */}
+      <div
+        className="absolute -left-4 sm:left-0 bottom-0 pointer-events-none select-none z-0 w-[240px] xs:w-[280px] sm:w-[340px] md:w-[380px] max-w-[48%] opacity-90"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/cherry_blossom_tree_transparent.png"
+          alt=""
+          className="w-full h-auto object-contain object-bottom-left"
+        />
+      </div>
+
+      <div className="relative z-10">
+        <RevealOnScroll>
         <div className="text-center max-w-xl mx-auto mb-6">
           <SectionEyebrow>{config.wishingWall?.eyebrow || 'MESSAGES OF LOVE'}</SectionEyebrow>
           <SectionHeading
@@ -560,6 +573,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
           </div>
         </div>
       </RevealOnScroll>
+      </div>
 
       <Divider className="mt-6 sm:mt-8" />
     </section>

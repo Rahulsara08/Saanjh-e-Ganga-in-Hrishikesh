@@ -546,6 +546,34 @@ export const imageManifest: Record<string, ImageMeta> = {
     "fallbackSrcSet": "/optimized/cherry_blossom_branch/cherry_blossom_branch-400w.png 400w, /optimized/cherry_blossom_branch/cherry_blossom_branch-800w.png 800w, /optimized/cherry_blossom_branch/cherry_blossom_branch-1024w.png 1024w",
     "fallbackSrc": "/optimized/cherry_blossom_branch/cherry_blossom_branch-800w.png"
   },
+  "cherry_blossom_tree_transparent": {
+    "key": "cherry_blossom_tree_transparent",
+    "originalFilename": "cherry_blossom_tree_transparent.png",
+    "originalSizeKB": 1040.5,
+    "width": 765,
+    "height": 1024,
+    "aspectRatio": 0.7471,
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAVCAMAAAB44J7gAAAAllBMVEVMaXGhe3LmrKzSmaDXq6WJYV2xgoK1gYWvgX+veo6dgHNuVEloSTibenS7jYliRDWognuknXDHnJnYqqlxWkeKbWKGbV9+YFjZoZt+aVuwiYJyW0J6YE+5nYfPmJKznoCqhoHUp6hqVD2ViGV0YUuNgmBUOS/gr67DnZjDioiSdnNoSDXbqKe9sn7dq6bquLX7wcL3srJW0MI9AAAALnRSTlMA9PUu8hwjEwcEOS3zbPzKxv36lI3qT6X+vfVz43v+wZZgQcy++2vD6NrSqq79uyxERwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAPxJREFUGJUlUNmSwyAMEwRiyH3fbdImvXch/f+f2yH7orE1smUZMs7iAAoAtAM8uWCjgv9zOlpAcMvXrHyY+BLLg5iS3Xz3/RmLInSjKzO2OydiSOZTQwQIsRtbGDsUoq59AIYn553V1tbDMjqiMMwW7DyXF88DAWCJFTXvTFkRgTQwdDz9bJ3I+rJcQgBbkqXVPeN9y8wt0ArXapyyd7s8xLVtQAq4Rq/ve+qDgPR/mCAdX3vcEGloeB4g00948Ug7NZSDtIJ/5Hem7gn3SGp3oiMORRi1IF/DV4AigGQaSSWPWmmA+i2KpqoJpQI8AsL1lud5/pvPp8At+gOsIhMedEvtoQAAAABJRU5ErkJggg==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-400w.avif 400w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-765w.avif 765w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.avif 800w",
+    "webpSrcSet": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-400w.webp 400w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-765w.webp 765w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.webp 800w",
+    "fallbackSrcSet": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-400w.png 400w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-765w.png 765w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.png 800w",
+    "fallbackSrc": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.png"
+  },
+  "cherry_blossom_tree_transparent.png": {
+    "key": "cherry_blossom_tree_transparent",
+    "originalFilename": "cherry_blossom_tree_transparent.png",
+    "originalSizeKB": 1040.5,
+    "width": 765,
+    "height": 1024,
+    "aspectRatio": 0.7471,
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAVCAMAAAB44J7gAAAAllBMVEVMaXGhe3LmrKzSmaDXq6WJYV2xgoK1gYWvgX+veo6dgHNuVEloSTibenS7jYliRDWognuknXDHnJnYqqlxWkeKbWKGbV9+YFjZoZt+aVuwiYJyW0J6YE+5nYfPmJKznoCqhoHUp6hqVD2ViGV0YUuNgmBUOS/gr67DnZjDioiSdnNoSDXbqKe9sn7dq6bquLX7wcL3srJW0MI9AAAALnRSTlMA9PUu8hwjEwcEOS3zbPzKxv36lI3qT6X+vfVz43v+wZZgQcy++2vD6NrSqq79uyxERwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAPxJREFUGJUlUNmSwyAMEwRiyH3fbdImvXch/f+f2yH7orE1smUZMs7iAAoAtAM8uWCjgv9zOlpAcMvXrHyY+BLLg5iS3Xz3/RmLInSjKzO2OydiSOZTQwQIsRtbGDsUoq59AIYn553V1tbDMjqiMMwW7DyXF88DAWCJFTXvTFkRgTQwdDz9bJ3I+rJcQgBbkqXVPeN9y8wt0ArXapyyd7s8xLVtQAq4Rq/ve+qDgPR/mCAdX3vcEGloeB4g00948Ug7NZSDtIJ/5Hem7gn3SGp3oiMORRi1IF/DV4AigGQaSSWPWmmA+i2KpqoJpQI8AsL1lud5/pvPp8At+gOsIhMedEvtoQAAAABJRU5ErkJggg==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-400w.avif 400w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-765w.avif 765w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.avif 800w",
+    "webpSrcSet": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-400w.webp 400w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-765w.webp 765w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.webp 800w",
+    "fallbackSrcSet": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-400w.png 400w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-765w.png 765w, /optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.png 800w",
+    "fallbackSrc": "/optimized/cherry_blossom_tree_transparent/cherry_blossom_tree_transparent-800w.png"
+  },
   "composite_frame_preview": {
     "key": "composite_frame_preview",
     "originalFilename": "composite_frame_preview.png",
@@ -1386,6 +1414,34 @@ export const imageManifest: Record<string, ImageMeta> = {
     "fallbackSrcSet": "/optimized/MAIN BG /MAIN BG -400w.jpg 400w, /optimized/MAIN BG /MAIN BG -800w.jpg 800w, /optimized/MAIN BG /MAIN BG -1024w.jpg 1024w",
     "fallbackSrc": "/optimized/MAIN BG /MAIN BG -800w.jpg"
   },
+  "main_header_mandap": {
+    "key": "main_header_mandap",
+    "originalFilename": "main_header_mandap.jpg",
+    "originalSizeKB": 986.5,
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": 1,
+    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/main_header_mandap/main_header_mandap-400w.avif 400w, /optimized/main_header_mandap/main_header_mandap-800w.avif 800w, /optimized/main_header_mandap/main_header_mandap-1024w.avif 1024w",
+    "webpSrcSet": "/optimized/main_header_mandap/main_header_mandap-400w.webp 400w, /optimized/main_header_mandap/main_header_mandap-800w.webp 800w, /optimized/main_header_mandap/main_header_mandap-1024w.webp 1024w",
+    "fallbackSrcSet": "/optimized/main_header_mandap/main_header_mandap-400w.jpg 400w, /optimized/main_header_mandap/main_header_mandap-800w.jpg 800w, /optimized/main_header_mandap/main_header_mandap-1024w.jpg 1024w",
+    "fallbackSrc": "/optimized/main_header_mandap/main_header_mandap-800w.jpg"
+  },
+  "main_header_mandap.jpg": {
+    "key": "main_header_mandap",
+    "originalFilename": "main_header_mandap.jpg",
+    "originalSizeKB": 986.5,
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": 1,
+    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/main_header_mandap/main_header_mandap-400w.avif 400w, /optimized/main_header_mandap/main_header_mandap-800w.avif 800w, /optimized/main_header_mandap/main_header_mandap-1024w.avif 1024w",
+    "webpSrcSet": "/optimized/main_header_mandap/main_header_mandap-400w.webp 400w, /optimized/main_header_mandap/main_header_mandap-800w.webp 800w, /optimized/main_header_mandap/main_header_mandap-1024w.webp 1024w",
+    "fallbackSrcSet": "/optimized/main_header_mandap/main_header_mandap-400w.jpg 400w, /optimized/main_header_mandap/main_header_mandap-800w.jpg 800w, /optimized/main_header_mandap/main_header_mandap-1024w.jpg 1024w",
+    "fallbackSrc": "/optimized/main_header_mandap/main_header_mandap-800w.jpg"
+  },
   "mandap_painting": {
     "key": "mandap_painting",
     "originalFilename": "mandap_painting.jpg",
@@ -1441,6 +1497,34 @@ export const imageManifest: Record<string, ImageMeta> = {
     "webpSrcSet": "/optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-400w.webp 400w, /optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-800w.webp 800w, /optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-1200w.webp 1200w, /optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-1376w.webp 1376w",
     "fallbackSrcSet": "/optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-400w.jpg 400w, /optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-800w.jpg 800w, /optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-1200w.jpg 1200w, /optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-1376w.jpg 1376w",
     "fallbackSrc": "/optimized/neer_garh_waterfall_rishikesh_1790244391014/neer_garh_waterfall_rishikesh_1790244391014-800w.jpg"
+  },
+  "opened_envelope_bg": {
+    "key": "opened_envelope_bg",
+    "originalFilename": "opened_envelope_bg.png",
+    "originalSizeKB": 217.3,
+    "width": 474,
+    "height": 922,
+    "aspectRatio": 0.5141,
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAfCAMAAADZe72GAAAAHlBMVEX//PnhsLXYoqhQQFDz4ePoxcr88O+6k5rPvsKQc37l83f9AAAACXBIWXMAAAsSAAALEgHS3X78AAAAcklEQVQokd3RQQ4DMQgDQAyGkP9/uAKy6R57rpXTyCgSiGVmrk5mLhOLCKJDRwFJKKBQkFkQPgWA0XAGqjRwC4AXOPjEUQCEnLB/0T8FLfB3YxYUIvPYC2o4jQOvNEBvfgX/Ql8uwnXOpC5uYnvtm7XtAx+GBSgIa9zbAAAAAElFTkSuQmCC",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.avif 400w, /optimized/opened_envelope_bg/opened_envelope_bg-474w.avif 474w",
+    "webpSrcSet": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.webp 400w, /optimized/opened_envelope_bg/opened_envelope_bg-474w.webp 474w",
+    "fallbackSrcSet": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.png 400w, /optimized/opened_envelope_bg/opened_envelope_bg-474w.png 474w",
+    "fallbackSrc": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.png"
+  },
+  "opened_envelope_bg.png": {
+    "key": "opened_envelope_bg",
+    "originalFilename": "opened_envelope_bg.png",
+    "originalSizeKB": 217.3,
+    "width": 474,
+    "height": 922,
+    "aspectRatio": 0.5141,
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAfCAMAAADZe72GAAAAHlBMVEX//PnhsLXYoqhQQFDz4ePoxcr88O+6k5rPvsKQc37l83f9AAAACXBIWXMAAAsSAAALEgHS3X78AAAAcklEQVQokd3RQQ4DMQgDQAyGkP9/uAKy6R57rpXTyCgSiGVmrk5mLhOLCKJDRwFJKKBQkFkQPgWA0XAGqjRwC4AXOPjEUQCEnLB/0T8FLfB3YxYUIvPYC2o4jQOvNEBvfgX/Ql8uwnXOpC5uYnvtm7XtAx+GBSgIa9zbAAAAAElFTkSuQmCC",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.avif 400w, /optimized/opened_envelope_bg/opened_envelope_bg-474w.avif 474w",
+    "webpSrcSet": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.webp 400w, /optimized/opened_envelope_bg/opened_envelope_bg-474w.webp 474w",
+    "fallbackSrcSet": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.png 400w, /optimized/opened_envelope_bg/opened_envelope_bg-474w.png 474w",
+    "fallbackSrc": "/optimized/opened_envelope_bg/opened_envelope_bg-400w.png"
   },
   "paper_blush_texture": {
     "key": "paper_blush_texture",
@@ -2673,6 +2757,34 @@ export const imageManifest: Record<string, ImageMeta> = {
     "webpSrcSet": "/optimized/wish_parchment_ribbon/wish_parchment_ribbon-400w.webp 400w, /optimized/wish_parchment_ribbon/wish_parchment_ribbon-654w.webp 654w",
     "fallbackSrcSet": "/optimized/wish_parchment_ribbon/wish_parchment_ribbon-400w.png 400w, /optimized/wish_parchment_ribbon/wish_parchment_ribbon-654w.png 654w",
     "fallbackSrc": "/optimized/wish_parchment_ribbon/wish_parchment_ribbon-400w.png"
+  },
+  "cherry_blossom_tree_clean": {
+    "key": "cherry_blossom_tree_clean",
+    "originalFilename": "cherry_blossom_tree_clean.png",
+    "originalSizeKB": 990.5,
+    "width": 765,
+    "height": 1024,
+    "aspectRatio": 0.7471,
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAVCAMAAAB44J7gAAAAilBMVEVMaXF/Z1u7iI+PcmfRqJ+qhXZtUEuweYGveIDframfgnR7ZFvGmpZwUkR/ZFtkTDtgRDNbRzqVamd6Y1fQnJmcdnCrhH2CbFq4mYteRjyUjWddRjxyWVLHhJGEb2JUQCu9l5OUeHTWqqzcraqAclyJfWW8h4PAmZnqt7Peo6G6jIf6wsOvpnb/t7tCylqdAAAAKnRSTlMA8yb6/A4pBhX+22f+94bC15wfsP78/jd7Rf3y8TRUcfOulLjI3OSw//6rOoAIAAAACXBIWXMAAAsSAAALEgHS3X78AAAA8klEQVQYlSVPV47EMBTCJW7pvU8yde0kc//rrez5eQIE6AGRmWyFBPA72DVvswj0OQQKNM5qZh5PnQ1xFYTlOLX9nnvNk9GnCNOWJwfvDnOPlQI4P7VNtO0STogA4PTRnIxZTbpX6UsS19mkbSaTxTcoAO1hOXHOmVwoKAl0Thf50nC2/D3uPYDiMEVeti6dW81ukBjLMn2Tmex8q+OQGYvPl6VLeYvkb0yfb5+zjqvI05UCqijFQCPp3QimPAMN04MEiS2tQD1UEjICIOYaikpQiSAoUaQiqgL2FeqVzymp41FIYFVA/56m6bquywz+cfwDK9oRvJWbeR0AAAAASUVORK5CYII=",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-400w.avif 400w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-765w.avif 765w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.avif 800w",
+    "webpSrcSet": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-400w.webp 400w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-765w.webp 765w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.webp 800w",
+    "fallbackSrcSet": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-400w.png 400w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-765w.png 765w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.png 800w",
+    "fallbackSrc": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.png"
+  },
+  "cherry_blossom_tree_clean.png": {
+    "key": "cherry_blossom_tree_clean",
+    "originalFilename": "cherry_blossom_tree_clean.png",
+    "originalSizeKB": 990.5,
+    "width": 765,
+    "height": 1024,
+    "aspectRatio": 0.7471,
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAVCAMAAAB44J7gAAAAilBMVEVMaXF/Z1u7iI+PcmfRqJ+qhXZtUEuweYGveIDframfgnR7ZFvGmpZwUkR/ZFtkTDtgRDNbRzqVamd6Y1fQnJmcdnCrhH2CbFq4mYteRjyUjWddRjxyWVLHhJGEb2JUQCu9l5OUeHTWqqzcraqAclyJfWW8h4PAmZnqt7Peo6G6jIf6wsOvpnb/t7tCylqdAAAAKnRSTlMA8yb6/A4pBhX+22f+94bC15wfsP78/jd7Rf3y8TRUcfOulLjI3OSw//6rOoAIAAAACXBIWXMAAAsSAAALEgHS3X78AAAA8klEQVQYlSVPV47EMBTCJW7pvU8yde0kc//rrez5eQIE6AGRmWyFBPA72DVvswj0OQQKNM5qZh5PnQ1xFYTlOLX9nnvNk9GnCNOWJwfvDnOPlQI4P7VNtO0STogA4PTRnIxZTbpX6UsS19mkbSaTxTcoAO1hOXHOmVwoKAl0Thf50nC2/D3uPYDiMEVeti6dW81ukBjLMn2Tmex8q+OQGYvPl6VLeYvkb0yfb5+zjqvI05UCqijFQCPp3QimPAMN04MEiS2tQD1UEjICIOYaikpQiSAoUaQiqgL2FeqVzymp41FIYFVA/56m6bquywz+cfwDK9oRvJWbeR0AAAAASUVORK5CYII=",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-400w.avif 400w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-765w.avif 765w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.avif 800w",
+    "webpSrcSet": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-400w.webp 400w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-765w.webp 765w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.webp 800w",
+    "fallbackSrcSet": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-400w.png 400w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-765w.png 765w, /optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.png 800w",
+    "fallbackSrc": "/optimized/cherry_blossom_tree_clean/cherry_blossom_tree_clean-800w.png"
   }
 };
 export default imageManifest;

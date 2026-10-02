@@ -58,13 +58,10 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting, revealed = tr
           WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.3) 82%, transparent 100%)',
         }}
       >
-        <OptimizedImage
-          src={rishikeshMandapBg}
+        <img
+          src="/images/main_header_mandap.jpg"
           alt="Rishikesh Ganga Mandap Watercolor"
-          priority={true}
-          sizes="100vw"
-          className="w-full h-full"
-          imgClassName="object-cover object-top sm:object-center"
+          className="w-full h-full object-cover object-top sm:object-center"
         />
         {/* Soft luminous radial vignette to make text crystal clear without any card */}
         <div
