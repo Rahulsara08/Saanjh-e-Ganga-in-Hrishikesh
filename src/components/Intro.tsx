@@ -13,10 +13,7 @@ const ENVELOPE_SRC = '/intro/envelope.jpg';
 const LINING_SRC = '/intro/lining.jpg';
 const SEAL_SRC = '/intro/seal.png';
 const PAPER_SRC = '/intro/paper.jpg';
-
-// The 2 user-provided image assets for the post-envelope sequence
-const PLAIN_PAPER_SRC = '/intro/plain_paper_card.jpg';
-const CEREMONY_PAINTING_SRC = '/intro/ceremony_painting.jpg';
+const CEREMONY_MANDAP_SRC = '/intro/ceremony_mandap.jpg';
 
 const AC = 720;
 const lC = 1280;
@@ -135,6 +132,94 @@ const Ih = (A: string) =>
     }
   });
 
+/* ══════════════════════════════════════════════════════════════════
+   ROYAL WEDDING SYMBOL (Bespoke Golden Auspicious Lotus Crest)
+   Replaces the photorealistic wax sticker with a regal gold emblem
+   ══════════════════════════════════════════════════════════════════ */
+const RoyalWeddingSymbol: React.FC = () => (
+  <svg
+    viewBox="0 0 120 120"
+    className="w-16 h-16 sm:w-20 sm:h-20 drop-shadow-[0_4px_16px_rgba(0,0,0,0.65)] transition-transform duration-300 hover:scale-105"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFF4DE" />
+        <stop offset="25%" stopColor="#E6C87C" />
+        <stop offset="50%" stopColor="#FDF3DB" />
+        <stop offset="75%" stopColor="#C99E44" />
+        <stop offset="100%" stopColor="#966F28" />
+      </linearGradient>
+      <filter id="royalGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="1.8" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+    </defs>
+
+    {/* Outer decorative halo ring with auspicious dashed pattern */}
+    <circle cx="60" cy="60" r="54" stroke="url(#goldGradient)" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.8" />
+    <circle cx="60" cy="60" r="49" stroke="url(#goldGradient)" strokeWidth="1.6" />
+    <circle cx="60" cy="60" r="45" stroke="url(#goldGradient)" strokeWidth="0.8" opacity="0.6" />
+
+    {/* Cardinal auspicious accent points */}
+    <circle cx="60" cy="8" r="2.2" fill="url(#goldGradient)" />
+    <circle cx="60" cy="112" r="2.2" fill="url(#goldGradient)" />
+    <circle cx="8" cy="60" r="2.2" fill="url(#goldGradient)" />
+    <circle cx="112" cy="60" r="2.2" fill="url(#goldGradient)" />
+
+    {/* Diagonal corner accents */}
+    <circle cx="23" cy="23" r="1.5" fill="url(#goldGradient)" opacity="0.85" />
+    <circle cx="97" cy="23" r="1.5" fill="url(#goldGradient)" opacity="0.85" />
+    <circle cx="23" cy="97" r="1.5" fill="url(#goldGradient)" opacity="0.85" />
+    <circle cx="97" cy="97" r="1.5" fill="url(#goldGradient)" opacity="0.85" />
+
+    {/* Central Blooming Sacred Lotus Motif */}
+    {/* Center core petal */}
+    <path
+      d="M60 28 C64 42, 68 55, 60 70 C52 55, 56 42, 60 28 Z"
+      fill="url(#goldGradient)"
+      filter="url(#royalGlow)"
+    />
+    {/* Inner Left Petal */}
+    <path
+      d="M60 70 C48 66, 38 52, 43 40 C49 46, 54 58, 60 70 Z"
+      fill="url(#goldGradient)"
+    />
+    {/* Inner Right Petal */}
+    <path
+      d="M60 70 C72 66, 82 52, 77 40 C71 46, 66 58, 60 70 Z"
+      fill="url(#goldGradient)"
+    />
+    {/* Outer Left Leaf */}
+    <path
+      d="M60 72 C42 70, 30 60, 32 49 C39 55, 48 64, 60 72 Z"
+      fill="url(#goldGradient)"
+      opacity="0.9"
+    />
+    {/* Outer Right Leaf */}
+    <path
+      d="M60 72 C78 70, 90 60, 88 49 C81 55, 72 64, 60 72 Z"
+      fill="url(#goldGradient)"
+      opacity="0.9"
+    />
+
+    {/* Sacred Pedestal base */}
+    <path
+      d="M40 76 C48 73, 54 75, 60 78 C66 75, 72 73, 80 76 C75 82, 67 85, 60 84 C53 85, 45 82, 40 76 Z"
+      fill="url(#goldGradient)"
+    />
+    {/* Royal Filigree Flourish */}
+    <path
+      d="M44 87 C52 90, 56 94, 60 92 C64 94, 68 90, 76 87 C71 91, 66 94, 60 97 C54 94, 49 91, 44 87 Z"
+      fill="url(#goldGradient)"
+      opacity="0.9"
+    />
+    <circle cx="60" cy="100" r="1.8" fill="url(#goldGradient)" />
+  </svg>
+);
+
 const INTRO_CSS = `
 .ix-root{position:absolute;inset:0;overflow:hidden;background-color:var(--stage,#f6e4e6);touch-action:none;overscroll-behavior:contain;
   --lining:#dcaab3;--card:#fffaf6;--shadow:rgba(110,45,62,.55);-webkit-tap-highlight-color:transparent;z-index:50}
@@ -142,15 +227,34 @@ const INTRO_CSS = `
 
 .ix-stage{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .8s ease}
 .ix-root[data-ready=true] .ix-stage{opacity:1}
-.ix-root[data-phase=postEnvelope] .ix-stage{opacity:0;pointer-events:none;transition:opacity .5s ease}
+.ix-root[data-phase=postEnvelope] .ix-stage{opacity:0;pointer-events:none;transition:opacity .45s ease}
 
 .ix-zoom{position:relative;width:var(--w,0px);height:var(--h,0px);will-change:transform}
 .ix-env{position:absolute;inset:0;perspective:calc(var(--h) * 2.4);perspective-origin:50% 50%}
 .ix-rect{position:absolute;inset:0}
 .ix-env-shadow{box-shadow:0 calc(var(--h)*.035) calc(var(--h)*.083) rgba(120,55,70,.28),0 calc(var(--h)*.007) calc(var(--h)*.017) rgba(120,55,70,.18)}
+
 .ix-lining{background:radial-gradient(120% 90% at 50% 40%,#e9bfc6 0%,var(--lining) 100%)}
-.ix-card{position:absolute;left:6.5%;right:6.5%;top:4.5%;bottom:4.5%;background:linear-gradient(180deg,#fffdfb 0%,var(--card) 100%);
-  box-shadow:0 calc(var(--h)*.004) calc(var(--h)*.011) rgba(110,45,62,.25),inset 0 0 0 1px rgba(200,150,160,.18)}
+
+/* Inner card inside the physical envelope — shows miniature ceremony mandap painting */
+.ix-card{
+  position:absolute;left:6.5%;right:6.5%;top:4.5%;bottom:4.5%;
+  background:linear-gradient(180deg,#fffdfb 0%,var(--card) 100%);
+  box-shadow:0 calc(var(--h)*.004) calc(var(--h)*.011) rgba(110,45,62,.25),inset 0 0 0 1px rgba(200,150,160,.18);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:4px;
+}
+.ix-card-paint-wrap{
+  width:78%;height:70%;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border-radius:3px;
+  box-shadow:0 3px 12px rgba(90,40,55,.18);
+  border:1px solid rgba(212,175,55,.35);
+  background:#FAF5EE;
+}
+.ix-card-paint-img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+
 .ix-cast{position:absolute;inset:0;filter:blur(calc(var(--h)*.0194));opacity:0;pointer-events:none}
 .ix-cast>i{position:absolute;inset:0;background:var(--shadow)}
 .ix-flap{position:absolute;inset:0;will-change:transform}
@@ -183,72 +287,45 @@ const INTRO_CSS = `
 @keyframes ixRise{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
 
 /* ══════════════════════════════════════════════════════════════════
-   POST-ENVELOPE SEQUENCE (IMAGE 2 = Fixed, IMAGE 3 = Zooms, Seal Fades In)
+   POST-ENVELOPE SEQUENCE:
+   - Full-bleed Ceremony Mandap Painting covers screen
+   - Warm sacred ambient scrim ensures maximum legibility
+   - Elegant wedding invitation card typography with Royal Golden Symbol & Tap to Open
    ══════════════════════════════════════════════════════════════════ */
-.ix-post-stage{position:absolute;inset:0;overflow:hidden;z-index:10}
-
-/* IMAGE 2: Plain paper card - Completely fixed, static background canvas */
-.ix-paper-bg{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:11;
+.ix-post-stage{
+  position:absolute;inset:0;overflow:hidden;z-index:10;
+  display:flex;align-items:center;justify-content:center;
+}
+.ix-mandap-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  pointer-events:none;z-index:11;
   user-select:none;-webkit-user-drag:none;
 }
-
-/* IMAGE 3: Small centered ceremony painting - ONLY ZOOMING ELEMENT */
-.ix-painting-box{
-  position:absolute;left:50%;top:50%;
-  width:125px;height:168px;
-  transform-origin:50% 50%;
-  will-change:transform;
-  z-index:20;
-  pointer-events:none;
-  overflow:hidden;
+.ix-mandap-scrim{
+  position:absolute;inset:0;z-index:12;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, rgba(18,10,6,.42) 0%, rgba(18,10,6,.78) 100%);
 }
-.ix-painting-box[data-step=init]{
-  transform:translate(-50%, -50%) scale(1);
-  box-shadow:0 10px 30px rgba(0,0,0,.22);
-  border-radius:14px;
-}
-.ix-painting-box[data-step=zooming]{
-  transform:translate(-50%, -50%) scale(var(--fill-scale, 5.2));
-  transition:transform 2.2s cubic-bezier(0.25, 0.1, 0.25, 1), border-radius 1.8s ease, box-shadow 1.4s ease;
-  box-shadow:none;
-  border-radius:0px;
-}
-.ix-painting-box[data-step=hold],
-.ix-painting-box[data-step=seal],
-.ix-painting-box[data-step=leaving]{
-  transform:translate(-50%, -50%) scale(var(--fill-scale, 5.2));
-  box-shadow:none;
-  border-radius:0px;
-}
-.ix-painting-img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  user-select:none;-webkit-user-drag:none;
-}
-
-/* SEAL SECTION: Fades in smoothly directly on top of the full-screen ceremony painting */
-.ix-seal-section{
-  position:absolute;inset:0;z-index:30;
+.ix-invitation-overlay{
+  position:absolute;inset:0;z-index:20;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:max(24px,env(safe-area-inset-top,0px)) 20px max(24px,env(safe-area-inset-bottom,0px));
-  opacity:0;pointer-events:none;
-  transition:opacity .85s cubic-bezier(.2,.8,.2,1);
+  opacity:0;transform:scale(0.96);
+  pointer-events:none;
+  transition:opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   cursor:pointer;
-  background:radial-gradient(ellipse at 50% 50%, rgba(18,11,7,.38) 0%, rgba(18,11,7,.68) 100%);
 }
-.ix-seal-section[data-visible=true]{
-  opacity:1;pointer-events:auto;
+.ix-invitation-overlay[data-visible=true]{
+  opacity:1;transform:scale(1);pointer-events:auto;
 }
-.ix-seal-press{
-  transition:transform .2s ease;
+.ix-btn-press{
+  transition:transform .2s ease, box-shadow .2s ease;
 }
-.ix-seal-section:active .ix-seal-press{
-  transform:scale(.95);
+.ix-invitation-overlay:active .ix-btn-press{
+  transform:scale(.96);
 }
 
 @media (prefers-reduced-motion:reduce){
-  .ix-painting-box{transition:none!important}
-  .ix-seal-section{transition:none!important}
+  .ix-invitation-overlay{transition:none!important}
 }
 `;
 
@@ -258,12 +335,10 @@ export const Intro: React.FC<IntroProps> = ({
   onDone,
 }) => {
   const [phase, setPhase] = useState<'closed' | 'opening' | 'postEnvelope' | 'leaving'>('closed');
-  const [postStep, setPostStep] = useState<'init' | 'zooming' | 'hold' | 'seal' | 'leaving'>('init');
+  const [cardVisible, setCardVisible] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
-  const [fillScale, setFillScale] = useState<number>(5.2);
 
   const phaseRef = useRef<'closed' | 'opening' | 'postEnvelope' | 'leaving'>('closed');
-  const postStepRef = useRef<'init' | 'zooming' | 'hold' | 'seal' | 'leaving'>('init');
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef<HTMLDivElement>(null);
@@ -284,11 +359,6 @@ export const Intro: React.FC<IntroProps> = ({
     setPhase(next);
   };
 
-  const changePostStep = (step: 'init' | 'zooming' | 'hold' | 'seal' | 'leaving') => {
-    postStepRef.current = step;
-    setPostStep(step);
-  };
-
   // Lock body scroll while Intro is visible
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -298,15 +368,14 @@ export const Intro: React.FC<IntroProps> = ({
     };
   }, []);
 
-  // Preload essential envelope textures and the 2 post-envelope images
+  // Preload essential envelope textures and ceremony mandap painting
   useEffect(() => {
     let alive = true;
     Promise.all([
       ENVELOPE_SRC,
       LINING_SRC,
       SEAL_SRC,
-      PLAIN_PAPER_SRC,
-      CEREMONY_PAINTING_SRC,
+      CEREMONY_MANDAP_SRC,
     ].map(Ih)).then(() => {
       if (alive) setReady(true);
     });
@@ -319,19 +388,7 @@ export const Intro: React.FC<IntroProps> = ({
     };
   }, []);
 
-  // Compute exact fill scale needed for IMAGE 3 (Painting) to completely cover the mobile screen
-  const calculateFillScale = () => {
-    if (!rootRef.current) return;
-    const pW = rootRef.current.clientWidth || 390;
-    const pH = rootRef.current.clientHeight || 844;
-    const initW = 125;
-    const initH = 125 * (1024 / 764); // ~167.5px
-    // Scale factor to completely fill both width and height like object-fit: cover + 5% bleed
-    const scale = Math.max(pW / initW, pH / initH) * 1.05;
-    setFillScale(Math.max(scale, 3.5));
-  };
-
-  // Envelope 3D origami unfolding animation engine (keeps existing envelope animation 100% intact)
+  // Envelope 3D origami unfolding animation engine
   useLayoutEffect(() => {
     const rootEl = rootRef.current;
     const stageEl = stageRef.current;
@@ -372,7 +429,6 @@ export const Intro: React.FC<IntroProps> = ({
       Vu = Math.min(pH * 0.72, (pW - 32) * 0.86 * (lC / AC));
       zoomEl.style.setProperty('--w', `${(Vu * AC) / lC}px`);
       zoomEl.style.setProperty('--h', `${Vu}px`);
-      calculateFillScale();
     };
 
     const renderProgress = (t: number) => {
@@ -426,39 +482,20 @@ export const Intro: React.FC<IntroProps> = ({
     };
   }, []);
 
-  // Post-envelope sequence orchestration:
-  // 1. Plain paper card (IMAGE 2) appears as stationary background
-  // 2. Ceremony painting (IMAGE 3) is small in center
-  // 3. ONLY IMAGE 3 zooms smoothly to fill screen
-  // 4. Painting holds stable
-  // 5. Seal section smoothly fades in directly on top of IMAGE 3
   const startPostEnvelopeSequence = () => {
-    calculateFillScale();
     changePhase('postEnvelope');
-    changePostStep('init');
+    setCardVisible(false);
 
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      changePostStep('seal');
+      setCardVisible(true);
       return;
     }
 
-    // Step 4: After stationary paper is visible and painting is small in center, zoom only the center painting
-    const tZoom = window.setTimeout(() => {
-      changePostStep('zooming');
-    }, 300);
-    timersRef.current.push(tZoom);
-
-    // Step 5 & 6: Once painting completely fills screen, STOP and HOLD
-    const tHold = window.setTimeout(() => {
-      changePostStep('hold');
-    }, 2500); // 300ms + 2200ms zoom animation
-    timersRef.current.push(tHold);
-
-    // Step 8: Smoothly fade in the seal section directly on top of the ceremony painting
-    const tSeal = window.setTimeout(() => {
-      changePostStep('seal');
-    }, 3100); // 2500ms + 600ms hold
-    timersRef.current.push(tSeal);
+    // Smoothly fade in the invitation card typography overlay on top of full-screen ceremony painting
+    const tCard = window.setTimeout(() => {
+      setCardVisible(true);
+    }, 280);
+    timersRef.current.push(tCard);
   };
 
   const handleOpen = () => {
@@ -489,16 +526,14 @@ export const Intro: React.FC<IntroProps> = ({
     e.stopPropagation();
     cancelAnimationFrame(rafRef.current);
     ctrlRef.current?.render(ii);
-    calculateFillScale();
     changePhase('postEnvelope');
-    changePostStep('seal');
+    setCardVisible(true);
   };
 
-  // Seal section interactive trigger: tap transitions smoothly into main application
+  // Card interactive trigger: tapping triggers Qaafirana audio & transitions into main application
   const handleEnter = () => {
-    if (postStepRef.current !== 'seal') return;
+    if (phaseRef.current !== 'postEnvelope') return;
     changePhase('leaving');
-    changePostStep('leaving');
 
     try {
       qaafiranaAudio.play();
@@ -530,17 +565,27 @@ export const Intro: React.FC<IntroProps> = ({
       className="ix-root"
       data-phase={phase}
       data-ready={ready}
-      style={{ '--fill-scale': fillScale } as React.CSSProperties}
     >
       <style>{INTRO_CSS}</style>
 
-      {/* ── STEP 1: Existing 3D Envelope Origami Stage (Kept 100% exactly intact) ── */}
+      {/* ── STEP 1: 3D Origami Envelope with Inner Mandap Ceremony Card ── */}
       <div ref={stageRef} className="ix-stage" aria-hidden="true">
         <div ref={zoomRef} className="ix-zoom">
           <div className="ix-rect ix-env-shadow" />
           <div className="ix-env">
             <div className="ix-rect ix-lining" />
-            <div className="ix-card" />
+
+            {/* Inner Card: White parchment with centered miniature Mandap Ceremony Painting */}
+            <div className="ix-card">
+              <div className="ix-card-paint-wrap">
+                <img
+                  src={CEREMONY_MANDAP_SRC}
+                  alt="Ceremony Mandap"
+                  className="ix-card-paint-img"
+                />
+              </div>
+            </div>
+
             {ei.map((k) => (
               <div key={`c${k}`} className="ix-cast" data-c={k}>
                 <i />
@@ -570,7 +615,7 @@ export const Intro: React.FC<IntroProps> = ({
           type="button"
           className="ix-open"
           onClick={handleOpen}
-          aria-label="Open the invitation"
+          aria-label="Open the wedding invitation"
         />
       )}
 
@@ -581,85 +626,93 @@ export const Intro: React.FC<IntroProps> = ({
         </button>
       )}
 
-      {/* ── POST-ENVELOPE SEQUENCE (Steps 2 to 8) ── */}
+      {/* ── POST-ENVELOPE SEQUENCE: Mandap Ceremony Full View & Invitation Card Overlay ── */}
       {(phase === 'postEnvelope' || phase === 'leaving') && (
         <div className="ix-post-stage">
-          {/* STEP 2: IMAGE 2 (Plain Paper Card) = Fixed, completely static background canvas */}
+          {/* Full-bleed Ceremony Mandap Painting */}
           <img
-            src={PLAIN_PAPER_SRC}
-            alt=""
-            aria-hidden="true"
-            className="ix-paper-bg"
+            src={CEREMONY_MANDAP_SRC}
+            alt="Sacred Ganga Ceremony"
+            className="ix-mandap-bg"
           />
 
-          {/* STEP 3, 4, 5: IMAGE 3 (Ceremony Painting) = Small centered image that performs the ONLY zoom animation */}
-          <div className="ix-painting-box" data-step={postStep}>
-            <img
-              src={CEREMONY_PAINTING_SRC}
-              alt="Sacred Ganga Ceremony Painting"
-              className="ix-painting-img"
-            />
-          </div>
+          {/* Warm sacred ambient scrim for optimal text contrast and divine mood */}
+          <div className="ix-mandap-scrim" />
 
-          {/* STEP 8: Seal Section = Fades in smoothly directly on top of the full-screen ceremony painting */}
+          {/* Invitation Card Content Overlay with Royal Golden Wedding Symbol & Tap to Open */}
           <div
-            className="ix-seal-section"
-            data-visible={postStep === 'seal' || postStep === 'leaving'}
+            className="ix-invitation-overlay"
+            data-visible={cardVisible}
             onClick={handleEnter}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleEnter();
+              }
+            }}
             role="button"
             tabIndex={0}
-            aria-label="Tap seal to open wedding invitation"
+            aria-label="Tap to open wedding invitation"
           >
-            <div className="w-full max-w-[320px] flex flex-col items-center text-center space-y-4 px-2">
-              {/* Auspicious Sanskrit Inscription */}
+            <div className="w-full max-w-[340px] flex flex-col items-center text-center space-y-4 px-3 select-none">
+              {/* Sacred Sanskrit Inscription */}
               <div className="space-y-1">
-                <span className="text-[11px] sm:text-xs font-serif tracking-[0.34em] uppercase text-[#F5E6CC] font-semibold drop-shadow-md block">
+                <span className="text-xs sm:text-sm font-serif tracking-[0.36em] uppercase text-[#FBF4E6] font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] block">
                   ॥ श्री गणेशाय नमः ॥
                 </span>
-                <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.38em] uppercase text-[#DFC48F] font-bold drop-shadow-md block">
+                <span className="text-[10px] sm:text-[11px] font-sans tracking-[0.42em] uppercase text-[#E5CA92] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] block mt-1">
                   SHUBH VIVAH
                 </span>
               </div>
 
               {/* Couple Names */}
               <div className="pt-1">
-                <h2 className="font-serif text-3xl sm:text-4xl text-[#FFFDF8] font-normal tracking-wide drop-shadow-[0_2px_14px_rgba(0,0,0,0.65)]">
-                  Meher <span className="italic font-serif text-[#E2C997] px-1">&</span> Kabir
-                </h2>
-                <p className="text-[10px] sm:text-[11px] font-sans tracking-[0.28em] uppercase text-[#F1E5D4] font-medium mt-1 drop-shadow-md">
-                  21 · 11 · 2027 · Rishikesh
+                <h1 className="font-serif text-3xl sm:text-4xl text-[#FFFDF9] font-normal tracking-wide drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]">
+                  Meher <span className="italic font-serif text-[#E5CA92] px-1 font-light">&</span> Kabir
+                </h1>
+                <p className="text-[10px] sm:text-[11px] font-sans tracking-[0.32em] uppercase text-[#F5EADB] font-medium mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                  21 · 11 · 2027 · RISHIKESH
                 </p>
               </div>
 
-              {/* Personal Guest Greeting if provided */}
+              {/* Guest Greeting if provided */}
               {showCustomGuest && (
-                <div className="py-1 px-4 rounded-full bg-[#1F140E]/65 border border-[#DFC48F]/50 backdrop-blur-xs shadow-md">
+                <div className="my-1 py-1.5 px-4 rounded-full bg-[#181008]/65 border border-[#DFC48F]/45 backdrop-blur-xs shadow-lg">
                   <p className="font-serif italic text-sm text-[#F7EDE0] tracking-wide">
                     Cordially Inviting {cleanGuest} & Family
                   </p>
                 </div>
               )}
 
-              {/* Iconic Wax Seal Button */}
-              <div className="pt-2 pb-1 relative flex items-center justify-center ix-seal-press">
-                {/* Soft ambient golden glow */}
-                <div className="absolute w-28 h-28 rounded-full bg-[#DFC48F]/25 blur-xl pointer-events-none" />
-                <div className="relative group transition-transform duration-300 hover:scale-105">
-                  <img
-                    src={SEAL_SRC}
-                    alt="Wax Seal"
-                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.7)] select-none pointer-events-none"
-                  />
-                </div>
+              {/* Bespoke Royal Wedding Golden Symbol (Replacing the circular wax sticker) */}
+              <div className="py-2 relative flex items-center justify-center ix-btn-press">
+                <div className="absolute w-24 h-24 rounded-full bg-[#DFC48F]/20 blur-xl pointer-events-none animate-pulse" />
+                <RoyalWeddingSymbol />
               </div>
 
-              {/* Tap Instruction Pill */}
-              <div className="pt-1">
-                <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-[#FFFBF7]/90 hover:bg-[#FFFBF7] text-[#2A1D13] border border-[#DFC48F] shadow-[0_4px_16px_rgba(0,0,0,0.35)] transition-all hover:scale-102 active:scale-98">
-                  <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.24em]">
-                    Tap Seal to Open
+              {/* Tap to Open Button */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEnter();
+                  }}
+                  className="ix-btn-press inline-flex items-center space-x-2.5 px-7 py-3 rounded-full bg-[#FAF5EB]/95 hover:bg-[#FFFFFF] text-[#2C1C10] border border-[#D4AF37] shadow-[0_8px_24px_rgba(0,0,0,0.5)] transition-all cursor-pointer"
+                >
+                  <span className="text-xs font-sans font-bold uppercase tracking-[0.26em] text-[#362012]">
+                    Tap to Open
                   </span>
-                </div>
+                  <svg
+                    className="w-3.5 h-3.5 text-[#8A5A00]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -668,3 +721,4 @@ export const Intro: React.FC<IntroProps> = ({
     </div>
   );
 };
+

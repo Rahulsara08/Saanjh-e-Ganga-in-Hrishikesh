@@ -279,6 +279,34 @@
     "fallbackSrcSet": "/optimized/ceremony_illustration/ceremony_illustration-400w.png 400w, /optimized/ceremony_illustration/ceremony_illustration-513w.png 513w",
     "fallbackSrc": "/optimized/ceremony_illustration/ceremony_illustration-400w.png"
   },
+  "ceremony_mandap": {
+    "key": "ceremony_mandap",
+    "originalFilename": "ceremony_mandap.jpg",
+    "originalSizeKB": 497.1,
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": 1,
+    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/ceremony_mandap/ceremony_mandap-400w.avif 400w, /optimized/ceremony_mandap/ceremony_mandap-800w.avif 800w, /optimized/ceremony_mandap/ceremony_mandap-1024w.avif 1024w",
+    "webpSrcSet": "/optimized/ceremony_mandap/ceremony_mandap-400w.webp 400w, /optimized/ceremony_mandap/ceremony_mandap-800w.webp 800w, /optimized/ceremony_mandap/ceremony_mandap-1024w.webp 1024w",
+    "fallbackSrcSet": "/optimized/ceremony_mandap/ceremony_mandap-400w.jpg 400w, /optimized/ceremony_mandap/ceremony_mandap-800w.jpg 800w, /optimized/ceremony_mandap/ceremony_mandap-1024w.jpg 1024w",
+    "fallbackSrc": "/optimized/ceremony_mandap/ceremony_mandap-800w.jpg"
+  },
+  "ceremony_mandap.jpg": {
+    "key": "ceremony_mandap",
+    "originalFilename": "ceremony_mandap.jpg",
+    "originalSizeKB": 497.1,
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": 1,
+    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/ceremony_mandap/ceremony_mandap-400w.avif 400w, /optimized/ceremony_mandap/ceremony_mandap-800w.avif 800w, /optimized/ceremony_mandap/ceremony_mandap-1024w.avif 1024w",
+    "webpSrcSet": "/optimized/ceremony_mandap/ceremony_mandap-400w.webp 400w, /optimized/ceremony_mandap/ceremony_mandap-800w.webp 800w, /optimized/ceremony_mandap/ceremony_mandap-1024w.webp 1024w",
+    "fallbackSrcSet": "/optimized/ceremony_mandap/ceremony_mandap-400w.jpg 400w, /optimized/ceremony_mandap/ceremony_mandap-800w.jpg 800w, /optimized/ceremony_mandap/ceremony_mandap-1024w.jpg 1024w",
+    "fallbackSrc": "/optimized/ceremony_mandap/ceremony_mandap-800w.jpg"
+  },
   "ceremony_mehndi_illustration": {
     "key": "ceremony_mehndi_illustration",
     "originalFilename": "ceremony_mehndi_illustration.png",
@@ -1315,6 +1343,34 @@
     "fallbackSrcSet": "/optimized/kunjapuri_devi_sunrise_real/kunjapuri_devi_sunrise_real-400w.png 400w, /optimized/kunjapuri_devi_sunrise_real/kunjapuri_devi_sunrise_real-768w.png 768w, /optimized/kunjapuri_devi_sunrise_real/kunjapuri_devi_sunrise_real-800w.png 800w",
     "fallbackSrc": "/optimized/kunjapuri_devi_sunrise_real/kunjapuri_devi_sunrise_real-800w.png"
   },
+  "MAIN BG ": {
+    "key": "MAIN BG ",
+    "originalFilename": "MAIN BG .jpg",
+    "originalSizeKB": 986.5,
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": 1,
+    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/MAIN BG /MAIN BG -400w.avif 400w, /optimized/MAIN BG /MAIN BG -800w.avif 800w, /optimized/MAIN BG /MAIN BG -1024w.avif 1024w",
+    "webpSrcSet": "/optimized/MAIN BG /MAIN BG -400w.webp 400w, /optimized/MAIN BG /MAIN BG -800w.webp 800w, /optimized/MAIN BG /MAIN BG -1024w.webp 1024w",
+    "fallbackSrcSet": "/optimized/MAIN BG /MAIN BG -400w.jpg 400w, /optimized/MAIN BG /MAIN BG -800w.jpg 800w, /optimized/MAIN BG /MAIN BG -1024w.jpg 1024w",
+    "fallbackSrc": "/optimized/MAIN BG /MAIN BG -800w.jpg"
+  },
+  "MAIN BG .jpg": {
+    "key": "MAIN BG ",
+    "originalFilename": "MAIN BG .jpg",
+    "originalSizeKB": 986.5,
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": 1,
+    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
+    "dominantColor": "#FAF2F0",
+    "avifSrcSet": "/optimized/MAIN BG /MAIN BG -400w.avif 400w, /optimized/MAIN BG /MAIN BG -800w.avif 800w, /optimized/MAIN BG /MAIN BG -1024w.avif 1024w",
+    "webpSrcSet": "/optimized/MAIN BG /MAIN BG -400w.webp 400w, /optimized/MAIN BG /MAIN BG -800w.webp 800w, /optimized/MAIN BG /MAIN BG -1024w.webp 1024w",
+    "fallbackSrcSet": "/optimized/MAIN BG /MAIN BG -400w.jpg 400w, /optimized/MAIN BG /MAIN BG -800w.jpg 800w, /optimized/MAIN BG /MAIN BG -1024w.jpg 1024w",
+    "fallbackSrc": "/optimized/MAIN BG /MAIN BG -800w.jpg"
+  },
   "mandap_painting": {
     "key": "mandap_painting",
     "originalFilename": "mandap_painting.jpg",
@@ -1846,34 +1902,6 @@
     "webpSrcSet": "/optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-400w.webp 400w, /optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-800w.webp 800w, /optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-896w.webp 896w",
     "fallbackSrcSet": "/optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-400w.jpg 400w, /optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-800w.jpg 800w, /optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-896w.jpg 896w",
     "fallbackSrc": "/optimized/rishikesh_mandap_watercolor_1790236503482/rishikesh_mandap_watercolor_1790236503482-800w.jpg"
-  },
-  "rishikesh_mandap_watercolor_1790240774713": {
-    "key": "rishikesh_mandap_watercolor_1790240774713",
-    "originalFilename": "rishikesh_mandap_watercolor_1790240774713.jpg",
-    "originalSizeKB": 986.5,
-    "width": 1024,
-    "height": 1024,
-    "aspectRatio": 1,
-    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
-    "dominantColor": "#FAF2F0",
-    "avifSrcSet": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-400w.avif 400w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.avif 800w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-1024w.avif 1024w",
-    "webpSrcSet": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-400w.webp 400w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.webp 800w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-1024w.webp 1024w",
-    "fallbackSrcSet": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-400w.jpg 400w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.jpg 800w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-1024w.jpg 1024w",
-    "fallbackSrc": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.jpg"
-  },
-  "rishikesh_mandap_watercolor_1790240774713.jpg": {
-    "key": "rishikesh_mandap_watercolor_1790240774713",
-    "originalFilename": "rishikesh_mandap_watercolor_1790240774713.jpg",
-    "originalSizeKB": 986.5,
-    "width": 1024,
-    "height": 1024,
-    "aspectRatio": 1,
-    "blurDataURL": "data:image/jpeg;base64,/9j/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQIE/8QAHRAAAgICAwEAAAAAAAAAAAAAAQMCEQAEEhMhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANzdjrdKJjYAwQ8teBVCj5kvIDp0DKQHzDV5d0bHlG8lWS//2Q==",
-    "dominantColor": "#FAF2F0",
-    "avifSrcSet": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-400w.avif 400w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.avif 800w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-1024w.avif 1024w",
-    "webpSrcSet": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-400w.webp 400w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.webp 800w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-1024w.webp 1024w",
-    "fallbackSrcSet": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-400w.jpg 400w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.jpg 800w, /optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-1024w.jpg 1024w",
-    "fallbackSrc": "/optimized/rishikesh_mandap_watercolor_1790240774713/rishikesh_mandap_watercolor_1790240774713-800w.jpg"
   },
   "rishikesh_mehndi_evening_1790240685474": {
     "key": "rishikesh_mehndi_evening_1790240685474",
