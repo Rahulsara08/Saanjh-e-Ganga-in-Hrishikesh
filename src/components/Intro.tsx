@@ -18,6 +18,7 @@ const PAPER_SRC = '/intro/paper.jpg';
 
 // The sacred ceremony mandap painting
 const CEREMONY_PAINTING_SRC = '/intro/ceremony_painting.jpg';
+import introCoupleImg from '../assets/images/intro_couple_watercolor.png';
 
 // Golden Blooming Lotus Mandala Emblem (Matches Image 4 Reference)
 const RoyalWeddingSymbol: React.FC<{ size?: number }> = ({ size = 92 }) => (
@@ -388,6 +389,32 @@ const INTRO_CSS = `
   border:1px solid rgba(215, 155, 170, 0.45);
   border-radius:20px;
   pointer-events:none;
+  z-index:4;
+}
+
+.ix-card-couple-bg{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:26px;
+}
+
+.ix-card-couple-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 62%;
+  opacity:0.42;
+  mix-blend-mode:multiply;
+  filter:contrast(1.06) saturate(1.12);
+  transform:scale(1.08);
+  pointer-events:none;
+  user-select:none;
 }
 
 .ix-corner-ornament{
@@ -801,6 +828,15 @@ export const Intro: React.FC<IntroProps> = ({
             <div className="ix-royal-card" data-tapped={isTapped}>
               {/* Delicate Gold Inner Border Frame */}
               <div className="ix-card-inner-frame" />
+
+              {/* Handcrafted Couple Watercolor Background Illustration */}
+              <div aria-hidden="true" className="ix-card-couple-bg">
+                <img
+                  src={introCoupleImg}
+                  alt=""
+                  className="ix-card-couple-img"
+                />
+              </div>
 
               {/* Corner Ornaments */}
               <span className="ix-corner-ornament ix-corner-tl">✦</span>
