@@ -519,22 +519,22 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
       />
 
       {/* ── 2. Integrated Flowering Cherry-Blossom Tree Layer ── */}
-      {/* Visual flow: Base at bottom-left → trunk rises behind blessing cards → branches arch up toward 'MESSAGES OF LOVE' */}
+      {/* Starts behind the blessing cards and reaches up to top of 'Blessings on the Ganges' */}
       <div
-        className="absolute -left-6 xs:-left-8 sm:-left-4 top-2 sm:top-4 bottom-0 pointer-events-none select-none z-0 w-[300px] xs:w-[340px] sm:w-[420px] md:w-[480px] max-w-[85%] flex items-end justify-start overflow-visible"
+        className="absolute -left-6 xs:-left-8 sm:-left-4 top-0 pointer-events-none select-none z-0 w-[320px] xs:w-[380px] sm:w-[450px] md:w-[500px] max-w-[85%] flex items-start justify-start overflow-visible"
         aria-hidden="true"
       >
         <div
-          className="relative h-full w-auto flex items-end justify-start pointer-events-none select-none"
+          className="relative w-full flex items-start justify-start pointer-events-none select-none"
           style={{
             animation: 'ixTreeBreeze 9s ease-in-out infinite',
-            transformOrigin: '20% 95%',
+            transformOrigin: '20% 90%',
           }}
         >
           <img
             src={cherryBlossomTree}
             alt="Sacred Himalayan Flowering Tree"
-            className="h-full w-auto max-h-[690px] xs:max-h-[730px] sm:max-h-[790px] object-contain object-bottom-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
+            className="w-full h-auto max-h-[720px] object-contain object-top-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
           />
         </div>
       </div>
@@ -578,28 +578,23 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
       <div className="relative z-10">
         <RevealOnScroll>
           <div className="text-center max-w-xl mx-auto mb-6">
-            <SectionEyebrow
-              cursiveAccent="Sacred Prayers & Wishes"
-              className="text-[#9A6B0A] font-semibold tracking-[0.28em]"
-            >
+            <span className="text-[11px] sm:text-xs font-sans tracking-[0.26em] text-[#8A5A00] uppercase font-bold block mb-1">
               {config.wishingWall?.eyebrow || 'MESSAGES OF LOVE'}
-            </SectionEyebrow>
-            <SectionHeading
-              cursiveSubtitle={
-                config.wishingWall?.subtitle ||
-                'Leave a prayer or loving wish for Meher & Kabir’s journey ahead.'
-              }
-            >
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl text-[#140F0A] font-bold leading-tight">
               {config.wishingWall?.heading || 'Blessings on the Ganges'}
-            </SectionHeading>
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#4A4038] mt-2 font-medium max-w-md mx-auto">
+              {config.wishingWall?.subtitle || 'Leave a prayer or loving wish for Meher & Kabir’s journey ahead.'}
+            </p>
           </div>
         </RevealOnScroll>
 
-        {/* ── Blessing Submission Form: Directly Open & Visible by Default ── */}
+        {/* ── Blessing Submission Form: Clean & Accessible (No Blurry Card Box) ── */}
         <RevealOnScroll delay={100}>
           <div className="max-w-md mx-auto mb-8 text-center">
             {showSuccessToast && (
-              <div className="mb-3 px-4 py-2 rounded-full bg-[#EAF5EB] border border-[#A5D6A7] text-xs font-serif font-semibold text-[#1B5E20] inline-flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-200 shadow-2xs">
+              <div className="mb-3 px-4 py-2 rounded-full bg-[#EAF5EB] border border-[#A5D6A7] text-xs font-sans font-bold text-[#1B5E20] inline-flex items-center gap-1.5 shadow-2xs">
                 <Sparkles size={13} className="text-[#2E7D32]" />
                 <span>Your blessing has been placed on top of the blessing wall!</span>
               </div>
@@ -607,23 +602,23 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
 
             <form
               onSubmit={handleSubmit}
-              className="p-5 sm:p-6 rounded-3xl bg-[#FFFDFB]/95 backdrop-blur-md border border-[#DFC48F]/90 shadow-[0_8px_30px_rgba(198,161,91,0.12)] text-left space-y-4"
+              className="p-5 sm:p-6 rounded-3xl bg-[#FFFDFB]/90 border border-[#DFC48F]/70 shadow-sm text-left space-y-4"
             >
               <div className="flex items-center justify-between pb-2 border-b border-[#DFC48F]/40">
                 <div className="flex items-center space-x-2">
-                  <Sparkles size={16} className="text-[#C6A15B]" />
-                  <span className="font-serif text-base font-semibold text-[#2C2117] tracking-wide">
+                  <Sparkles size={16} className="text-[#9A6B0A]" />
+                  <span className="font-serif text-base sm:text-lg font-bold text-[#140F0A] tracking-wide">
                     Write a Blessing
                   </span>
                 </div>
-                <span className="font-cursive text-lg text-[#9A6B0A]">
+                <span className="font-serif italic text-sm text-[#8A5A00] font-semibold">
                   For Meher & Kabir
                 </span>
               </div>
 
               {/* Author / Signature */}
               <div>
-                <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-semibold">
+                <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#2C2117] mb-1.5">
                   Your Name / Family Signature
                 </label>
                 <div
@@ -641,7 +636,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
 
               {/* Prayer or Blessing Message */}
               <div>
-                <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-semibold">
+                <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#2C2117] mb-1.5">
                   Your Prayer or Heartfelt Blessing
                 </label>
                 <textarea
@@ -653,9 +648,9 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
                   onBlur={() => setIsFormFocused(false)}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Write your loving blessing for Meher & Kabir in Rishikesh..."
-                  className="w-full bg-[#FAF2F0] border border-[#DFC48F]/70 rounded-xl px-3.5 py-2 text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] resize-none font-['Caveat'] text-lg"
+                  className="w-full bg-[#FFFDFB] border border-[#DFC48F] rounded-xl px-3.5 py-2.5 text-sm text-[#140F0A] font-sans focus:outline-hidden focus:border-[#9A6B0A] resize-none leading-relaxed placeholder:text-[#8A7F72]"
                 />
-                <div className="text-right text-[10px] text-[#8A7F72]/80 mt-0.5">
+                <div className="text-right text-[11px] text-[#7A6F62] font-sans font-medium mt-1">
                   {message.length} / 220
                 </div>
               </div>
@@ -664,7 +659,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center space-x-2 px-7 py-2.5 rounded-full bg-gradient-to-r from-[#C6A15B] via-[#B88E4C] to-[#C6A15B] hover:from-[#B88E4C] hover:to-[#9A6B0A] text-white text-xs font-semibold tracking-[0.2em] uppercase transition-all shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="inline-flex items-center space-x-2 px-7 py-3 rounded-full bg-[#8A5A00] hover:bg-[#6D4200] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase transition-all shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   <Send size={13} className="text-white" />
                   <span>Send Blessing</span>
