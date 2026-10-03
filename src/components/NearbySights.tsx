@@ -344,7 +344,7 @@ export const NearbySights: React.FC = () => {
                     ? { opacity: 0, y: 50, scale: 0.88, rotate: 0 }
                     : false
                 }
-                className="w-56 h-36 sm:w-68 sm:h-44 md:w-76 md:h-48 cursor-pointer select-none rounded-2xl sm:rounded-3xl"
+                className="w-56 aspect-[16/10] sm:w-68 md:w-76 cursor-pointer select-none rounded-2xl sm:rounded-3xl"
               >
                 <SightCard
                   sight={sight}
@@ -453,7 +453,7 @@ export const NearbySights: React.FC = () => {
                 <X size={18} />
               </button>
                 {/* Modal Image */}
-                <div className="w-full h-60 sm:h-68 overflow-hidden bg-[#F3EDE3]">
+                <div className="w-full aspect-[16/10] overflow-hidden bg-[#F3EDE3]">
                   <OptimizedImage
                     src={selectedSight.image}
                     alt={selectedSight.title}

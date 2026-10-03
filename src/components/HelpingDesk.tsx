@@ -56,7 +56,7 @@ export const HelpingDesk: React.FC = () => {
             <h2 className="font-serif text-3xl sm:text-4xl text-[#140F0A] font-bold leading-tight">
               Helping Desk & Guest Concierge
             </h2>
-            <p className="font-sans text-xs sm:text-sm text-[#4A4038] mt-2 font-medium">
+            <p className="font-cursive text-xl sm:text-2xl text-[#140F0A] mt-1.5 font-normal tracking-wide">
               Here for your convenience & peace of mind
             </p>
           </div>

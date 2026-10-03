@@ -52,13 +52,13 @@ export const Footer: React.FC = () => {
         <img
           src={thankyouCenterBg}
           alt=""
-          className="max-h-[220px] xs:max-h-[245px] sm:max-h-[275px] max-w-[210px] xs:max-w-[235px] sm:max-w-[265px] object-contain opacity-[0.32] mix-blend-multiply translate-y-3"
+          className="max-h-[260px] xs:max-h-[295px] sm:max-h-[335px] max-w-[250px] xs:max-w-[285px] sm:max-w-[325px] object-contain opacity-[0.32] mix-blend-multiply translate-y-3"
         />
       </div>
 
       {/* Floating Botanical Leaf Accents */}
       <svg
-        className="absolute left-[16%] xs:left-[18%] sm:left-[21%] top-10 w-4 h-6 text-[#8BA87C] opacity-75 pointer-events-none z-1 -rotate-12"
+        className="absolute left-[13%] xs:left-[15%] sm:left-[18%] top-10 w-4 h-6 text-[#8BA87C] opacity-75 pointer-events-none z-1 -rotate-12"
         viewBox="0 0 24 36"
         fill="currentColor"
         aria-hidden="true"
@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
         <path d="M12 4 L12 32" stroke="#688559" strokeWidth="0.8" opacity="0.7" />
       </svg>
       <svg
-        className="absolute right-[20%] xs:right-[22%] sm:right-[24%] top-24 w-3.5 h-4.5 text-[#E5A8B8] opacity-75 pointer-events-none z-1 -rotate-30"
+        className="absolute right-[14%] xs:right-[16%] sm:right-[19%] top-24 w-3.5 h-4.5 text-[#E5A8B8] opacity-75 pointer-events-none z-1 -rotate-30"
         viewBox="0 0 20 28"
         fill="currentColor"
         aria-hidden="true"
@@ -76,36 +76,36 @@ export const Footer: React.FC = () => {
       </svg>
 
       {/* ── Central Safe Area: Crisp, Clear, High-Contrast Typography for All Ages ── */}
-      <div className="max-w-[280px] xs:max-w-[310px] sm:max-w-[360px] mx-auto flex flex-col items-center space-y-3.5 relative z-10 text-center px-1">
+      <div className="max-w-[340px] xs:max-w-[390px] sm:max-w-[450px] mx-auto flex flex-col items-center space-y-4 relative z-10 text-center px-1">
         {/* Auspicious Vedic Seal */}
         <div className="pt-0.5 transform hover:scale-105 transition-transform duration-500">
-          <SanskritSeal size={50} />
+          <SanskritSeal size={52} />
         </div>
 
-        {/* Eyebrow & Heading: Clean, crisp, universally legible */}
-        <div className="space-y-1 pt-0.5">
-          <span className="text-[10px] xs:text-[11px] font-sans font-bold tracking-[0.32em] uppercase text-[#8A5A00] block">
+        {/* Eyebrow & Heading: Clean, crisp, universally legible & consuming space nicely */}
+        <div className="space-y-1.5 pt-0.5">
+          <span className="text-[11px] xs:text-[12px] sm:text-[13px] font-sans font-bold tracking-[0.34em] uppercase text-[#8A5A00] block">
             WITH BOUNDLESS GRATITUDE
           </span>
-          <h3 className="font-serif text-[26px] xs:text-[28px] sm:text-[33px] text-[#140F0A] font-bold leading-tight pt-1">
+          <h3 className="font-serif text-[28px] xs:text-[32px] sm:text-[38px] text-[#140F0A] font-bold leading-[1.18] pt-1">
             Thank You for Blessing<br />Our Sacred Journey
           </h3>
-          <p className="font-serif italic text-sm xs:text-base text-[#3D2E24] font-medium max-w-[270px] xs:max-w-[300px] mx-auto leading-relaxed pt-2">
+          <p className="font-serif italic text-[15px] xs:text-[17px] sm:text-[18px] text-[#3D2E24] font-medium max-w-[320px] xs:max-w-[370px] sm:max-w-[420px] mx-auto leading-relaxed pt-2">
             “Your presence, prayers, and love along the sacred Ganga mean more to us than words can hold.”
           </p>
         </div>
 
         {/* Subtle Himalayan Ridge Line Accent */}
-        <div className="my-0.5 w-full max-w-[170px] xs:max-w-[190px] sm:max-w-[220px] mx-auto opacity-75">
+        <div className="my-0.5 w-full max-w-[200px] xs:max-w-[230px] sm:max-w-[260px] mx-auto opacity-75">
           <MountainRidgeHairline />
         </div>
 
         {/* Couple Names + Date/Location */}
         <div className="pt-0.5">
-          <h4 className="font-serif text-[28px] xs:text-[32px] sm:text-[36px] text-[#140F0A] font-bold tracking-wide">
+          <h4 className="font-serif text-[32px] xs:text-[36px] sm:text-[42px] text-[#140F0A] font-bold tracking-wide">
             Meher <span className="text-[#8A5A00] italic px-1 font-serif">&</span> Kabir
           </h4>
-          <p className="text-[9.5px] xs:text-[10px] sm:text-[10.5px] font-sans tracking-[0.26em] uppercase text-[#554A40] font-bold mt-1">
+          <p className="text-[10px] xs:text-[11px] sm:text-[12px] font-sans tracking-[0.28em] uppercase text-[#554A40] font-bold mt-1.5">
             21 · 11 · 2027 · RISHIKESH · UTTARAKHAND
           </p>
         </div>
@@ -115,10 +115,10 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="inline-flex items-center justify-center space-x-2 text-[10px] xs:text-[10.5px] font-sans font-bold uppercase tracking-[0.22em] text-[#3D2D20] hover:text-[#1F1710] py-2.5 px-6 rounded-full border border-[#DFC48F] hover:border-[#8A5A00] bg-[#FFFDFB]/95 hover:bg-white shadow-[0_3px_12px_rgba(180,130,90,0.14)] hover:shadow-[0_5px_18px_rgba(180,130,90,0.22)] transition-all hover:scale-102 active:scale-98 cursor-pointer"
+            className="inline-flex items-center justify-center space-x-2 text-[10.5px] xs:text-[11.5px] font-sans font-bold uppercase tracking-[0.24em] text-[#3D2D20] hover:text-[#1F1710] py-3 px-8 rounded-full border border-[#DFC48F] hover:border-[#8A5A00] bg-[#FFFDFB]/95 hover:bg-white shadow-[0_3px_12px_rgba(180,130,90,0.14)] hover:shadow-[0_5px_18px_rgba(180,130,90,0.22)] transition-all hover:scale-102 active:scale-98 cursor-pointer"
             aria-label="Return to top of page"
           >
-            <ArrowUp size={13} className="text-[#8A5A00] stroke-[2.5]" />
+            <ArrowUp size={14} className="text-[#8A5A00] stroke-[2.5]" />
             <span>Return to Top</span>
           </button>
         </div>

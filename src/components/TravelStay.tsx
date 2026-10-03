@@ -40,7 +40,7 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
           <h2 className="font-serif text-3xl sm:text-4xl text-[#140F0A] font-bold leading-tight">
             {config.travel.heading}
           </h2>
-          <p className="font-sans text-xs sm:text-sm text-[#4A4038] mt-2 font-medium">
+          <p className="font-cursive text-xl sm:text-2xl text-[#140F0A] mt-1.5 font-normal tracking-wide">
             Reaching the peaceful mountain valley of Rishikesh
           </p>
         </div>

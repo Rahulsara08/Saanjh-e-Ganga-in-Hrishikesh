@@ -9,6 +9,7 @@ import { FloatingHearts, FloatingHeartsRef } from './FloatingHearts';
 import bfPinkSoft from '../assets/images/butterfly-pink-soft.png';
 import bfBlue from '../assets/images/butterfly-blue.png';
 import bfPinkSpotted from '../assets/images/butterfly-pink-spotted.png';
+import rsvpTapedPlant from '../assets/images/rsvp_taped_plant.png';
 import rsvpWheatBouquet from '../assets/images/rsvp_wheat_bouquet.png';
 
 interface RSVPSectionProps {
@@ -270,18 +271,27 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
 
       {/* Header with High-Contrast Cursive Typography */}
       <RevealOnScroll>
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 relative">
           <SectionEyebrow
             cursiveAccent="Celebrate With Us"
             className="text-[#9A6B0A] font-semibold tracking-[0.28em]"
           >
             {config.rsvp.eyebrow} · {config.rsvp.deadlineText}
           </SectionEyebrow>
-          <SectionHeading
-            cursiveSubtitle="Your presence completes our celebration beside the sacred Ganga"
-          >
-            Kindly Reply
-          </SectionHeading>
+          <div className="relative inline-block max-w-full">
+            <SectionHeading
+              cursiveSubtitle="Your presence completes our celebration beside the sacred Ganga"
+            >
+              Kindly Reply
+            </SectionHeading>
+            {/* Handcrafted Botanical Plant with Washi Tape on Right Side of Title */}
+            <img
+              src={rsvpTapedPlant}
+              alt=""
+              aria-hidden="true"
+              className="absolute -top-4 -right-8 xs:-right-12 sm:-right-16 w-11 xs:w-13 sm:w-16 h-auto pointer-events-none select-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-10 rotate-3"
+            />
+          </div>
         </div>
       </RevealOnScroll>
 

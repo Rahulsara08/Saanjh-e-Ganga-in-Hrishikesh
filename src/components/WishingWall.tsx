@@ -16,7 +16,6 @@ import floralCardBlue from '../assets/images/floral_card_blue.png';
 import floralCardPurple from '../assets/images/floral_card_purple.png';
 import floralCardPeach from '../assets/images/floral_card_peach.png';
 import cherryBlossomTree from '../assets/images/cherry_blossom_tree_transparent.png';
-import paperBlushTexture from '../assets/images/paper_blush_texture.jpg';
 
 interface WishingWallProps {
   config: WeddingConfig;
@@ -501,45 +500,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
         }
       `}</style>
 
-      {/* ── 1. Handcrafted Blush Paper Background Texture ── */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 opacity-40 mix-blend-multiply"
-        style={{
-          backgroundImage: `url(${paperBlushTexture})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '400px auto',
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none z-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 95% 85% at 50% 50%, rgba(255, 252, 250, 0.92) 0%, rgba(250, 240, 238, 0.72) 55%, rgba(246, 228, 231, 0.88) 100%)',
-        }}
-      />
-
-      {/* ── 2. Integrated Flowering Cherry-Blossom Tree Layer ── */}
-      {/* Starts behind the blessing cards and reaches up to top of 'Blessings on the Ganges' */}
-      <div
-        className="absolute -left-6 xs:-left-8 sm:-left-4 top-0 pointer-events-none select-none z-0 w-[320px] xs:w-[380px] sm:w-[450px] md:w-[500px] max-w-[85%] flex items-start justify-start overflow-visible"
-        aria-hidden="true"
-      >
-        <div
-          className="relative w-full flex items-start justify-start pointer-events-none select-none"
-          style={{
-            animation: 'ixTreeBreeze 9s ease-in-out infinite',
-            transformOrigin: '20% 90%',
-          }}
-        >
-          <img
-            src={cherryBlossomTree}
-            alt="Sacred Himalayan Flowering Tree"
-            className="w-full h-auto max-h-[720px] object-contain object-top-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
-          />
-        </div>
-      </div>
-
-      {/* ── 3. Subtle Floating Blossoms & Petals Drifting from the Tree ── */}
+      {/* ── Subtle Floating Blossoms & Petals Drifting from the Tree ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]" aria-hidden="true">
         {/* Petal 1: Near upper branches heading toward 'MESSAGES OF LOVE' */}
         <span
@@ -671,14 +632,35 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
 
       {/* ── DRAGGABLE TRANSPARENT FLORAL BLESSING CARD STACK (ENDLESS LOOP WITH 5S AUTO-SPLIT) ── */}
       <RevealOnScroll delay={150}>
-        <div className="relative flex flex-col items-center justify-center my-4">
+        <div className="relative flex flex-col items-center justify-center my-4 overflow-visible">
+          {/* Integrated Flowering Cherry-Blossom Tree Layer */}
+          {/* Bottom starts at the cards section where the blessing cards are actually seen, rising behind the blurred cards */}
+          <div
+            className="absolute -left-10 xs:-left-16 sm:-left-22 bottom-[-8px] pointer-events-none select-none z-0 w-[300px] xs:w-[360px] sm:w-[430px] max-w-none flex items-end justify-start overflow-visible"
+            aria-hidden="true"
+          >
+            <div
+              className="relative w-full flex items-end justify-start pointer-events-none select-none"
+              style={{
+                animation: 'ixTreeBreeze 9s ease-in-out infinite',
+                transformOrigin: '20% 90%',
+              }}
+            >
+              <img
+                src={cherryBlossomTree}
+                alt="Sacred Himalayan Flowering Tree"
+                className="w-full h-auto max-h-[500px] xs:max-h-[560px] sm:max-h-[620px] object-contain object-bottom-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
+              />
+            </div>
+          </div>
+
           {/* Card Stack Viewport Container with 5s Auto-Split & Hover Pause */}
           <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onTouchStart={() => setIsHovered(true)}
             onTouchEnd={() => setIsHovered(false)}
-            className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none"
+            className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none z-10"
           >
             {cards.slice(0, 4).map((card, index) => (
               <FloralCardStackItem
