@@ -192,7 +192,7 @@ export const SectionEyebrow: React.FC<{
   return (
     <div className="mb-2">
       {cursiveAccent && (
-        <span className="font-cursive text-xl sm:text-2xl text-[#C6A15B] block mb-0.5 tracking-normal normal-case font-normal select-none">
+        <span className="font-cursive text-xl sm:text-2xl text-[#8A5A00] block mb-0.5 tracking-normal normal-case font-normal select-none">
           {cursiveAccent}
         </span>
       )}
@@ -221,7 +221,7 @@ export const SectionHeading: React.FC<{
         {children}
       </h2>
       {cursiveSubtitle && (
-        <p className="font-cursive text-xl sm:text-2xl text-[#9A6B0A] mt-1 tracking-wide font-normal">
+        <p className="font-cursive text-xl sm:text-2xl text-[#7A4B00] mt-1 tracking-wide font-normal">
           {cursiveSubtitle}
         </p>
       )}

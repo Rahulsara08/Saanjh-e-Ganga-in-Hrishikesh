@@ -7,6 +7,7 @@ export interface EventRowProps {
   name: string;
   dateTime: string;
   venue: string;
+  venueUrl?: string;
   attire?: string;
   altText: string;
   onAddToCalendar?: () => void;
@@ -21,6 +22,7 @@ export const EventRow: React.FC<EventRowProps> = ({
   name,
   dateTime,
   venue,
+  venueUrl,
   attire,
   altText,
   onAddToCalendar,
@@ -152,11 +154,19 @@ export const EventRow: React.FC<EventRowProps> = ({
             <span>{dateTime}</span>
           </div>
 
-          {/* Clean Venue Line (wraps cleanly, no truncation) */}
-          <div className="text-[11px] xs:text-xs sm:text-[12.5px] font-sans text-[#7A6F62] mt-1 flex items-start gap-1 leading-snug">
-            <MapPin size={12} className="text-[#C6A15B] shrink-0 mt-0.5" />
-            <span className="break-words leading-tight">{venue}</span>
-          </div>
+          {/* Clean Venue Line — Tapping directs to Google Maps */}
+          <a
+            href={venueUrl || `https://maps.google.com/?q=${encodeURIComponent(venue + ', Anand Kashi Rishikesh')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="View venue on Google Maps"
+            className="text-[11px] xs:text-xs sm:text-[12.5px] font-sans text-[#7A6F62] hover:text-[#8A5A00] mt-1 flex items-start gap-1 leading-snug transition-colors group cursor-pointer"
+          >
+            <MapPin size={12} className="text-[#C6A15B] group-hover:text-[#8A5A00] shrink-0 mt-0.5 transition-colors" />
+            <span className="break-words leading-tight underline decoration-[#DFC48F]/60 group-hover:decoration-[#8A5A00] underline-offset-2">
+              {venue}
+            </span>
+          </a>
 
           {/* Compact Attire Line (wraps cleanly, no truncation) */}
           {attire && (
@@ -166,9 +176,9 @@ export const EventRow: React.FC<EventRowProps> = ({
             </div>
           )}
 
-          {/* Single-Line Add to Calendar Button */}
-          {onAddToCalendar && (
-            <div className="mt-2.5">
+          {/* Action Buttons: Add to Calendar & Venue Map */}
+          <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+            {onAddToCalendar && (
               <button
                 type="button"
                 onClick={onAddToCalendar}
@@ -178,8 +188,19 @@ export const EventRow: React.FC<EventRowProps> = ({
                 <CalendarPlus size={11} className="text-[#C6A15B] shrink-0" />
                 <span className="whitespace-nowrap">Add to Calendar</span>
               </button>
-            </div>
-          )}
+            )}
+
+            <a
+              href={venueUrl || `https://maps.google.com/?q=${encodeURIComponent(venue + ', Anand Kashi Rishikesh')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View ${venue} on Google Maps`}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] tracking-wider uppercase font-medium text-[#5A4F44] hover:text-[#8A5A00] bg-[#FAF6F0]/90 hover:bg-white border border-[#DFC48F]/80 hover:border-[#8A5A00] transition-all shadow-2xs hover:scale-102 active:scale-98 cursor-pointer whitespace-nowrap"
+            >
+              <MapPin size={11} className="text-[#8A5A00] shrink-0" />
+              <span className="whitespace-nowrap">Venue Map</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

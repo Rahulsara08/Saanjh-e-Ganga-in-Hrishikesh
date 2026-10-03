@@ -83,12 +83,14 @@ body {
   font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
 }
 
-.font-script {
-  font-family: 'Pinyon Script', 'Alex Brush', 'Dancing Script', cursive;
-}
-
+.font-script,
 .font-cursive {
-  font-family: 'Pinyon Script', 'Alex Brush', cursive;
+  font-family: 'Alex Brush', 'Dancing Script', 'Pinyon Script', cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-weight: 400;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
 }
 
 @keyframes handPopup {
@@ -165,5 +167,25 @@ body {
   [data-hero] .hero-last {
     opacity: 1 !important;
     animation: none !important;
+  }
+}
+
+/* ── HelpingDesk Responsive Container Queries (based on phone mockup width) ── */
+@container (min-width: 540px) {
+  .helpdesk-card-body {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .helpdesk-card-actions {
+    display: flex !important;
+    width: auto !important;
+    border-top: none !important;
+    padding-top: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  .helpdesk-card-actions > a {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
   }
 }

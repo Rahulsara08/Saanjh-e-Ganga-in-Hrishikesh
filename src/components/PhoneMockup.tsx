@@ -81,8 +81,8 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
           }}
         />
 
-        {/* Full-bleed native mobile application */}
-        <div className="w-full min-h-screen relative overflow-x-hidden z-10">
+        {/* Full-bleed native mobile application (Container Query Root) */}
+        <div className="w-full min-h-screen relative overflow-x-hidden z-10 [container-type:inline-size]">
           {children}
         </div>
 
@@ -159,11 +159,11 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
                 </div>
               </div>
 
-              {/* ── SCROLLABLE PHONE SCREEN INVITATION CONTENT ── */}
+              {/* ── SCROLLABLE PHONE SCREEN INVITATION CONTENT (Container Query Root) ── */}
               <div
                 ref={phoneScrollRef}
                 data-phone-scroll="true"
-                className="flex-1 w-full overflow-y-auto overflow-x-hidden phone-scrollbar scroll-smooth relative z-10"
+                className="phone-mockup-viewport flex-1 w-full overflow-y-auto overflow-x-hidden phone-scrollbar scroll-smooth relative z-10 [container-type:inline-size]"
               >
                 {children}
               </div>

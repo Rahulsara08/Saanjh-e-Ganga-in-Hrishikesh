@@ -126,9 +126,10 @@ export interface BlessingCardData extends Wish {
   theme: FloralTheme;
 }
 
-// Sequence of split-out directions: Left -> Right (smooth, zero vertical page shifting)
-export type SplitDirection = 'left' | 'down' | 'right' | 'up';
-const SPLIT_SEQUENCE: SplitDirection[] = ['left', 'right'];
+// Sequence of split-out directions: Left -> Down -> Right -> Up (cycles continuously)
+// Sequence of split-out directions: Right -> Down -> Left -> Up (cycles continuously)
+export type SplitDirection = 'right' | 'down' | 'left' | 'up';
+const SPLIT_SEQUENCE: SplitDirection[] = ['right', 'down', 'left', 'up'];
 
 // ── Stacked Handcrafted Floral Blessing Card Component ──
 interface FloralCardStackItemProps {
@@ -169,29 +170,24 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
   const dismissCard = (direction: SplitDirection) => {
     let targetX = 0;
     let targetY = 0;
-    let targetRotate = 0;
 
-    if (direction === 'left') {
-      targetX = -650;
+    if (direction === 'right') {
+      targetX = 950;
       targetY = -15;
-      targetRotate = -20;
-    } else if (direction === 'right') {
-      targetX = 650;
-      targetY = -15;
-      targetRotate = 20;
     } else if (direction === 'down') {
-      targetX = 220;
-      targetY = 200;
-      targetRotate = 8;
+      targetX = 15;
+      targetY = 850;
+    } else if (direction === 'left') {
+      targetX = -950;
+      targetY = -15;
     } else if (direction === 'up') {
-      targetX = -220;
-      targetY = -200;
-      targetRotate = -8;
+      targetX = -15;
+      targetY = -850;
     }
 
     Promise.all([
-      animate(x, targetX, { duration: 0.38, ease: [0.32, 0, 0.67, 0] }),
-      animate(y, targetY, { duration: 0.38, ease: [0.32, 0, 0.67, 0] }),
+      animate(x, targetX, { duration: 0.22, ease: [0.22, 1, 0.36, 1] }),
+      animate(y, targetY, { duration: 0.22, ease: [0.22, 1, 0.36, 1] }),
     ]).then(() => {
       onDismiss(direction);
       x.set(0);
@@ -209,29 +205,45 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!isTop) return;
     const { offset, velocity } = info;
-    const xThreshold = 65;
-    const yThreshold = 65;
-    const vThreshold = 180;
+    const xDist = Math.abs(offset.x);
+    const yDist = Math.abs(offset.y);
+    const xVel = Math.abs(velocity.x);
+    const yVel = Math.abs(velocity.y);
 
-    // Check drag direction and velocity thresholds for intuitive swipe/flick
-    if (offset.x < -xThreshold || velocity.x < -vThreshold) {
-      dismissCard('left');
-    } else if (offset.x > xThreshold || velocity.x > vThreshold) {
-      dismissCard('right');
-    } else if (offset.y > yThreshold || velocity.y > vThreshold) {
-      dismissCard('down');
-    } else if (offset.y < -yThreshold || velocity.y < -vThreshold) {
-      dismissCard('up');
+    const xThreshold = 35;
+    const yThreshold = 35;
+    const vThreshold = 80;
+
+    const isHorizontal = xDist > yDist || xVel > yVel;
+
+    if (isHorizontal) {
+      if (offset.x > xThreshold || velocity.x > vThreshold) {
+        dismissCard('right');
+        return;
+      }
+      if (offset.x < -xThreshold || velocity.x < -vThreshold) {
+        dismissCard('left');
+        return;
+      }
     } else {
-      // Release before threshold: spring back to resting stack position
-      animate(x, 0, { type: 'spring', stiffness: 380, damping: 26 });
-      animate(y, 0, { type: 'spring', stiffness: 380, damping: 26 });
+      if (offset.y > yThreshold || velocity.y > vThreshold) {
+        dismissCard('down');
+        return;
+      }
+      if (offset.y < -yThreshold || velocity.y < -vThreshold) {
+        dismissCard('up');
+        return;
+      }
     }
+
+    // Release before threshold: snappy spring back to resting stack position
+    animate(x, 0, { type: 'spring', stiffness: 450, damping: 24 });
+    animate(y, 0, { type: 'spring', stiffness: 450, damping: 24 });
   };
 
   const handleTap = () => {
     if (!isTop) return;
-    // Tap to split/cycle card smoothly to the right
+    // Tap to release card out of screen to the right
     dismissCard('right');
   };
 
@@ -264,8 +276,12 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
   return (
     <motion.div
       style={isTop ? { x, y, rotate, zIndex: 30 } : { zIndex: stackStyle.zIndex }}
-      animate={isTop ? undefined : stackStyle}
-      transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+      animate={
+        isTop
+          ? { scale: 1, rotate: 0, opacity: 1, zIndex: 30 }
+          : stackStyle
+      }
+      transition={{ type: 'spring', stiffness: 440, damping: 24 }}
       drag={isTop}
       dragElastic={0.7}
       whileDrag={{ scale: 1.02 }}
@@ -280,8 +296,17 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
       }
       onDragEnd={handleDragEnd}
       onTap={handleTap}
+      onDoubleClick={() => {
+        if (isTop) dismissCard('right');
+      }}
       className={`absolute inset-0 m-auto w-[335px] xs:w-[360px] sm:w-[380px] max-w-[94%] aspect-[2/1] select-none touch-none ${
-        isTop ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'
+        isTop
+          ? 'z-30 cursor-grab active:cursor-grabbing'
+          : isSecond
+          ? 'z-20 pointer-events-none'
+          : isThird
+          ? 'z-10 pointer-events-none'
+          : 'z-0 pointer-events-none'
       }`}
     >
       <div className="relative w-full h-full flex items-center justify-center filter drop-shadow-[0_14px_30px_rgba(74,64,56,0.18)] select-none">
@@ -303,8 +328,8 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
           }}
           className="absolute flex flex-col justify-between items-center text-center select-none overflow-hidden"
         >
-          {/* Subtle soft panel for maximum contrast without obscuring floral art */}
-          <div className="absolute inset-0 bg-white/40 rounded-xl backdrop-blur-[0.5px] pointer-events-none -z-10" />
+          {/* Solid 100% opaque soft parchment panel inside safe zone - prevents ANY card underneath from shining through */}
+          <div className="absolute inset-0 bg-[#FFFDFB] rounded-xl pointer-events-none -z-10 shadow-xs" />
 
           {/* Center Message: Clean, highly legible serif font with auto-sizing */}
           <div className="flex-1 w-full flex items-center justify-center px-1.5 my-auto overflow-hidden">
@@ -365,25 +390,21 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const [isFormFocused, setIsFormFocused] = useState(false);
   const [likedCardIds, setLikedCardIds] = useState<Record<string, boolean>>({});
 
-  // Split-out animation state
+  // Split-out animation state: Right -> Down -> Left -> Up
   const [directionIndex, setDirectionIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [autoDismissTrigger, setAutoDismissTrigger] = useState<{
     cardId: string;
     direction: SplitDirection;
   } | null>(null);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // 5-second automatic card sliding timer: Left -> Down -> Right -> Loop
-  // Pauses only when cards are hovered or user is actively typing in form
+  // Continuous automatic card sliding timer: Right -> Down -> Left -> Up -> Loop
+  // Cycles every 5 seconds gap endlessly through all cards
   useEffect(() => {
-    if (cards.length <= 1 || isHovered || isFormFocused) {
-      if (timerRef.current) clearInterval(timerRef.current);
+    if (cards.length <= 1 || isFormFocused) {
       return;
     }
 
-    timerRef.current = setInterval(() => {
+    const timer = setTimeout(() => {
       const topCard = cards[0];
       if (topCard) {
         const nextDirection = SPLIT_SEQUENCE[directionIndex % SPLIT_SEQUENCE.length];
@@ -392,10 +413,8 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
       }
     }, 5000);
 
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [cards, directionIndex, isHovered, isFormFocused]);
+    return () => clearTimeout(timer);
+  }, [cards, directionIndex, isFormFocused]);
 
   // When card flies off-screen, move it to the BACK of the queue so it loops endlessly!
   const handleDismissTop = () => {
@@ -650,17 +669,11 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
           </div>
         </RevealOnScroll>
 
-        {/* ── DRAGGABLE TRANSPARENT FLORAL BLESSING CARD STACK (ENDLESS LOOP WITH 5S AUTO-SPLIT & POPUP) ── */}
+        {/* ── DRAGGABLE TRANSPARENT FLORAL BLESSING CARD STACK (ENDLESS LOOP WITH 5S AUTO-SPLIT & USER CONTROLS) ── */}
         <RevealOnScroll delay={140} variant="popup">
           <div className="relative z-10 flex flex-col items-center justify-center my-4 overflow-visible">
-            {/* Card Stack Viewport Container with 5s Auto-Split & Hover Pause */}
-            <div
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              onTouchStart={() => setIsHovered(true)}
-              onTouchEnd={() => setIsHovered(false)}
-              className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none z-10"
-            >
+            {/* Card Stack Viewport Container with 5s Auto-Split (Left -> Down -> Right -> Up) */}
+            <div className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none z-10">
               {cards.slice(0, 4).map((card, index) => (
                 <FloralCardStackItem
                   key={card.id}

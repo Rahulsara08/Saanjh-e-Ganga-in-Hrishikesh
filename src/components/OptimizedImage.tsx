@@ -175,7 +175,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       )}
 
       {/* ── Modern Multi-Format Picture Tag ── */}
-      <picture className="w-full h-full">
+      <picture className="block w-full h-full">
         {avifSrcSet && <source type="image/avif" srcSet={avifSrcSet} sizes={sizes} />}
         {webpSrcSet && <source type="image/webp" srcSet={webpSrcSet} sizes={sizes} />}
         {fallbackSrcSet && <source srcSet={fallbackSrcSet} sizes={sizes} />}

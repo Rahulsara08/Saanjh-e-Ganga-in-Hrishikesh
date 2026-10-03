@@ -104,9 +104,7 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
             >
               WEDDING CELEBRATIONS
             </SectionEyebrow>
-            <SectionHeading
-              cursiveSubtitle="Haldi · Mehndi · Sangeet · Baraat · Varmala · Saat Phere · Reception"
-            >
+            <SectionHeading>
               Wedding Celebrations & Sacred Rites
             </SectionHeading>
             <p className="font-serif italic text-xs xs:text-sm text-[#8A7F72] mt-1.5 max-w-sm mx-auto font-light leading-relaxed">
@@ -133,6 +131,7 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
                 name={item.name}
                 dateTime={item.dateTime}
                 venue={item.venue}
+                venueUrl={item.venueUrl || config.travel.venueMap.googleMapsUrl}
                 attire={item.attire}
                 altText={item.altText}
                 onAddToCalendar={() => {
