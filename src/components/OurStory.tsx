@@ -161,8 +161,12 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
       {/* Section Header */}
       <RevealOnScroll className="w-full max-w-full">
         <div className="text-center w-full max-w-xl mx-auto mb-8 sm:mb-10 px-2">
-          <SectionEyebrow>OUR SACRED CHRONICLE</SectionEyebrow>
-          <SectionHeading subtitle="From mountain trails to eternal vows beside River Ganga">
+          <SectionEyebrow cursiveAccent="A Journey Written in the Stars">
+            OUR SACRED CHRONICLE
+          </SectionEyebrow>
+          <SectionHeading
+            cursiveSubtitle="From mountain trails to eternal vows beside River Ganga"
+          >
             Where Our Story Began
           </SectionHeading>
         </div>

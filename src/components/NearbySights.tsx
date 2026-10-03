@@ -3,13 +3,9 @@ import {
   motion,
   AnimatePresence,
   useInView,
-  useMotionValue,
-  useSpring,
-  useTransform,
 } from 'framer-motion';
-import { MapPin, X } from 'lucide-react';
+import { MapPin, X, Sparkles } from 'lucide-react';
 import { Divider } from './BasicComponents';
-
 import { OptimizedImage } from './OptimizedImage';
 
 const triveniImg = 'triveni_ghat_aarti_rishikesh_1790244353114';
@@ -102,6 +98,36 @@ const getFanGeometry = (index: number, total: number, isMobile: boolean): FanGeo
   return { x, y, rotate, zIndex };
 };
 
+/**
+ * Corner filigree ornament component for vintage travel collector's postcards
+ */
+const PostcardFiligree: React.FC<{ position: 'tl' | 'tr' | 'bl' | 'br' }> = ({ position }) => {
+  const rotationMap = {
+    tl: '',
+    tr: 'rotate-90',
+    br: 'rotate-180',
+    bl: '-rotate-90',
+  };
+  const positionClasses = {
+    tl: 'top-1.5 left-1.5',
+    tr: 'top-1.5 right-1.5',
+    bl: 'bottom-1.5 left-1.5',
+    br: 'bottom-1.5 right-1.5',
+  };
+
+  return (
+    <div
+      aria-hidden="true"
+      className={`absolute ${positionClasses[position]} z-10 pointer-events-none text-[#C6A15B]/70 ${rotationMap[position]}`}
+    >
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+        <path d="M2 14 V4 C2 2.9 2.9 2 4 2 H14" strokeWidth="1.2" strokeLinecap="round" />
+        <circle cx="5" cy="5" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    </div>
+  );
+};
+
 interface SightCardProps {
   sight: SightItem;
   className?: string;
@@ -110,7 +136,7 @@ interface SightCardProps {
 }
 
 /**
- * Flat, elegant card component with smooth hover scaling and zero tilt.
+ * Handcrafted Collector's Travel Postcard Card Component with Textured Border & Filigree
  */
 const SightCard: React.FC<SightCardProps> = ({
   sight,
@@ -123,9 +149,16 @@ const SightCard: React.FC<SightCardProps> = ({
       onClick={onClick}
       className={`relative group cursor-pointer ${className}`}
     >
-      <div className="w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#DFC48F]/80 bg-[#FAF6F0] shadow-md group-hover:shadow-2xl transition-shadow duration-300">
-        {/* Sight Image - Pure & Uncluttered with OptimizedImage (eager priority for instant load) */}
-        <div className="w-full h-full overflow-hidden bg-[#F3EDE3]">
+      {/* Outer Handcrafted Postcard Mount with Fine Deckled Double Border */}
+      <div className="w-full h-full p-1.5 sm:p-2 rounded-2xl sm:rounded-3xl bg-[#FFFDFB] border border-[#DFC48F]/85 shadow-[0_6px_22px_rgba(74,64,56,0.12)] group-hover:shadow-[0_12px_32px_rgba(198,161,91,0.24)] group-hover:border-[#C6A15B] transition-all duration-300 relative overflow-hidden flex flex-col">
+        {/* Vintage Postcard Filigree Accents in 4 corners */}
+        <PostcardFiligree position="tl" />
+        <PostcardFiligree position="tr" />
+        <PostcardFiligree position="bl" />
+        <PostcardFiligree position="br" />
+
+        {/* Inner Photo Frame with Golden Hairline Edge */}
+        <div className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden border border-[#DFC48F]/50 bg-[#F3EDE3] relative">
           <OptimizedImage
             src={sight.image}
             alt={sight.title}
@@ -134,20 +167,21 @@ const SightCard: React.FC<SightCardProps> = ({
             sizes="(max-width: 640px) 350px, (max-width: 1024px) 450px, 600px"
             className="w-full h-full"
             containerStyle={{ width: '100%', height: '100%' }}
-            imgClassName="object-cover group-hover:scale-105 transition-transform duration-700 ease-out w-full h-full"
+            imgClassName="object-cover group-hover:scale-106 transition-transform duration-700 ease-out w-full h-full"
           />
-        </div>
 
-        {/* Refined frosted caption pill in fan view (No harsh black gradient) */}
-        {showCaption && (
-          <div className="absolute inset-x-0 bottom-2.5 flex justify-center px-2 pointer-events-none z-10">
-            <div className="bg-[#FAF2F0]/92 backdrop-blur-md px-3 py-1 rounded-full border border-[#DFC48F]/80 shadow-[0_2px_8px_rgba(74,64,56,0.15)] max-w-[94%] flex items-center justify-center">
-              <p className="font-serif text-[11px] sm:text-xs text-[#3A2E26] font-semibold leading-tight text-center truncate tracking-wide">
-                {sight.title}
-              </p>
+          {/* Frosted Postcard Collector Caption in Fan View */}
+          {showCaption && (
+            <div className="absolute inset-x-0 bottom-2.5 flex justify-center px-2 pointer-events-none z-10">
+              <div className="bg-[#FFFDFB]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#DFC48F]/85 shadow-[0_2px_10px_rgba(74,64,56,0.18)] max-w-[94%] flex items-center justify-center gap-1.5">
+                <MapPin size={11} className="text-[#9A6B0A] shrink-0" />
+                <p className="font-serif text-[11px] sm:text-xs text-[#241913] font-semibold leading-tight text-center truncate tracking-wide">
+                  {sight.title}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
@@ -159,17 +193,16 @@ export const NearbySights: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // isFanned = true when user is at the top of the section (cards banded together)
-  // isFanned = false when user scrolls down into the section (cards unpack starting with Sight 1 at top)
+  // isFanned = true when user is at top of section (cards banded together)
+  // isFanned = false when user scrolls down into section (cards unpack starting with Sight 1 at top)
   const [isFanned, setIsFanned] = useState(true);
   const isFannedRef = useRef(true);
 
-  // Set hasLoaded to true instantly so cards render without artificial delay
   const [hasLoaded, setHasLoaded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedSight, setSelectedSight] = useState<SightItem | null>(null);
 
-  // Responsive screen check & instant background image preloader
+  // Responsive screen check & instant preloader
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(
@@ -187,7 +220,7 @@ export const NearbySights: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, [sights]);
 
-  // Section in-view trigger for initial stagger entrance
+  // Section in-view trigger
   const isInView = useInView(sectionRef, { once: true, amount: 0.08 });
 
   useEffect(() => {
@@ -199,9 +232,7 @@ export const NearbySights: React.FC = () => {
     }
   }, [isInView, hasLoaded, sights.length]);
 
-  // Scroll detection relative to section top:
-  // When scrolling down into section -> unpack starting from Sight 1 at top
-  // When scrolling up back to top of section -> band together into the fan deck
+  // Scroll detection relative to section top
   useEffect(() => {
     const phoneScrollEl = document.querySelector('[data-phone-scroll="true"]');
 
@@ -218,10 +249,6 @@ export const NearbySights: React.FC = () => {
         containerHeight = phoneScrollEl.clientHeight;
       }
 
-      // Hysteresis threshold for smooth card flight:
-      // When user arrives at the section, the fanned deck is centered.
-      // Scrolling down past the center triggers smooth flight down to the description rows.
-      // Scrolling back up re-fans the deck smoothly.
       const unpackThreshold = containerHeight * 0.18;
       const refanThreshold = containerHeight * 0.38;
 
@@ -293,7 +320,7 @@ export const NearbySights: React.FC = () => {
     }
   }, [selectedSight]);
 
-  // Background body scroll lock when detail modal is open
+  // Background body scroll lock when modal open
   useEffect(() => {
     if (selectedSight) {
       const originalOverflow = document.body.style.overflow;
@@ -308,23 +335,22 @@ export const NearbySights: React.FC = () => {
     <section
       id="nearby-sights"
       ref={sectionRef}
-      className="relative w-full py-14 sm:py-20 px-4 max-w-5xl mx-auto"
+      className="relative w-full py-12 sm:py-18 px-3 sm:px-4 max-w-5xl mx-auto"
     >
-      {/* Crafted Background Aura & Subtle Borders */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-2 inset-y-4 rounded-3xl bg-gradient-to-b from-[#FDF9F5]/40 via-transparent to-[#F9EFE9]/40 border border-[#DFC48F]/20 pointer-events-none -z-10"
-      />
+      {/* ── Background Card Removed as explicitly requested: sits naturally on paper texture ── */}
 
-      {/* Section title (Clean, elegant, static) */}
+      {/* Section title with High-Contrast Cursive Typography (Matches Image 1 layout) */}
       <div className="text-center max-w-xl mx-auto mb-8 sm:mb-12 pointer-events-none relative z-10">
-        <span className="text-[11px] sm:text-xs font-sans tracking-[0.25em] text-[#8A5A00] uppercase font-bold">
+        <span className="font-cursive text-2xl sm:text-3xl text-[#9A6B0A] block leading-none font-normal mb-1">
+          Wonders of the Sacred Valley
+        </span>
+        <span className="text-[11px] sm:text-xs font-sans tracking-[0.26em] text-[#8A5A00] uppercase font-bold">
           NEARBY EXPERIENCES
         </span>
-        <h2 className="font-serif text-3xl sm:text-4xl text-[#140F0A] font-bold mt-1">
+        <h2 className="font-serif text-3xl sm:text-4xl text-[#140F0A] font-bold mt-1.5 leading-tight">
           Sights of the Sacred Valley
         </h2>
-        <p className="font-sans text-xs sm:text-sm text-[#6E6359] mt-1.5 font-medium">
+        <p className="font-sans text-xs sm:text-sm text-[#6E6359] mt-2 font-medium">
           {isFanned
             ? 'Scroll down to explore each sight or click to expand'
             : 'Click any photo to view full location details'}
@@ -378,15 +404,14 @@ export const NearbySights: React.FC = () => {
       )}
 
       {/* 2. SEQUENTIAL SIGHTS LIST (Sight 1 at the top, followed by 2, 3, 4, 5) */}
-      {/* Cards sit completely flat and level with ZERO tilt, fitting their place perfectly */}
       {!isFanned && (
         <div className="w-full max-w-sm mx-auto flex flex-col space-y-12 pt-2">
           {sights.map((sight, index) => (
             <div
               key={sight.id}
-              className="flex flex-col items-start gap-3 w-full pb-8 border-b border-[#DFC48F]/40 last:border-b-0"
+              className="flex flex-col items-start gap-3.5 w-full pb-8 border-b border-[#DFC48F]/40 last:border-b-0"
             >
-              {/* Image Card: Flies smoothly from the fan deck into this row spot with ZERO tilt */}
+              {/* Image Card: Flies smoothly from fan deck into row spot */}
               <motion.div
                 layoutId={`sight-card-${sight.id}`}
                 transition={FLIGHT_SPRING}
@@ -397,12 +422,12 @@ export const NearbySights: React.FC = () => {
                 }}
                 animate={{ rotate: 0, x: 0, y: 0 }}
                 onClick={() => setSelectedSight(sight)}
-                className="w-full aspect-[16/10] shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
+                className="w-full aspect-[16/10] shrink-0 rounded-2xl sm:rounded-3xl cursor-pointer"
               >
                 <SightCard sight={sight} showCaption={false} className="w-full h-full" />
               </motion.div>
 
-              {/* Details Side: Below the card directly on background (Only Location and Name of place) */}
+              {/* Details Side: Below card directly on paper background */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -433,7 +458,7 @@ export const NearbySights: React.FC = () => {
         </div>
       )}
 
-      {/* 3. DETAIL MODAL OVERLAY (Image 1 match: Appears automatically when user clicks card) */}
+      {/* 3. DETAIL MODAL OVERLAY */}
       <AnimatePresence>
         {selectedSight && (
           <div
@@ -452,7 +477,7 @@ export const NearbySights: React.FC = () => {
               className="fixed inset-0 bg-black/65 backdrop-blur-xs"
             />
 
-            {/* Modal Card (Exact match to Image 1) */}
+            {/* Modal Card with Collector Postcard Styling */}
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -460,49 +485,56 @@ export const NearbySights: React.FC = () => {
               transition={{ type: 'spring', stiffness: 280, damping: 26 }}
               ref={modalRef}
               tabIndex={-1}
-              className="relative z-10 w-full max-w-md bg-[#FAF6F0] rounded-3xl overflow-hidden shadow-2xl border-2 border-[#DFC48F] focus:outline-none"
+              className="relative z-10 w-full max-w-md bg-[#FFFDFB] rounded-3xl overflow-hidden shadow-2xl border-2 border-[#DFC48F] focus:outline-none p-2 sm:p-2.5"
             >
+              <PostcardFiligree position="tl" />
+              <PostcardFiligree position="tr" />
+              <PostcardFiligree position="bl" />
+              <PostcardFiligree position="br" />
+
               {/* Close Button: X in circular dark frosted pill */}
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={() => setSelectedSight(null)}
                 aria-label="Close details"
-                className="absolute top-3.5 right-3.5 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/65 hover:bg-black/85 text-white flex items-center justify-center transition-all border-2 border-white/50 shadow-lg focus:outline-none cursor-pointer"
+                className="absolute top-5 right-5 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/65 hover:bg-black/85 text-white flex items-center justify-center transition-all border-2 border-white/60 shadow-lg focus:outline-none cursor-pointer"
               >
                 <X size={18} />
               </button>
 
-              {/* Modal Image */}
-              <div className="w-full h-64 sm:h-72 overflow-hidden bg-[#F3EDE3]">
-                <OptimizedImage
-                  src={selectedSight.image}
-                  alt={selectedSight.title}
-                  priority={true}
-                  disableAspectRatio={true}
-                  className="w-full h-full"
-                  containerStyle={{ width: '100%', height: '100%' }}
-                  imgClassName="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Details: Exact match to Image 1 */}
-              <div className="p-6 sm:p-7 space-y-2.5 text-left">
-                <div className="flex items-center gap-1.5 text-xs text-[#8A5A00] font-sans font-bold uppercase tracking-wider">
-                  <MapPin size={13} className="shrink-0 text-[#8A5A00]" />
-                  <span>{selectedSight.location}</span>
+              <div className="rounded-2xl overflow-hidden border border-[#DFC48F]/50 bg-[#F3EDE3]">
+                {/* Modal Image */}
+                <div className="w-full h-60 sm:h-68 overflow-hidden bg-[#F3EDE3]">
+                  <OptimizedImage
+                    src={selectedSight.image}
+                    alt={selectedSight.title}
+                    priority={true}
+                    disableAspectRatio={true}
+                    className="w-full h-full"
+                    containerStyle={{ width: '100%', height: '100%' }}
+                    imgClassName="w-full h-full object-cover"
+                  />
                 </div>
 
-                <h3
-                  id={`sight-modal-title-${selectedSight.id}`}
-                  className="font-serif text-2xl sm:text-3xl text-[#140F0A] font-bold leading-tight"
-                >
-                  {selectedSight.title}
-                </h3>
+                {/* Details */}
+                <div className="p-5 sm:p-6 space-y-2 text-left bg-[#FFFDFB]">
+                  <div className="flex items-center gap-1.5 text-xs text-[#8A5A00] font-sans font-bold uppercase tracking-wider">
+                    <MapPin size={13} className="shrink-0 text-[#8A5A00]" />
+                    <span>{selectedSight.location}</span>
+                  </div>
 
-                <p className="font-sans text-sm text-[#554A40] leading-relaxed pt-1">
-                  {selectedSight.description}
-                </p>
+                  <h3
+                    id={`sight-modal-title-${selectedSight.id}`}
+                    className="font-serif text-2xl sm:text-3xl text-[#140F0A] font-bold leading-tight"
+                  >
+                    {selectedSight.title}
+                  </h3>
+
+                  <p className="font-sans text-sm text-[#554A40] leading-relaxed pt-1">
+                    {selectedSight.description}
+                  </p>
+                </div>
               </div>
             </motion.div>
           </div>

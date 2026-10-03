@@ -98,8 +98,15 @@ export const FollowJourney: React.FC<FollowJourneyProps> = ({ config }) => {
         {/* Section Header */}
         <RevealOnScroll>
           <div className="text-center max-w-xl mx-auto mb-5 sm:mb-7">
-            <SectionEyebrow>WEDDING CELEBRATIONS</SectionEyebrow>
-            <SectionHeading subtitle="Haldi · Mehndi · Sangeet · Baraat · Varmala · Saat Phere · Reception">
+            <SectionEyebrow
+              cursiveAccent="Sacred Rites by the Ganges"
+              className="text-[#9A6B0A] font-semibold tracking-[0.28em]"
+            >
+              WEDDING CELEBRATIONS
+            </SectionEyebrow>
+            <SectionHeading
+              cursiveSubtitle="Haldi · Mehndi · Sangeet · Baraat · Varmala · Saat Phere · Reception"
+            >
               Wedding Celebrations & Sacred Rites
             </SectionHeading>
             <p className="font-serif italic text-xs xs:text-sm text-[#8A7F72] mt-1.5 max-w-sm mx-auto font-light leading-relaxed">

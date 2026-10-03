@@ -3,7 +3,7 @@ import { SectionEyebrow, SectionHeading, Divider } from './BasicComponents';
 import { RevealOnScroll } from './RevealOnScroll';
 import { VenueMapModal } from './VenueMapModal';
 import { WeddingConfig } from '../types';
-import { Map } from 'lucide-react';
+import { Map, Plane, Train, Sparkles, Clock, Compass } from 'lucide-react';
 import himalayanPanoramicImg from '../assets/images/himalayan_mountain_river_panoramic.png';
 import { FlowerSketchAccent } from './FlowerSketchAccent';
 
@@ -15,10 +15,10 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   return (
-    <section id="travel" className="pt-10 sm:pt-14 pb-12 sm:pb-14 px-4 max-w-5xl mx-auto w-full relative">
+    <section id="travel" className="pt-10 sm:pt-14 pb-12 sm:pb-16 px-3 sm:px-4 max-w-4xl mx-auto w-full relative">
       {/* ── TOP PANORAMIC HIMALAYAN MOUNTAINS & RIVER ARTWORK ── */}
       <RevealOnScroll>
-        <div className="relative w-full max-w-md sm:max-w-lg mx-auto flex items-center justify-center select-none pointer-events-none mb-4">
+        <div className="relative w-full max-w-md sm:max-w-lg mx-auto flex items-center justify-center select-none pointer-events-none mb-3">
           <img
             src={himalayanPanoramicImg}
             alt="Watercolor Himalayan Mountains and Sacred Ganga River"
@@ -31,129 +31,153 @@ export const TravelStay: React.FC<TravelStayProps> = ({ config }) => {
         </div>
       </RevealOnScroll>
 
-      {/* ── SECTION HEADING: 'YOUR JOURNEY TO RISHIKESH' & 'TRAVEL & MOUNTAIN STAYS' ── */}
+      {/* ── SECTION HEADING WITH ELEGANT CURSIVE STYLING ── */}
       <RevealOnScroll delay={100}>
-        <div className="text-center max-w-xl mx-auto mb-12 relative z-10">
-          <SectionEyebrow className="text-[#A27324] font-semibold tracking-[0.3em]">
+        <div className="text-center max-w-xl mx-auto mb-10 sm:mb-12 relative z-10">
+          <SectionEyebrow
+            cursiveAccent="Your Sacred Mountain Retreat"
+            className="text-[#9A6B0A] font-semibold tracking-[0.28em]"
+          >
             {config.travel.eyebrow}
           </SectionEyebrow>
-          <SectionHeading subtitle="Reaching the peaceful mountain valley of Rishikesh">
+          <SectionHeading
+            cursiveSubtitle="Reaching the peaceful mountain valley of Rishikesh"
+          >
             {config.travel.heading}
           </SectionHeading>
         </div>
       </RevealOnScroll>
 
-      {/* Transit & Accommodations with static icons (animation removed) */}
-      <div className="space-y-10 max-w-md mx-auto w-full">
-        {/* 1. By Air: Static Icon Block */}
-        <RevealOnScroll delay={100}>
-          <div className="flex flex-col items-start gap-3 pb-8 border-b border-[#DFC48F]/40">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#FFF9F8]/90 border border-[#DFC48F] flex items-center justify-center shrink-0 shadow-2xs text-[#C6A15B]">
-                {/* Clean Plane Icon */}
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
-                </svg>
+      {/* ── LUXURY CRAFTED TRANSIT & SANCTUARY STAY CARDS ── */}
+      <div className="space-y-6 max-w-xl mx-auto w-full relative z-10">
+        {/* 1. By Air Luxury Card */}
+        <RevealOnScroll delay={120}>
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#FFFDFB]/95 backdrop-blur-xs border border-[#DFC48F]/70 shadow-[0_8px_30px_rgba(198,161,91,0.08)] hover:shadow-[0_12px_36px_rgba(198,161,91,0.18)] hover:border-[#C6A15B] transition-all duration-300 p-5 sm:p-6 group">
+            {/* Ambient Warm Golden Glow */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-[#DFC48F]/25 to-transparent blur-2xl pointer-events-none" />
+
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFF9F5] to-[#F7EDE8] border border-[#DFC48F] flex items-center justify-center shrink-0 shadow-2xs text-[#B88E4C] group-hover:scale-105 transition-transform duration-300">
+                <Plane size={22} className="stroke-[1.8]" />
               </div>
 
-              <div>
-                <span className="text-[9px] font-sans font-semibold tracking-widest text-[#C6A15B] uppercase block">
-                  BY AIR · JOLLY GRANT AIRPORT (DED)
-                </span>
-                <h4 className="font-serif text-xl text-[#4A4038] font-normal">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.24em] text-[#A27324] uppercase">
+                    BY AIR · JOLLY GRANT AIRPORT (DED)
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#FAF2F0] border border-[#DFC48F]/50 text-[#8A7F72]">
+                    <Clock size={11} className="text-[#C6A15B]" />
+                    35 Mins Drive to Venue
+                  </span>
+                </div>
+
+                <h3 className="font-serif text-xl sm:text-2xl text-[#2C2117] font-normal mt-1 leading-snug">
                   Direct Flights to Dehradun
-                </h4>
-              </div>
-            </div>
+                </h3>
+                <p className="font-cursive text-lg text-[#9A6B0A] -mt-0.5 mb-1.5 font-normal">
+                  Chauffeur Escort from Arrivals
+                </p>
 
-            <div className="space-y-1 pl-1">
-              <p className="text-xs text-[#8A7F72] font-sans font-medium">
-                35 Minutes Scenic Drive along Ganga to Venue
-              </p>
-              <p className="text-xs text-[#4A4038] font-light leading-relaxed">
-                Regular daily flights connect Delhi, Mumbai, Bengaluru, and Ahmedabad to Jolly Grant Airport. Dedicated wedding chauffeurs will welcome you at arrivals.
-              </p>
+                <p className="text-xs text-[#5A4F44] font-normal leading-relaxed">
+                  Regular daily flights connect Delhi, Mumbai, Bengaluru, and Ahmedabad to Jolly Grant Airport. Dedicated private wedding chauffeurs will welcome you at arrivals and escort you smoothly along the Ganga to Anand Kashi.
+                </p>
+              </div>
             </div>
           </div>
         </RevealOnScroll>
 
-        {/* 2. By Train: Static Icon Block */}
+        {/* 2. By Train Luxury Card */}
         <RevealOnScroll delay={200}>
-          <div className="flex flex-col items-start gap-3 pb-8 border-b border-[#DFC48F]/40">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#FFF9F8]/90 border border-[#DFC48F] flex items-center justify-center shrink-0 shadow-2xs text-[#C6A15B]">
-                {/* Clean Train Icon */}
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="4" y="3" width="16" height="16" rx="2" />
-                  <path d="M4 11h16" />
-                  <path d="M12 3v8" />
-                  <path d="m8 19-2 3" />
-                  <path d="m16 19 2 3" />
-                  <circle cx="8" cy="15" r="1" fill="currentColor" />
-                  <circle cx="16" cy="15" r="1" fill="currentColor" />
-                </svg>
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#FFFDFB]/95 backdrop-blur-xs border border-[#DFC48F]/70 shadow-[0_8px_30px_rgba(198,161,91,0.08)] hover:shadow-[0_12px_36px_rgba(198,161,91,0.18)] hover:border-[#C6A15B] transition-all duration-300 p-5 sm:p-6 group">
+            {/* Ambient Warm Golden Glow */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-[#DFC48F]/25 to-transparent blur-2xl pointer-events-none" />
+
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFF9F5] to-[#F7EDE8] border border-[#DFC48F] flex items-center justify-center shrink-0 shadow-2xs text-[#B88E4C] group-hover:scale-105 transition-transform duration-300">
+                <Train size={22} className="stroke-[1.8]" />
               </div>
 
-              <div>
-                <span className="text-[9px] font-sans font-semibold tracking-widest text-[#C6A15B] uppercase block">
-                  BY RAIL · HARIDWAR & RISHIKESH
-                </span>
-                <h4 className="font-serif text-xl text-[#4A4038] font-normal">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.24em] text-[#A27324] uppercase">
+                    BY RAIL · HARIDWAR & RISHIKESH
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#FAF2F0] border border-[#DFC48F]/50 text-[#8A7F72]">
+                    <Clock size={11} className="text-[#C6A15B]" />
+                    4.5 Hrs from New Delhi
+                  </span>
+                </div>
+
+                <h3 className="font-serif text-xl sm:text-2xl text-[#2C2117] font-normal mt-1 leading-snug">
                   Vande Bharat & Express Trains
-                </h4>
-              </div>
-            </div>
+                </h3>
+                <p className="font-cursive text-lg text-[#9A6B0A] -mt-0.5 mb-1.5 font-normal">
+                  Picturesque Himalayan Foothills Journey
+                </p>
 
-            <div className="space-y-1 pl-1">
-              <p className="text-xs text-[#8A7F72] font-sans font-medium">
-                Vande Bharat Express: Just 4.5 Hours from New Delhi
-              </p>
-              <p className="text-xs text-[#4A4038] font-light leading-relaxed">
-                High-speed rail connectivity to Haridwar (HW) and Yog Nagari Rishikesh (YNRK). Continuous chauffeur pickups are arranged for our guests.
-              </p>
+                <p className="text-xs text-[#5A4F44] font-normal leading-relaxed">
+                  High-speed Vande Bharat and Shatabdi express trains connect New Delhi directly to Haridwar (HW) and Yog Nagari Rishikesh (YNRK). Continuous private shuttles are stationed for guest reception.
+                </p>
+              </div>
             </div>
           </div>
         </RevealOnScroll>
 
-        {/* 3. Sanctuary Accommodations: Clean Icon Block */}
-        <RevealOnScroll delay={300}>
-          <div className="flex flex-col items-start gap-3 pb-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#FFF9F8]/90 border border-[#DFC48F] flex items-center justify-center shrink-0 shadow-2xs text-[#C6A15B]">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 21h18" />
-                  <path d="M19 21v-4" />
-                  <path d="M19 11V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16" />
-                  <path d="M9 7h1" />
-                  <path d="M9 11h1" />
-                  <path d="M9 15h1" />
-                  <path d="M14 7h1" />
-                  <path d="M14 11h1" />
-                  <path d="M14 15h1" />
-                </svg>
-              </div>
-
-              <div>
-                <span className="text-[9px] font-sans font-semibold tracking-widest text-[#C6A15B] uppercase block">
-                  SANCTUARY ACCOMMODATIONS
-                </span>
-                <h4 className="font-serif text-xl text-[#4A4038] font-normal">
-                  Anand Kashi by the Ganges
-                </h4>
-              </div>
+        {/* 3. Sanctuary Accommodations & Cottages Luxury Card */}
+        <RevealOnScroll delay={280}>
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-b from-[#FFFDFB] via-[#FFFBF8] to-[#FAF3F0] border-2 border-[#DFC48F]/90 shadow-[0_10px_35px_rgba(198,161,91,0.14)] hover:shadow-[0_16px_45px_rgba(198,161,91,0.22)] hover:border-[#C6A15B] transition-all duration-300 p-6 sm:p-7 group">
+            {/* Shimmering Star Accent */}
+            <div className="absolute top-4 right-4 text-[#C6A15B]/60 animate-pulse pointer-events-none">
+              <Sparkles size={18} />
             </div>
 
-            <div className="space-y-2 pl-1">
-              <p className="text-xs text-[#4A4038] font-light leading-relaxed">
-                Stunning luxury heritage property right on the bank of the Ganges river with private ghat access and mountain view suites.
-              </p>
-              <div className="flex items-center space-x-2 pt-1">
+            <div className="flex items-start gap-4">
+              <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-[#FAF2F0] to-[#EBD5D1] border border-[#DFC48F] flex items-center justify-center shrink-0 shadow-xs text-[#9A6B0A] group-hover:scale-105 transition-transform duration-300">
+                <Compass size={24} className="stroke-[1.8]" />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.26em] text-[#9A6B0A] uppercase">
+                    WEDDING SANCTUARY & COTTAGES
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-[#FAF2F0] border border-[#DFC48F] text-[#6E4B1F]">
+                    Check-in: 2:00 PM · Check-out: 11:00 AM
+                  </span>
+                </div>
+
+                <h3 className="font-serif text-2xl sm:text-[28px] text-[#241913] font-normal mt-1 leading-snug">
+                  Anand Kashi by the Ganges
+                </h3>
+                <p className="font-cursive text-xl sm:text-2xl text-[#9A6B0A] -mt-0.5 mb-2 font-normal">
+                  Private Riverside Suites & Cottages
+                </p>
+
+                <p className="text-xs sm:text-sm text-[#4A4038] font-light leading-relaxed mb-4">
+                  Perched on the serene banks of the sacred River Ganga, Anand Kashi offers all wedding guests private riverside cottage suites, panoramic mountain vistas, and direct private ghat access.
+                </p>
+
+                {/* Highlights pill tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#FAF6F0] border border-[#DFC48F]/60 text-[#5A4F44]">
+                    🌊 Private Ganga Beach & Ghat
+                  </span>
+                  <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#FAF6F0] border border-[#DFC48F]/60 text-[#5A4F44]">
+                    🏔️ Himalayan Valley Views
+                  </span>
+                  <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#FAF6F0] border border-[#DFC48F]/60 text-[#5A4F44]">
+                    ✨ Dedicated Hospitality Desk
+                  </span>
+                </div>
+
+                {/* Interactive Map Trigger */}
                 <button
                   type="button"
                   onClick={() => setIsMapModalOpen(true)}
-                  className="px-4 py-2 rounded-full bg-[#FFF9F8] hover:bg-[#F3E5E2] text-[#4A4038] text-[11px] font-sans tracking-wide transition-colors border border-[#DFC48F] flex items-center space-x-1.5 shadow-2xs"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#FAF2F0] hover:bg-[#F3E5E2] text-[#2C2117] text-xs font-sans font-semibold tracking-wider uppercase transition-all border border-[#DFC48F] shadow-2xs hover:scale-102 active:scale-98 cursor-pointer"
                 >
-                  <Map size={12} className="text-[#C6A15B]" />
+                  <Map size={13} className="text-[#9A6B0A]" />
                   <span>Sanctuary Map & Directions</span>
                 </button>
               </div>

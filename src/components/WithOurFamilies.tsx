@@ -15,8 +15,10 @@ export const WithOurFamilies: React.FC<WithOurFamiliesProps> = ({ config }) => {
     <section id="families" className="pt-12 pb-14 sm:pt-14 sm:pb-16 px-4 max-w-5xl mx-auto overflow-hidden">
       <RevealOnScroll>
         <div className="text-center max-w-xl mx-auto mb-10 sm:mb-12">
-          <SectionEyebrow>{config.families.eyebrow}</SectionEyebrow>
-          <SectionHeading subtitle={config.families.blessingQuote}>
+          <SectionEyebrow cursiveAccent="Rooted in Love & Tradition">
+            {config.families.eyebrow}
+          </SectionEyebrow>
+          <SectionHeading cursiveSubtitle={config.families.blessingQuote}>
             {config.families.heading}
           </SectionHeading>
         </div>

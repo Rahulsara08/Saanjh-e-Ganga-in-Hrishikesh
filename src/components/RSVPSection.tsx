@@ -24,14 +24,8 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
   onRSVPSubmitted,
   onAccept,
 }) => {
-  const [isAccepted, setIsAccepted] = useState<boolean>(() => {
-    try {
-      const saved = localStorage.getItem(RSVP_ACCEPT_KEY);
-      return saved === 'true';
-    } catch (e) {
-      return false;
-    }
-  });
+  // Always reset to clean interactive state on fresh page reloads as requested
+  const [isAccepted, setIsAccepted] = useState<boolean>(false);
 
   const heartsRef = useRef<FloatingHeartsRef>(null);
 
@@ -274,16 +268,20 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({
         </div>
       </div>
 
-      {/* Header */}
+      {/* Header with High-Contrast Cursive Typography */}
       <RevealOnScroll>
         <div className="text-center mb-8">
-          <SectionEyebrow>
+          <SectionEyebrow
+            cursiveAccent="Celebrate With Us"
+            className="text-[#9A6B0A] font-semibold tracking-[0.28em]"
+          >
             {config.rsvp.eyebrow} · {config.rsvp.deadlineText}
           </SectionEyebrow>
-          <SectionHeading>Kindly Reply</SectionHeading>
-          <p className="font-serif italic text-base sm:text-lg text-[#8A7F72] mt-2">
-            “Your presence completes our celebration beside the sacred River Ganga.”
-          </p>
+          <SectionHeading
+            cursiveSubtitle="Your presence completes our celebration beside the sacred Ganga"
+          >
+            Kindly Reply
+          </SectionHeading>
         </div>
       </RevealOnScroll>
 

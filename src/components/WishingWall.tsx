@@ -15,6 +15,8 @@ import floralCardPink from '../assets/images/floral_card_pink.png';
 import floralCardBlue from '../assets/images/floral_card_blue.png';
 import floralCardPurple from '../assets/images/floral_card_purple.png';
 import floralCardPeach from '../assets/images/floral_card_peach.png';
+import cherryBlossomTree from '../assets/images/cherry_blossom_tree_transparent.png';
+import paperBlushTexture from '../assets/images/paper_blush_texture.jpg';
 
 interface WishingWallProps {
   config: WeddingConfig;
@@ -268,6 +270,15 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
       drag={isTop}
       dragElastic={0.7}
       whileDrag={{ scale: 1.02 }}
+      whileHover={
+        isTop
+          ? {
+              y: -4,
+              scale: 1.015,
+              transition: { duration: 0.2, ease: 'easeOut' },
+            }
+          : undefined
+      }
       onDragEnd={handleDragEnd}
       onTap={handleTap}
       className={`absolute inset-0 m-auto w-[335px] xs:w-[360px] sm:w-[380px] max-w-[94%] aspect-[2/1] select-none touch-none ${
@@ -351,7 +362,8 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const [author, setAuthor] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [isFormFocused, setIsFormFocused] = useState(false);
   const [likedCardIds, setLikedCardIds] = useState<Record<string, boolean>>({});
 
   // Split-out animation state
@@ -365,8 +377,9 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // 5-second automatic card sliding timer: Left -> Down -> Right -> Loop
+  // Pauses only when cards are hovered or user is actively typing in form
   useEffect(() => {
-    if (cards.length <= 1 || isHovered || showForm) {
+    if (cards.length <= 1 || isHovered || isFormFocused) {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
     }
@@ -383,7 +396,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [cards, directionIndex, isHovered, showForm]);
+  }, [cards, directionIndex, isHovered, isFormFocused]);
 
   // When card flies off-screen, move it to the BACK of the queue so it loops endlessly!
   const handleDismissTop = () => {
@@ -415,7 +428,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
       author: author.trim(),
       message: message.trim(),
       tag: '✨ Divine Blessings',
-      timestamp: 'Today',
+      timestamp: 'Just now',
       likes: 1,
       theme: assignedTheme,
     };
@@ -424,7 +437,8 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
     setLikedCardIds((prev) => ({ ...prev, [newCard.id]: true }));
     setAuthor('');
     setMessage('');
-    setShowForm(false);
+    setShowSuccessToast(true);
+    setTimeout(() => setShowSuccessToast(false), 4000);
     setIsSubmitting(false);
   };
 
@@ -432,83 +446,202 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
   const currentTopTemplate = currentTopCard ? FLORAL_TEMPLATES[currentTopCard.theme] : null;
 
   return (
-    <section id="wishes" className="relative py-12 sm:py-20 px-3 sm:px-4 max-w-4xl mx-auto w-full overflow-hidden">
-      {/* ── Decorative Transparent Cherry-Blossom Tree Layer (Left framing, behind content) ── */}
+    <section id="wishes" className="relative py-12 sm:py-20 px-3 sm:px-4 max-w-4xl mx-auto w-full overflow-hidden select-none">
+      <style>{`
+        @keyframes ixTreeBreeze {
+          0%, 100% {
+            transform: rotate(0deg) skewX(0deg);
+          }
+          35% {
+            transform: rotate(0.6deg) skewX(0.35deg);
+          }
+          70% {
+            transform: rotate(-0.5deg) skewX(-0.3deg);
+          }
+        }
+        @keyframes ixPetalDrift {
+          0% {
+            transform: translate(0, 0) rotate(0deg) scale(0.85);
+            opacity: 0;
+          }
+          15% {
+            opacity: 0.85;
+          }
+          50% {
+            transform: translate(36px, 65px) rotate(115deg) scale(1);
+            opacity: 0.9;
+          }
+          85% {
+            opacity: 0.75;
+          }
+          100% {
+            transform: translate(75px, 145px) rotate(225deg) scale(0.9);
+            opacity: 0;
+          }
+        }
+        @keyframes ixPetalDrift2 {
+          0% {
+            transform: translate(0, 0) rotate(0deg) scale(0.9);
+            opacity: 0;
+          }
+          15% {
+            opacity: 0.8;
+          }
+          50% {
+            transform: translate(30px, 55px) rotate(-95deg) scale(1.05);
+            opacity: 0.85;
+          }
+          85% {
+            opacity: 0.65;
+          }
+          100% {
+            transform: translate(65px, 130px) rotate(-190deg) scale(0.85);
+            opacity: 0;
+          }
+        }
+      `}</style>
+
+      {/* ── 1. Handcrafted Blush Paper Background Texture ── */}
       <div
-        className="absolute -left-4 sm:left-0 bottom-0 pointer-events-none select-none z-0 w-[240px] xs:w-[280px] sm:w-[340px] md:w-[380px] max-w-[48%] opacity-90"
+        className="absolute inset-0 pointer-events-none z-0 opacity-40 mix-blend-multiply"
+        style={{
+          backgroundImage: `url(${paperBlushTexture})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '400px auto',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 95% 85% at 50% 50%, rgba(255, 252, 250, 0.92) 0%, rgba(250, 240, 238, 0.72) 55%, rgba(246, 228, 231, 0.88) 100%)',
+        }}
+      />
+
+      {/* ── 2. Integrated Flowering Cherry-Blossom Tree Layer ── */}
+      {/* Visual flow: Base at bottom-left → trunk rises behind blessing cards → branches arch up toward 'MESSAGES OF LOVE' */}
+      <div
+        className="absolute -left-6 xs:-left-8 sm:-left-4 top-2 sm:top-4 bottom-0 pointer-events-none select-none z-0 w-[300px] xs:w-[340px] sm:w-[420px] md:w-[480px] max-w-[85%] flex items-end justify-start overflow-visible"
         aria-hidden="true"
       >
-        <img
-          src="/images/cherry_blossom_tree_transparent.png"
-          alt=""
-          className="w-full h-auto object-contain object-bottom-left"
+        <div
+          className="relative h-full w-auto flex items-end justify-start pointer-events-none select-none"
+          style={{
+            animation: 'ixTreeBreeze 9s ease-in-out infinite',
+            transformOrigin: '20% 95%',
+          }}
+        >
+          <img
+            src={cherryBlossomTree}
+            alt="Sacred Himalayan Flowering Tree"
+            className="h-full w-auto max-h-[690px] xs:max-h-[730px] sm:max-h-[790px] object-contain object-bottom-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
+          />
+        </div>
+      </div>
+
+      {/* ── 3. Subtle Floating Blossoms & Petals Drifting from the Tree ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]" aria-hidden="true">
+        {/* Petal 1: Near upper branches heading toward 'MESSAGES OF LOVE' */}
+        <span
+          className="absolute left-[24%] xs:left-[26%] top-[16%] w-3 h-4 rounded-full bg-gradient-to-br from-[#FFE3E8] to-[#F198AC] opacity-80 pointer-events-none filter blur-[0.2px]"
+          style={{
+            animation: 'ixPetalDrift 8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+            animationDelay: '0s',
+          }}
+        />
+        {/* Petal 2: Drifting softly toward cards */}
+        <span
+          className="absolute left-[32%] xs:left-[34%] top-[32%] w-2.5 h-3.5 rounded-full bg-gradient-to-br from-[#FFDDE4] to-[#F5ACB9] opacity-75 pointer-events-none filter blur-[0.2px]"
+          style={{
+            animation: 'ixPetalDrift2 10s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+            animationDelay: '2.5s',
+          }}
+        />
+        {/* Petal 3: Near middle-left trunk */}
+        <span
+          className="absolute left-[16%] xs:left-[18%] top-[50%] w-3 h-4 rounded-full bg-gradient-to-br from-[#FFDDE4] to-[#F3A5B7] opacity-70 pointer-events-none filter blur-[0.3px]"
+          style={{
+            animation: 'ixPetalDrift 9s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+            animationDelay: '5s',
+          }}
+        />
+        {/* Petal 4: Drifting near grassy base */}
+        <span
+          className="absolute left-[24%] xs:left-[26%] bottom-[20%] w-2.5 h-3 rounded-full bg-gradient-to-br from-[#FFE4E9] to-[#F09DB0] opacity-80 pointer-events-none filter blur-[0.2px]"
+          style={{
+            animation: 'ixPetalDrift2 11s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+            animationDelay: '7.5s',
+          }}
         />
       </div>
 
       <div className="relative z-10">
         <RevealOnScroll>
-        <div className="text-center max-w-xl mx-auto mb-6">
-          <SectionEyebrow>{config.wishingWall?.eyebrow || 'MESSAGES OF LOVE'}</SectionEyebrow>
-          <SectionHeading
-            subtitle={
-              config.wishingWall?.subtitle ||
-              'Leave a prayer or loving wish for Meher & Kabir’s journey ahead.'
-            }
-          >
-            {config.wishingWall?.heading || 'Blessings on the Ganges'}
-          </SectionHeading>
-        </div>
-      </RevealOnScroll>
-
-      {/* ── Toggleable Write a Blessing Button / Form ── */}
-      <RevealOnScroll delay={100}>
-        <div className="max-w-md mx-auto mb-8 text-center">
-          {!showForm ? (
-            <button
-              type="button"
-              onClick={() => setShowForm(true)}
-              className="inline-flex items-center space-x-2 px-6 py-2.5 rounded-full bg-[#FAF2F0] hover:bg-[#F3E5E2] text-[#4A4038] text-xs font-serif uppercase tracking-[0.2em] font-semibold transition-all shadow-xs border border-[#DFC48F] active:scale-95 cursor-pointer"
+          <div className="text-center max-w-xl mx-auto mb-6">
+            <SectionEyebrow
+              cursiveAccent="Sacred Prayers & Wishes"
+              className="text-[#9A6B0A] font-semibold tracking-[0.28em]"
             >
-              <Feather size={14} className="text-[#C6A15B]" />
-              <span>Write a Blessing</span>
-            </button>
-          ) : (
+              {config.wishingWall?.eyebrow || 'MESSAGES OF LOVE'}
+            </SectionEyebrow>
+            <SectionHeading
+              cursiveSubtitle={
+                config.wishingWall?.subtitle ||
+                'Leave a prayer or loving wish for Meher & Kabir’s journey ahead.'
+              }
+            >
+              {config.wishingWall?.heading || 'Blessings on the Ganges'}
+            </SectionHeading>
+          </div>
+        </RevealOnScroll>
+
+        {/* ── Blessing Submission Form: Directly Open & Visible by Default ── */}
+        <RevealOnScroll delay={100}>
+          <div className="max-w-md mx-auto mb-8 text-center">
+            {showSuccessToast && (
+              <div className="mb-3 px-4 py-2 rounded-full bg-[#EAF5EB] border border-[#A5D6A7] text-xs font-serif font-semibold text-[#1B5E20] inline-flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-200 shadow-2xs">
+                <Sparkles size={13} className="text-[#2E7D32]" />
+                <span>Your blessing has been placed on top of the blessing wall!</span>
+              </div>
+            )}
+
             <form
               onSubmit={handleSubmit}
-              className="p-5 sm:p-6 rounded-3xl bg-[#FFF9F8]/95 backdrop-blur-md border border-[#DFC48F] shadow-lg text-left space-y-4 animate-in fade-in zoom-in-95 duration-200"
+              className="p-5 sm:p-6 rounded-3xl bg-[#FFFDFB]/95 backdrop-blur-md border border-[#DFC48F]/90 shadow-[0_8px_30px_rgba(198,161,91,0.12)] text-left space-y-4"
             >
               <div className="flex items-center justify-between pb-2 border-b border-[#DFC48F]/40">
                 <div className="flex items-center space-x-2">
-                  <Sparkles size={15} className="text-[#C6A15B]" />
-                  <span className="font-serif text-sm font-semibold text-[#4A4038] tracking-wide">
-                    New Floral Blessing Card
+                  <Sparkles size={16} className="text-[#C6A15B]" />
+                  <span className="font-serif text-base font-semibold text-[#2C2117] tracking-wide">
+                    Write a Blessing
                   </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="text-xs text-[#8A7F72] hover:text-[#4A4038] px-2 py-0.5 rounded-full hover:bg-[#F1D9D6]/40 transition-colors cursor-pointer"
-                >
-                  ✕ Close
-                </button>
+                <span className="font-cursive text-lg text-[#9A6B0A]">
+                  For Meher & Kabir
+                </span>
               </div>
 
               {/* Author / Signature */}
               <div>
-                <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-medium">
-                  Your Name / Signature
+                <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-semibold">
+                  Your Name / Family Signature
                 </label>
-                <SmoothInput
-                  required
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="e.g. Vikram & Sunita Malhotra"
-                />
+                <div
+                  onFocus={() => setIsFormFocused(true)}
+                  onBlur={() => setIsFormFocused(false)}
+                >
+                  <SmoothInput
+                    required
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                    placeholder="e.g. Vikram & Sunita Malhotra"
+                  />
+                </div>
               </div>
 
               {/* Prayer or Blessing Message */}
               <div>
-                <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-medium">
+                <label className="block text-[10px] font-sans tracking-wider uppercase text-[#8A7F72] mb-1 font-semibold">
                   Your Prayer or Heartfelt Blessing
                 </label>
                 <textarea
@@ -516,36 +649,30 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
                   maxLength={220}
                   rows={3}
                   value={message}
+                  onFocus={() => setIsFormFocused(true)}
+                  onBlur={() => setIsFormFocused(false)}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Write your loving blessing for Meher & Kabir in Rishikesh..."
-                  className="w-full bg-[#FAF2F0] border border-[#DFC48F]/70 rounded-xl px-3.5 py-2 text-sm text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] resize-none font-['Caveat'] text-lg"
+                  className="w-full bg-[#FAF2F0] border border-[#DFC48F]/70 rounded-xl px-3.5 py-2 text-[#4A4038] focus:outline-hidden focus:border-[#C6A15B] resize-none font-['Caveat'] text-lg"
                 />
                 <div className="text-right text-[10px] text-[#8A7F72]/80 mt-0.5">
                   {message.length} / 220
                 </div>
               </div>
 
-              <div className="pt-1 flex justify-end space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="px-4 py-2 rounded-full border border-stone-300 text-[11px] font-semibold tracking-wider text-[#6B5E52] hover:bg-stone-100 transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
+              <div className="pt-1 flex justify-end">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center space-x-2 px-6 py-2 rounded-full bg-[#EED8D3] hover:bg-[#E3C4BE] text-[#3D332A] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all shadow-xs border border-[#DFB6AE] active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="inline-flex items-center space-x-2 px-7 py-2.5 rounded-full bg-gradient-to-r from-[#C6A15B] via-[#B88E4C] to-[#C6A15B] hover:from-[#B88E4C] hover:to-[#9A6B0A] text-white text-xs font-semibold tracking-[0.2em] uppercase transition-all shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
-                  <Send size={12} className="text-[#C6A15B]" />
+                  <Send size={13} className="text-white" />
                   <span>Send Blessing</span>
                 </button>
               </div>
             </form>
-          )}
-        </div>
-      </RevealOnScroll>
+          </div>
+        </RevealOnScroll>
 
       {/* ── DRAGGABLE TRANSPARENT FLORAL BLESSING CARD STACK (ENDLESS LOOP WITH 5S AUTO-SPLIT) ── */}
       <RevealOnScroll delay={150}>

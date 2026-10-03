@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { qaafiranaAudio } from '../utils/audio';
+import { FallingPetals } from './FallingPetals';
 
 export interface IntroProps {
   brideName?: string;
@@ -15,8 +16,7 @@ const LINING_SRC = '/intro/lining.jpg';
 const SEAL_SRC = '/intro/seal.png';
 const PAPER_SRC = '/intro/paper.jpg';
 
-// The user-provided image assets for the post-envelope sequence
-const OPENED_ENVELOPE_SRC = '/intro/opened_envelope_bg.png';
+// The sacred ceremony mandap painting
 const CEREMONY_PAINTING_SRC = '/intro/ceremony_painting.jpg';
 
 // Golden Blooming Lotus Mandala Emblem (Matches Image 4 Reference)
@@ -163,11 +163,9 @@ const Yh: Record<FlapKey, [number, number]> = {
   left: [3.05, 4.75],
 };
 
-const Sh: [number, number] = [5.15, 6.75];
-const Mh: [number, number] = [4.7, 5.8];
-const Vh: [number, number] = [6.05, 6.9];
-const Oh = 6.5;
-const ii = 7;
+const Mh: [number, number] = [3.8, 4.8];
+const Oh = 4.8;
+const ii = 5.0;
 const qh = [246, 228, 230];
 const Kh = [250, 242, 240];
 
@@ -237,9 +235,14 @@ const INTRO_CSS = `
   --lining:#dcaab3;--card:#fffaf6;--shadow:rgba(110,45,62,.55);-webkit-tap-highlight-color:transparent;z-index:50}
 .ix-root[data-phase=leaving]{background-color:transparent;pointer-events:none;transition:background-color .8s ease .2s,opacity .8s ease .2s;opacity:0}
 
-.ix-stage{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .8s ease}
+.ix-stage{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .8s ease, transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);will-change:transform, opacity}
 .ix-root[data-ready=true] .ix-stage{opacity:1}
-.ix-root[data-phase=postEnvelope] .ix-stage{opacity:0;pointer-events:none;transition:opacity .5s ease}
+.ix-root[data-zoom-active=true] .ix-stage{
+  transform:scale(2.2);
+  opacity:0;
+  pointer-events:none;
+  transition:transform 2.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.6s ease 0.6s;
+}
 
 .ix-zoom{position:relative;width:var(--w,0px);height:var(--h,0px);will-change:transform}
 .ix-env{position:absolute;inset:0;perspective:calc(var(--h) * 2.4);perspective-origin:50% 50%}
@@ -247,7 +250,13 @@ const INTRO_CSS = `
 .ix-env-shadow{box-shadow:0 calc(var(--h)*.035) calc(var(--h)*.083) rgba(120,55,70,.28),0 calc(var(--h)*.007) calc(var(--h)*.017) rgba(120,55,70,.18)}
 .ix-lining{background:radial-gradient(120% 90% at 50% 40%,#e9bfc6 0%,var(--lining) 100%)}
 .ix-card{position:absolute;left:6.5%;right:6.5%;top:4.5%;bottom:4.5%;background:linear-gradient(180deg,#fffdfb 0%,var(--card) 100%);
-  box-shadow:0 calc(var(--h)*.004) calc(var(--h)*.011) rgba(110,45,62,.25),inset 0 0 0 1px rgba(200,150,160,.18)}
+  box-shadow:0 calc(var(--h)*.004) calc(var(--h)*.011) rgba(110,45,62,.25),inset 0 0 0 1px rgba(200,150,160,.18);overflow:hidden}
+.ix-card-mandap-preview{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:calc(var(--w) * 0.44);height:calc(var(--w) * 0.51);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+}
 .ix-cast{position:absolute;inset:0;filter:blur(calc(var(--h)*.0194));opacity:0;pointer-events:none}
 .ix-cast>i{position:absolute;inset:0;background:var(--shadow)}
 .ix-flap{position:absolute;inset:0;will-change:transform}
@@ -273,81 +282,143 @@ const INTRO_CSS = `
 .ix-root[data-phase=closed][data-ready=true] .ix-hint{opacity:1;transition-delay:.7s}
 .ix-open{position:absolute;inset:0;z-index:5;background:none;border:0;padding:0;cursor:pointer}
 .ix-open:focus-visible{outline:2px solid #8A5A00;outline-offset:-8px}
-.ix-skip{position:absolute;z-index:6;top:max(18px,env(safe-area-inset-top,0px));right:18px;background:none;border:0;cursor:pointer;
+.ix-skip{position:absolute;z-index:60;top:max(18px,env(safe-area-inset-top,0px));right:18px;background:none;border:0;cursor:pointer;
   font:700 12px/1 Montserrat,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#3D2600;min-height:44px;padding:0 10px;opacity:0;
   animation:ixRise .8s ease 1.2s both}
 .ix-skip:focus-visible{outline:2px solid #8A5A00;outline-offset:3px}
 @keyframes ixRise{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
 
 /* ══════════════════════════════════════════════════════════════════
-   POST-ENVELOPE SEQUENCE (Opened Envelope -> Ceremony Painting Zoom -> Royal Card)
+   POST-ENVELOPE SEQUENCE (Mandap Painting Zoom -> Royal Card)
    ══════════════════════════════════════════════════════════════════ */
 .ix-post-stage{position:absolute;inset:0;overflow:hidden;z-index:10}
 
-/* IMAGE 1: Opened envelope view - Fixed static background */
-.ix-opened-env-bg{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:11;
-  user-select:none;-webkit-user-drag:none;
-}
-
-/* IMAGE 2: Small centered ceremony painting - ONLY ZOOMING ELEMENT */
+/* WINDOW 1: The Centered Mandap Ceremony Painting - Expands seamlessly from card thumbnail to full screen */
 .ix-painting-box{
-  position:absolute;left:50%;top:48%;
-  width:140px;height:188px;
-  transform-origin:50% 50%;
-  will-change:transform;
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%, -50%);
+  width:calc(var(--w) * 0.44);
+  height:calc(var(--w) * 0.51);
+  border-radius:12px;
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
   z-index:20;
   pointer-events:none;
   overflow:hidden;
+  will-change:width, height, border-radius, box-shadow;
+  transition:width 2.4s cubic-bezier(0.22, 1, 0.36, 1),
+             height 2.4s cubic-bezier(0.22, 1, 0.36, 1),
+             border-radius 2.0s ease,
+             box-shadow 1.8s ease;
 }
-.ix-painting-box[data-step=init]{
-  transform:translate(-50%, -50%) scale(1);
-  box-shadow:0 8px 24px rgba(0,0,0,.25);
-  border-radius:10px;
-}
-.ix-painting-box[data-step=zooming]{
-  transform:translate(-50%, -50%) scale(var(--fill-scale, 5.5));
-  transition:transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), border-radius 2.0s ease, box-shadow 1.6s ease;
-  box-shadow:none;
-  border-radius:0px;
-}
+
+.ix-painting-box[data-step=zooming],
 .ix-painting-box[data-step=hold],
 .ix-painting-box[data-step=card],
 .ix-painting-box[data-step=leaving]{
-  transform:translate(-50%, -50%) scale(var(--fill-scale, 5.5));
-  box-shadow:none;
+  width:100%;
+  height:100%;
   border-radius:0px;
-}
-.ix-painting-img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  user-select:none;-webkit-user-drag:none;
+  box-shadow:none;
 }
 
-/* CARD OVERLAY: Fades in smoothly directly on top of the full-screen ceremony painting */
+.ix-painting-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 25%;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+/* Soft translucent atmospheric veil over zoomed painting so light pink card blends naturally */
+.ix-backdrop-dim{
+  position:absolute;inset:0;z-index:22;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, rgba(255, 245, 248, 0.18) 0%, rgba(70, 20, 35, 0.30) 100%);
+  opacity:0;
+  transition:opacity 0.8s ease;
+}
+.ix-backdrop-dim[data-visible=true]{
+  opacity:1;
+}
+
+/* ROYAL INVITATION CARD OVERLAY: Fades in smoothly on top of fitted ceremony painting */
 .ix-card-overlay{
   position:absolute;inset:0;z-index:30;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:max(24px,env(safe-area-inset-top,0px)) 20px max(24px,env(safe-area-inset-bottom,0px));
+  padding:max(20px,env(safe-area-inset-top,0px)) 16px max(20px,env(safe-area-inset-bottom,0px));
   opacity:0;pointer-events:none;
-  transition:opacity 1.0s cubic-bezier(.2,.8,.2,1), transform 1.0s cubic-bezier(.2,.8,.2,1);
-  background:radial-gradient(ellipse at 50% 50%, rgba(18,11,7,.45) 0%, rgba(18,11,7,.75) 100%);
+  transition:opacity 1.0s cubic-bezier(.2,.8,.2,1);
 }
 .ix-card-overlay[data-visible=true]{
   opacity:1;pointer-events:auto;
 }
-.ix-card-overlay[data-leaving=true]{
+
+/* The Royal Light Pink Invitation Card */
+.ix-royal-card{
+  position:relative;
+  width:90%;
+  max-width:340px;
+  background:linear-gradient(168deg, rgba(255, 246, 248, 0.95) 0%, rgba(253, 238, 242, 0.97) 50%, rgba(248, 226, 233, 0.95) 100%);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1.5px solid rgba(225, 172, 186, 0.75);
+  border-radius:26px;
+  padding:24px 20px 22px;
+  box-shadow:0 22px 50px rgba(160, 70, 90, 0.22), 0 6px 18px rgba(160, 70, 90, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow:hidden;
+  transition:transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease, filter 0.85s ease;
+}
+
+.ix-royal-card[data-tapped=true]{
+  transform:scale(1.08) translateY(-14px);
   opacity:0;
-  transform:scale(1.04);
-  transition:opacity 0.95s cubic-bezier(0.4, 0, 0.2, 1), transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
+  filter:blur(6px);
+  box-shadow:0 0 60px rgba(230, 140, 165, 0.7);
   pointer-events:none;
 }
+
+.ix-card-inner-frame{
+  position:absolute;
+  inset:7px;
+  border:1px solid rgba(215, 155, 170, 0.45);
+  border-radius:20px;
+  pointer-events:none;
+}
+
+.ix-corner-ornament{
+  position:absolute;
+  font-size:10px;
+  color:#B85D75;
+  opacity:0.8;
+  line-height:1;
+  pointer-events:none;
+  z-index:5;
+}
+.ix-corner-tl{top:12px;left:13px}
+.ix-corner-tr{top:12px;right:13px}
+.ix-corner-bl{bottom:12px;left:13px}
+.ix-corner-br{bottom:12px;right:13px}
 
 .ix-symbol-pulse{
   animation:ixSymbolGlow 3s ease-in-out infinite;
 }
 @keyframes ixSymbolGlow{
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(223,196,143,0.35)); }
-  50% { transform: scale(1.05); filter: drop-shadow(0 0 24px rgba(223,196,143,0.7)); }
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(220,150,170,0.4)); }
+  50% { transform: scale(1.05); filter: drop-shadow(0 0 22px rgba(220,150,170,0.7)); }
+}
+
+@keyframes ixEmblemBurst{
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.22) rotate(15deg); filter: drop-shadow(0 0 28px rgba(255,180,200,0.9)); }
+  100% { transform: scale(1.35) rotate(30deg); filter: drop-shadow(0 0 45px rgba(255,210,230,1)); opacity: 0; }
+}
+.ix-emblem-burst{
+  animation: ixEmblemBurst 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
 
 .ix-tap-btn{
@@ -356,10 +427,10 @@ const INTRO_CSS = `
 }
 .ix-tap-btn:hover{
   transform:scale(1.03);
-  box-shadow:0 8px 24px rgba(223,196,143,0.35);
+  box-shadow:0 8px 26px rgba(160,50,75,0.45);
 }
 .ix-tap-btn:active{
-  transform:scale(0.97);
+  transform:scale(0.96);
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -376,7 +447,7 @@ export const Intro: React.FC<IntroProps> = ({
   const [phase, setPhase] = useState<'closed' | 'opening' | 'postEnvelope' | 'leaving'>('closed');
   const [postStep, setPostStep] = useState<'init' | 'zooming' | 'hold' | 'card' | 'leaving'>('init');
   const [ready, setReady] = useState<boolean>(false);
-  const [fillScale, setFillScale] = useState<number>(5.5);
+  const [isTapped, setIsTapped] = useState<boolean>(false);
 
   const phaseRef = useRef<'closed' | 'opening' | 'postEnvelope' | 'leaving'>('closed');
   const postStepRef = useRef<'init' | 'zooming' | 'hold' | 'card' | 'leaving'>('init');
@@ -414,14 +485,13 @@ export const Intro: React.FC<IntroProps> = ({
     };
   }, []);
 
-  // Preload essential envelope textures and the 2 post-envelope images
+  // Preload essential envelope textures and the ceremony painting
   useEffect(() => {
     let alive = true;
     Promise.all([
       ENVELOPE_SRC,
       LINING_SRC,
       SEAL_SRC,
-      OPENED_ENVELOPE_SRC,
       CEREMONY_PAINTING_SRC,
     ].map(Ih)).then(() => {
       if (alive) setReady(true);
@@ -434,18 +504,6 @@ export const Intro: React.FC<IntroProps> = ({
       window.clearTimeout(fallbackTimer);
     };
   }, []);
-
-  // Compute exact fill scale needed for Ceremony Painting to completely cover the mobile screen
-  const calculateFillScale = () => {
-    if (!rootRef.current) return;
-    const pW = rootRef.current.clientWidth || 390;
-    const pH = rootRef.current.clientHeight || 844;
-    const initW = 140;
-    const initH = 188;
-    // Scale factor to completely fill both width and height like object-fit: cover + 6% bleed
-    const scale = Math.max(pW / initW, pH / initH) * 1.06;
-    setFillScale(Math.max(scale, 4.0));
-  };
 
   // Envelope 3D origami unfolding animation engine (keeps existing envelope animation 100% intact)
   useLayoutEffect(() => {
@@ -486,9 +544,12 @@ export const Intro: React.FC<IntroProps> = ({
       const pW = stageEl.clientWidth;
       const pH = stageEl.clientHeight;
       Vu = Math.min(pH * 0.72, (pW - 32) * 0.86 * (lC / AC));
-      zoomEl.style.setProperty('--w', `${(Vu * AC) / lC}px`);
-      zoomEl.style.setProperty('--h', `${Vu}px`);
-      calculateFillScale();
+      const widthVal = `${(Vu * AC) / lC}px`;
+      const heightVal = `${Vu}px`;
+      zoomEl.style.setProperty('--w', widthVal);
+      zoomEl.style.setProperty('--h', heightVal);
+      rootEl.style.setProperty('--w', widthVal);
+      rootEl.style.setProperty('--h', heightVal);
     };
 
     const renderProgress = (t: number) => {
@@ -514,16 +575,11 @@ export const Intro: React.FC<IntroProps> = ({
         }
       });
 
-      const zoomProgress = ci(ni(t, Sh));
-      zoomEl.style.transform = `scale(${Math.exp(Math.log(11) * zoomProgress).toFixed(4)})`;
-
       const stageProgress = ci(ni(t, Mh));
       rootEl.style.setProperty(
         '--stage',
         `rgb(${qh.map((c, i) => Math.round(Fh(c, Kh[i], stageProgress))).join(',')})`
       );
-
-      paperEl.style.opacity = ci(ni(t, Vh)).toFixed(3);
     };
 
     computeSize();
@@ -543,13 +599,11 @@ export const Intro: React.FC<IntroProps> = ({
   }, []);
 
   // Post-envelope sequence orchestration:
-  // 1. Opened envelope view (IMAGE 1) appears as stationary background
-  // 2. Ceremony painting (IMAGE 2) appears centered
-  // 3. ONLY the Ceremony Painting zooms smoothly to completely fill screen
-  // 4. Painting holds stable
-  // 5. Royal Invitation Card overlay fades in smoothly on top with Sanskrit mantras, Golden Royal Symbol, and Tap to Open button
+  // 1. Envelope is completely open; ceremony painting (Window 1) is visible on card
+  // 2. Window 1 smoothly, slowly expands from center to fit the mobile screen (NO switching images!)
+  // 3. 3D envelope background smoothly scales and dissolves into the background
+  // 4. Royal Light Pink Invitation Card overlay fades in smoothly with Sanskrit invocation, Golden Lotus, and Tap to Open
   const startPostEnvelopeSequence = () => {
-    calculateFillScale();
     changePhase('postEnvelope');
     changePostStep('init');
 
@@ -558,22 +612,22 @@ export const Intro: React.FC<IntroProps> = ({
       return;
     }
 
-    // After opened envelope is established, start zooming the ceremony painting smoothly and slowly
+    // Step 1: Hold opened envelope + centered painting view for 500ms
     const tZoom = window.setTimeout(() => {
       changePostStep('zooming');
-    }, 350);
+    }, 500);
     timersRef.current.push(tZoom);
 
-    // Once painting completely fills screen, STOP and HOLD
+    // Step 2: Painting expands smoothly and slowly from center to fit screen (2.4s transition)
     const tHold = window.setTimeout(() => {
       changePostStep('hold');
-    }, 3150); // 350ms + 2800ms slow smooth zoom animation
+    }, 2900); // 500ms + 2400ms zoom
     timersRef.current.push(tHold);
 
-    // Smoothly fade in the Royal Invitation Card overlay directly on top of the ceremony painting
+    // Step 3: Smoothly fade in the Royal Light Pink Invitation Card overlay
     const tCard = window.setTimeout(() => {
       changePostStep('card');
-    }, 3750); // 3150ms + 600ms hold
+    }, 3300); // 2900ms + 400ms hold
     timersRef.current.push(tCard);
   };
 
@@ -601,11 +655,18 @@ export const Intro: React.FC<IntroProps> = ({
     rafRef.current = requestAnimationFrame(tick);
   };
 
-  // Card interactive trigger: tap transitions smoothly into main wedding application with slow elegant fade
+  const handleSkip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    cancelAnimationFrame(rafRef.current);
+    ctrlRef.current?.render(ii);
+    changePhase('postEnvelope');
+    changePostStep('card');
+  };
+
+  // Card interactive trigger: pretty bloom animation on tap transitioning smoothly into main wedding application
   const handleEnter = () => {
-    if (postStepRef.current !== 'card') return;
-    changePhase('leaving');
-    changePostStep('leaving');
+    if (postStepRef.current !== 'card' || isTapped) return;
+    setIsTapped(true);
 
     try {
       qaafiranaAudio.play();
@@ -613,23 +674,32 @@ export const Intro: React.FC<IntroProps> = ({
       console.warn(err);
     }
 
-    // Smooth crossfade: trigger hero staggered reveal at 250ms
+    // Pretty animation delay before triggering leaving phase
+    timersRef.current.push(
+      window.setTimeout(() => {
+        changePhase('leaving');
+        changePostStep('leaving');
+      }, 550)
+    );
+
+    // Smooth crossfade: trigger hero staggered reveal at 850ms
     timersRef.current.push(
       window.setTimeout(() => {
         onEnter?.();
-      }, 250)
+      }, 850)
     );
 
-    // Completely unmount intro at 950ms after slow majestic fade completes
+    // Completely unmount intro at 1450ms after full elegant transition
     timersRef.current.push(
       window.setTimeout(() => {
         onDone?.();
-      }, 950)
+      }, 1450)
     );
   };
 
   const cleanGuest = (guestName || '').trim();
   const showCustomGuest = cleanGuest && cleanGuest.toLowerCase() !== 'guest';
+  const isZoomActive = phase === 'postEnvelope' && postStep !== 'init';
 
   return (
     <div
@@ -637,7 +707,7 @@ export const Intro: React.FC<IntroProps> = ({
       className="ix-root"
       data-phase={phase}
       data-ready={ready}
-      style={{ '--fill-scale': fillScale } as React.CSSProperties}
+      data-zoom-active={isZoomActive}
     >
       <style>{INTRO_CSS}</style>
 
@@ -647,7 +717,15 @@ export const Intro: React.FC<IntroProps> = ({
           <div className="ix-rect ix-env-shadow" />
           <div className="ix-env">
             <div className="ix-rect ix-lining" />
-            <div className="ix-card" />
+            <div className="ix-card">
+              <div className="ix-card-mandap-preview">
+                <img
+                  src={CEREMONY_PAINTING_SRC}
+                  alt="Ceremony Mandap"
+                  className="w-full h-full object-cover object-[50%_25%]"
+                />
+              </div>
+            </div>
             {ei.map((k) => (
               <div key={`c${k}`} className="ix-cast" data-c={k}>
                 <i />
@@ -681,27 +759,37 @@ export const Intro: React.FC<IntroProps> = ({
         />
       )}
 
+      {/* Skip button while envelope is opening or zooming */}
+      {(phase === 'opening' || (phase === 'postEnvelope' && postStep !== 'card' && postStep !== 'leaving')) && (
+        <button type="button" className="ix-skip" onClick={handleSkip}>
+          Skip
+        </button>
+      )}
+
       {/* ── POST-ENVELOPE SEQUENCE ── */}
       {(phase === 'postEnvelope' || phase === 'leaving') && (
         <div className="ix-post-stage">
-          {/* IMAGE 1: Opened Envelope View = Fixed static background canvas */}
-          <img
-            src={OPENED_ENVELOPE_SRC}
-            alt=""
-            aria-hidden="true"
-            className="ix-opened-env-bg"
-          />
-
-          {/* IMAGE 2: Small centered ceremony painting = ONLY element that performs the smooth zoom */}
+          {/* WINDOW 1: Centered mandap ceremony painting - Smooth slow zoom from the exact card window to full screen (NO switching images) */}
           <div className="ix-painting-box" data-step={postStep}>
             <img
               src={CEREMONY_PAINTING_SRC}
-              alt="Sacred Ganga Ceremony Painting"
+              alt="Sacred Ganga Ceremony Mandap Painting"
               className="ix-painting-img"
             />
           </div>
 
-          {/* ROYAL INVITATION CARD OVERLAY: Fades in smoothly on top of full-screen painting */}
+          {/* Soft translucent atmospheric veil over zoomed painting for contrast */}
+          <div
+            className="ix-backdrop-dim"
+            data-visible={postStep === 'card' || postStep === 'leaving'}
+          />
+
+          {/* Dropping pink flower petals in the background of the seal/card section */}
+          {(postStep === 'card' || postStep === 'leaving') && (
+            <FallingPetals isAbsolute className="z-25" />
+          )}
+
+          {/* ROYAL INVITATION CARD OVERLAY: Fades in smoothly on top of fitted painting */}
           <div
             className="ix-card-overlay"
             data-visible={postStep === 'card' || postStep === 'leaving'}
@@ -709,57 +797,77 @@ export const Intro: React.FC<IntroProps> = ({
             role="dialog"
             aria-label="Royal Wedding Invitation Card"
           >
-            <div className="w-full max-w-[320px] flex flex-col items-center text-center space-y-4 px-2">
-              {/* Auspicious Sanskrit Inscription */}
-              <div className="space-y-1">
-                <span className="text-[11px] sm:text-xs font-serif tracking-[0.34em] uppercase text-[#F5E6CC] font-semibold drop-shadow-md block">
-                  ॥ श्री गणेशाय नमः ॥
-                </span>
-                <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.38em] uppercase text-[#DFC48F] font-bold drop-shadow-md block">
-                  SHUBH VIVAH
-                </span>
-              </div>
+            {/* The Royal Light Pink Invitation Card */}
+            <div className="ix-royal-card" data-tapped={isTapped}>
+              {/* Delicate Gold Inner Border Frame */}
+              <div className="ix-card-inner-frame" />
 
-              {/* Couple Names */}
-              <div className="pt-1">
-                <h2 className="font-serif text-3xl sm:text-4xl text-[#FFFDF8] font-normal tracking-wide drop-shadow-[0_2px_14px_rgba(0,0,0,0.65)]">
-                  Meher <span className="italic font-serif text-[#E2C997] px-1">&</span> Kabir
-                </h2>
-                <p className="text-[10px] sm:text-[11px] font-sans tracking-[0.28em] uppercase text-[#F1E5D4] font-medium mt-1 drop-shadow-md">
-                  21 · 11 · 2027 · Rishikesh
-                </p>
-              </div>
+              {/* Corner Ornaments */}
+              <span className="ix-corner-ornament ix-corner-tl">✦</span>
+              <span className="ix-corner-ornament ix-corner-tr">✦</span>
+              <span className="ix-corner-ornament ix-corner-bl">✦</span>
+              <span className="ix-corner-ornament ix-corner-br">✦</span>
 
-              {/* Personal Guest Greeting if provided */}
-              {showCustomGuest && (
-                <div className="py-1 px-4 rounded-full bg-[#1F140E]/65 border border-[#DFC48F]/50 backdrop-blur-xs shadow-md">
-                  <p className="font-serif italic text-sm text-[#F7EDE0] tracking-wide">
-                    Cordially Inviting {cleanGuest} & Family
+              <div className="relative z-10 flex flex-col items-center text-center space-y-3.5 sm:space-y-4 w-full">
+                {/* Auspicious Sanskrit Inscription */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span className="h-[1px] w-6 bg-gradient-to-r from-transparent to-[#B85D75]/60" />
+                    <span className="text-[12.5px] sm:text-[13.5px] font-serif tracking-[0.28em] text-[#6E182F] font-bold drop-shadow-xs">
+                      ॥ श्री गणेशाय नमः ॥
+                    </span>
+                    <span className="h-[1px] w-6 bg-gradient-to-l from-transparent to-[#B85D75]/60" />
+                  </div>
+                  <div className="flex items-center justify-center space-x-2 pt-0.5">
+                    <span className="h-[1px] w-3 bg-[#B85D75]/40" />
+                    <span className="text-[9.5px] sm:text-[10px] font-sans tracking-[0.38em] uppercase text-[#8C2844] font-extrabold">
+                      SHUBH VIVAH
+                    </span>
+                    <span className="h-[1px] w-3 bg-[#B85D75]/40" />
+                  </div>
+                </div>
+
+                {/* Couple Names */}
+                <div className="pt-0.5">
+                  <h2 className="font-serif text-[32px] sm:text-[36px] leading-tight text-[#380C19] font-normal tracking-wide">
+                    Meher <span className="italic font-serif text-[#A84562] px-1">&</span> Kabir
+                  </h2>
+                  <p className="text-[10.5px] sm:text-[11.5px] font-sans tracking-[0.26em] uppercase text-[#7A223B] font-bold mt-1">
+                    21 · 11 · 2027 · RISHIKESH
                   </p>
                 </div>
-              )}
 
-              {/* Royal Golden Mandala Symbol (Replaces circular wax seal photo) */}
-              <div className="pt-2 pb-1 relative flex items-center justify-center">
-                <div className="absolute w-28 h-28 rounded-full bg-[#DFC48F]/25 blur-xl pointer-events-none" />
-                <div className="relative ix-symbol-pulse">
-                  <RoyalWeddingSymbol size={92} />
+                {/* Personal Guest Greeting if provided */}
+                {showCustomGuest && (
+                  <div className="py-1 px-4 rounded-full bg-[#FFF0F4]/90 border border-[#D89AA8] shadow-xs">
+                    <p className="font-serif italic text-[13px] text-[#5E1428] tracking-wide">
+                      Cordially Inviting {cleanGuest} & Family
+                    </p>
+                  </div>
+                )}
+
+                {/* Royal Golden Mandala Symbol with Soft Blush Halo */}
+                <div className="pt-1 pb-1 relative flex items-center justify-center">
+                  <div className="absolute w-24 h-24 rounded-full bg-[#EBA8B8]/35 blur-xl pointer-events-none" />
+                  <div className={`relative ix-symbol-pulse ${isTapped ? 'ix-emblem-burst' : ''}`}>
+                    <RoyalWeddingSymbol size={86} />
+                  </div>
                 </div>
-              </div>
 
-              {/* Tap to Open Button (Matches Image 4 Reference) */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={handleEnter}
-                  className="ix-tap-btn inline-flex items-center justify-center space-x-2 px-8 py-3 rounded-full bg-[#EFE8DC]/95 hover:bg-[#F6EFE5] text-[#22160E] border border-[#C6A15B] shadow-[0_6px_22px_rgba(0,0,0,0.5)] cursor-pointer active:scale-95 transition-all"
-                  aria-label="Tap to open wedding invitation"
-                >
-                  <span className="text-[12px] font-sans font-bold uppercase tracking-[0.24em] text-[#22160E]">
-                    Tap to Open
-                  </span>
-                  <ChevronRight size={17} className="text-[#8F621A] stroke-[2.8]" />
-                </button>
+                {/* Tap to Open Button */}
+                <div className="pt-1 w-full flex justify-center">
+                  <button
+                    type="button"
+                    onClick={handleEnter}
+                    className="ix-tap-btn inline-flex items-center justify-center space-x-2 px-8 py-3 rounded-full bg-gradient-to-r from-[#7A1E35] via-[#631428] to-[#7A1E35] text-[#FFF6F8] border border-[#9E344E] shadow-[0_8px_24px_rgba(92,18,38,0.38)] cursor-pointer active:scale-95 transition-all w-full max-w-[240px]"
+                    aria-label="Tap to open wedding invitation"
+                  >
+                    <span className="text-[12px] font-sans font-extrabold uppercase tracking-[0.24em] text-[#FFF6F8]">
+                      Tap to Open
+                    </span>
+                    <ChevronRight size={17} className="text-[#FCEBD2] stroke-[2.8]" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -180,33 +180,51 @@ export const MandalaCrest: React.FC<{ className?: string; size?: number }> = ({
 /**
  * SectionEyebrow: All-caps micro-label with artisan letter spacing
  */
-export const SectionEyebrow: React.FC<{ children: React.ReactNode; className?: string }> = ({
+export const SectionEyebrow: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  cursiveAccent?: string;
+}> = ({
   children,
   className = '',
+  cursiveAccent,
 }) => {
   return (
-    <p
-      className={`text-[10px] sm:text-[11px] font-medium tracking-[0.35em] uppercase text-[#B88E4C] mb-2 font-sans ${className}`}
-    >
-      {children}
-    </p>
+    <div className="mb-2">
+      {cursiveAccent && (
+        <span className="font-cursive text-xl sm:text-2xl text-[#C6A15B] block mb-0.5 tracking-normal normal-case font-normal select-none">
+          {cursiveAccent}
+        </span>
+      )}
+      <p
+        className={`text-[10px] sm:text-[11px] font-medium tracking-[0.35em] uppercase text-[#B88E4C] font-sans ${className}`}
+      >
+        {children}
+      </p>
+    </div>
   );
 };
 
 /**
- * SectionHeading: Serif display heading with handcrafted restraint
+ * SectionHeading: Serif display heading with handcrafted restraint and optional cursive subtitle
  */
 export const SectionHeading: React.FC<{
   children: React.ReactNode;
   subtitle?: string;
+  cursiveSubtitle?: string;
   className?: string;
   center?: boolean;
-}> = ({ children, subtitle, className = '', center = true }) => {
+}> = ({ children, subtitle, cursiveSubtitle, className = '', center = true }) => {
   return (
     <div className={`mb-6 ${center ? 'text-center' : ''} ${className}`}>
-      <h2 className="font-serif text-2xl xs:text-3xl text-[#3D332A] font-light tracking-wide leading-tight">
+      <h2 className="font-serif text-2xl xs:text-3xl sm:text-4xl text-[#3D332A] font-light tracking-wide leading-tight">
         {children}
       </h2>
+      {cursiveSubtitle && (
+        <p className="font-cursive text-xl sm:text-2xl text-[#9A6B0A] mt-1 tracking-wide font-normal">
+          {cursiveSubtitle}
+        </p>
+      )}
       {subtitle && (
         <p className="font-serif italic text-[#7A7065] text-sm xs:text-base mt-1.5 tracking-wide font-light max-w-sm mx-auto">
           {subtitle}

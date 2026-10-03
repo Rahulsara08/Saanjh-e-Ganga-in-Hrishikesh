@@ -99,8 +99,8 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting, revealed = tr
         </div>
 
         {/* Save the date cursive - Deep, Rich, High-Contrast Royal Gold */}
-        <p className="font-serif italic text-2xl xs:text-3xl sm:text-4xl text-[#6D4200] font-extrabold tracking-wide my-1 leading-tight drop-shadow-[0_1px_6px_rgba(255,255,255,1)]">
-          save the date
+        <p className="font-cursive text-4xl xs:text-5xl sm:text-6xl text-[#6D4200] font-normal tracking-wide my-1 leading-tight drop-shadow-[0_1px_6px_rgba(255,255,255,1)]">
+          Save the Date
         </p>
 
         {/* Couple Names - Elegant, Majestic Serif Ink, Crisp & Bold */}

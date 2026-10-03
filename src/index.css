@@ -14,6 +14,8 @@
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, Cambria, serif;
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-cursive: "Pinyon Script", "Alex Brush", cursive;
+  --font-script: "Pinyon Script", "Alex Brush", cursive;
   --color-ivory: #FAF2F0;
   --color-ivory-deep: #F3E5E2;
   --color-blush: #F1D9D6;
@@ -88,7 +90,11 @@ body {
 }
 
 .font-script {
-  font-family: 'Alex Brush', 'Dancing Script', cursive;
+  font-family: 'Pinyon Script', 'Alex Brush', 'Dancing Script', cursive;
+}
+
+.font-cursive {
+  font-family: 'Pinyon Script', 'Alex Brush', cursive;
 }
 
 @keyframes handPopup {
