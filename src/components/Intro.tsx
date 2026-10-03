@@ -20,7 +20,7 @@ const PAPER_SRC = '/intro/paper.jpg';
 const CEREMONY_PAINTING_SRC = '/intro/ceremony_painting.jpg';
 import introCoupleImg from '../assets/images/intro_couple_watercolor.png';
 
-// Golden Blooming Lotus Mandala Emblem (Matches Image 4 Reference)
+// Royal Blooming Lotus Mandala Emblem in Rich Dark Golden Ink (High Contrast & Visible)
 const RoyalWeddingSymbol: React.FC<{ size?: number }> = ({ size = 92 }) => (
   <svg
     width={size}
@@ -31,88 +31,123 @@ const RoyalWeddingSymbol: React.FC<{ size?: number }> = ({ size = 92 }) => (
     className="ix-symbol-emblem select-none pointer-events-none"
   >
     <defs>
-      <linearGradient id="goldLotusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFF7E6" />
-        <stop offset="25%" stopColor="#E5CBA0" />
-        <stop offset="55%" stopColor="#C6A15B" />
-        <stop offset="85%" stopColor="#DFC48F" />
-        <stop offset="100%" stopColor="#8A631E" />
+      {/* Rich Dark Golden Ink Gradient for high visibility and contrast */}
+      <linearGradient id="darkGoldInk" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#9C6B14" />
+        <stop offset="25%" stopColor="#C6942C" />
+        <stop offset="50%" stopColor="#875605" />
+        <stop offset="78%" stopColor="#BD8B24" />
+        <stop offset="100%" stopColor="#6E4200" />
       </linearGradient>
-      <radialGradient id="goldLotusGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#DFC48F" stopOpacity="0.4" />
-        <stop offset="70%" stopColor="#C6A15B" stopOpacity="0.12" />
-        <stop offset="100%" stopColor="#DFC48F" stopOpacity="0" />
+
+      {/* Dark Golden Contour & Stroke Definition */}
+      <linearGradient id="darkGoldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#6B3D00" />
+        <stop offset="45%" stopColor="#8A5602" />
+        <stop offset="100%" stopColor="#542B00" />
+      </linearGradient>
+
+      {/* Radiant inner golden glow for jewel depth */}
+      <radialGradient id="darkGoldGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stopColor="#C6942C" stopOpacity="0.25" />
+        <stop offset="65%" stopColor="#875605" stopOpacity="0.10" />
+        <stop offset="100%" stopColor="#875605" stopOpacity="0" />
       </radialGradient>
+
+      {/* Crisp ink shadow to cleanly lift the golden symbol from the watercolor illustration */}
+      <filter id="darkGoldInkShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="1.2" stdDeviation="1.2" floodColor="#361B00" floodOpacity="0.48" />
+      </filter>
     </defs>
 
     {/* Radiant circular aura */}
-    <circle cx="50" cy="50" r="48" fill="url(#goldLotusGlow)" />
+    <circle cx="50" cy="50" r="48" fill="url(#darkGoldGlow)" />
 
-    {/* Outer delicate ring with ornamental ticks and beads */}
-    <circle cx="50" cy="50" r="44" stroke="url(#goldLotusGrad)" strokeWidth="1.2" opacity="0.85" />
-    <circle cx="50" cy="50" r="40" stroke="url(#goldLotusGrad)" strokeWidth="0.8" strokeDasharray="1.5 3" opacity="0.75" />
+    {/* Group with dark gold ink shadow for prominent visibility */}
+    <g filter="url(#darkGoldInkShadow)">
+      {/* Outer royal ring with ornamental ticks and beads */}
+      <circle cx="50" cy="50" r="44" stroke="url(#darkGoldStroke)" strokeWidth="1.5" opacity="0.95" />
+      <circle cx="50" cy="50" r="40" stroke="url(#darkGoldStroke)" strokeWidth="1.1" strokeDasharray="1.8 3" opacity="0.92" />
 
-    {/* Radiant micro-accent dots around circumference */}
-    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => (
-      <circle
-        key={i}
-        cx={50 + 44 * Math.cos((deg * Math.PI) / 180)}
-        cy={50 + 44 * Math.sin((deg * Math.PI) / 180)}
-        r={i % 3 === 0 ? 1.4 : 0.8}
-        fill="url(#goldLotusGrad)"
+      {/* Radiant dark gold micro-accent beads around circumference */}
+      {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => (
+        <circle
+          key={i}
+          cx={50 + 44 * Math.cos((deg * Math.PI) / 180)}
+          cy={50 + 44 * Math.sin((deg * Math.PI) / 180)}
+          r={i % 3 === 0 ? 1.6 : 1.1}
+          fill="url(#darkGoldInk)"
+          stroke="#542B00"
+          strokeWidth="0.5"
+        />
+      ))}
+
+      {/* Inner concentric ring */}
+      <circle cx="50" cy="50" r="32" stroke="url(#darkGoldStroke)" strokeWidth="1.2" opacity="0.88" />
+
+      {/* ── Sacred Blooming Golden Lotus in Dark Royal Ink ── */}
+      {/* Center upright petal */}
+      <path
+        d="M 50 24 C 46.5 33, 45.5 45, 50 54 C 54.5 45, 53.5 33, 50 24 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.8"
       />
-    ))}
+      {/* Center petal spine line */}
+      <path d="M 50 27 L 50 50" stroke="#542B00" strokeWidth="0.65" opacity="0.8" />
 
-    {/* Inner ring */}
-    <circle cx="50" cy="50" r="32" stroke="url(#goldLotusGrad)" strokeWidth="0.9" opacity="0.6" />
+      {/* Inner-left petal */}
+      <path
+        d="M 50 54 C 44 47, 35.5 37.5, 37.5 28.5 C 43 31.5, 47 43, 50 54 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.75"
+      />
+      <path d="M 40 33 C 44 39, 47 46, 49 52" stroke="#542B00" strokeWidth="0.55" opacity="0.75" />
 
-    {/* ── Sacred Blooming Golden Lotus (Matching Image 4) ── */}
-    {/* Center upright petal */}
-    <path
-      d="M 50 25 C 47 34, 46 45, 50 54 C 54 45, 53 34, 50 25 Z"
-      fill="url(#goldLotusGrad)"
-    />
+      {/* Inner-right petal */}
+      <path
+        d="M 50 54 C 56 47, 64.5 37.5, 62.5 28.5 C 57 31.5, 53 43, 50 54 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.75"
+      />
+      <path d="M 60 33 C 56 39, 53 46, 51 52" stroke="#542B00" strokeWidth="0.55" opacity="0.75" />
 
-    {/* Inner-left petal */}
-    <path
-      d="M 50 54 C 44 47, 36 38, 38 29 C 43 32, 47 43, 50 54 Z"
-      fill="url(#goldLotusGrad)"
-      opacity="0.95"
-    />
-    {/* Inner-right petal */}
-    <path
-      d="M 50 54 C 56 47, 64 38, 62 29 C 57 32, 53 43, 50 54 Z"
-      fill="url(#goldLotusGrad)"
-      opacity="0.95"
-    />
+      {/* Mid-left curved petal */}
+      <path
+        d="M 48 56 C 38.5 53, 26 44.5, 28 37.5 C 33.5 39.5, 42 49, 48 56 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.75"
+      />
 
-    {/* Mid-left curved petal */}
-    <path
-      d="M 48 56 C 39 53, 27 45, 29 38 C 34 40, 42 49, 48 56 Z"
-      fill="url(#goldLotusGrad)"
-      opacity="0.88"
-    />
-    {/* Mid-right curved petal */}
-    <path
-      d="M 52 56 C 61 53, 73 45, 71 38 C 66 40, 58 49, 52 56 Z"
-      fill="url(#goldLotusGrad)"
-      opacity="0.88"
-    />
+      {/* Mid-right curved petal */}
+      <path
+        d="M 52 56 C 61.5 53, 74 44.5, 72 37.5 C 66.5 39.5, 58 49, 52 56 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.75"
+      />
 
-    {/* Base cup / calyx petal */}
-    <path
-      d="M 33 58 C 38 67, 62 67, 67 58 C 60 63, 40 63, 33 58 Z"
-      fill="url(#goldLotusGrad)"
-    />
-    <path
-      d="M 42 63 C 45 68, 55 68, 58 63 C 54 66, 46 66, 42 63 Z"
-      fill="url(#goldLotusGrad)"
-      opacity="0.75"
-    />
+      {/* Base cup / calyx petal */}
+      <path
+        d="M 32 58 C 37.5 67, 62.5 67, 68 58 C 61 63.5, 39 63.5, 32 58 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.85"
+      />
+      <path
+        d="M 41.5 63 C 44.5 68.5, 55.5 68.5, 58.5 63 C 54.5 66.5, 45.5 66.5, 41.5 63 Z"
+        fill="url(#darkGoldInk)"
+        stroke="url(#darkGoldStroke)"
+        strokeWidth="0.7"
+      />
 
-    {/* Auspicious golden droplets below */}
-    <circle cx="50" cy="71" r="1.5" fill="url(#goldLotusGrad)" />
-    <circle cx="50" cy="76" r="1" fill="url(#goldLotusGrad)" opacity="0.7" />
+      {/* Auspicious golden droplets below */}
+      <circle cx="50" cy="71" r="1.7" fill="url(#darkGoldInk)" stroke="#542B00" strokeWidth="0.6" />
+      <circle cx="50" cy="76.5" r="1.2" fill="url(#darkGoldInk)" stroke="#542B00" strokeWidth="0.5" />
+    </g>
   </svg>
 );
 
@@ -435,17 +470,26 @@ const INTRO_CSS = `
   animation:ixSymbolGlow 3s ease-in-out infinite;
 }
 @keyframes ixSymbolGlow{
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(220,150,170,0.4)); }
-  50% { transform: scale(1.05); filter: drop-shadow(0 0 22px rgba(220,150,170,0.7)); }
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 2px 8px rgba(90,48,0,0.3)); }
+  50% { transform: scale(1.04); filter: drop-shadow(0 3px 14px rgba(180,120,20,0.55)); }
 }
 
 @keyframes ixEmblemBurst{
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.22) rotate(15deg); filter: drop-shadow(0 0 28px rgba(255,180,200,0.9)); }
-  100% { transform: scale(1.35) rotate(30deg); filter: drop-shadow(0 0 45px rgba(255,210,230,1)); opacity: 0; }
+  0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 2px 8px rgba(90,48,0,0.3)); }
+  45% { transform: scale(1.18) rotate(10deg); filter: drop-shadow(0 0 26px rgba(210,150,30,0.95)) drop-shadow(0 0 45px rgba(255,215,100,0.7)); }
+  100% { transform: scale(1.36) rotate(22deg); filter: drop-shadow(0 0 55px rgba(230,170,40,1)); opacity: 0; }
 }
 .ix-emblem-burst{
   animation: ixEmblemBurst 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+@keyframes ixTapRipple {
+  0% { transform: scale(0.8); opacity: 0.95; }
+  50% { opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ix-tap-golden-ripple {
+  animation: ixTapRipple 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
 
 .ix-tap-btn{
@@ -885,6 +929,9 @@ export const Intro: React.FC<IntroProps> = ({
                 {/* Royal Golden Mandala Symbol with Soft Blush Halo */}
                 <div className="pt-1 pb-1 relative flex items-center justify-center">
                   <div className="absolute w-24 h-24 rounded-full bg-[#EBA8B8]/35 blur-xl pointer-events-none" />
+                  {isTapped && (
+                    <div className="absolute w-24 h-24 rounded-full border-2 border-[#C6942C] ix-tap-golden-ripple pointer-events-none" />
+                  )}
                   <div className={`relative ix-symbol-pulse ${isTapped ? 'ix-emblem-burst' : ''}`}>
                     <RoyalWeddingSymbol size={86} />
                   </div>
