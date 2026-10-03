@@ -190,7 +190,49 @@ export const NearbySights: React.FC = () => {
     }
   }, [isInView, hasLoaded, sights.length]);
 
-  // User controlled view mode: default to fanned deck, toggleable to sequential list (never oscillates on scroll)
+  // Scroll detection relative to section top
+  useEffect(() => {
+    const phoneScrollEl = document.querySelector('[data-phone-scroll="true"]');
+
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+
+      let relativeTop = sectionRect.top;
+      let containerHeight = window.innerHeight;
+
+      if (phoneScrollEl) {
+        const phoneRect = phoneScrollEl.getBoundingClientRect();
+        relativeTop = sectionRect.top - phoneRect.top;
+        containerHeight = phoneScrollEl.clientHeight;
+      }
+
+      const unpackThreshold = containerHeight * 0.22;
+      const refanThreshold = containerHeight * 0.85;
+
+      if (relativeTop <= unpackThreshold && isFannedRef.current) {
+        isFannedRef.current = false;
+        setIsFanned(false);
+      } else if (relativeTop > refanThreshold && !isFannedRef.current) {
+        isFannedRef.current = true;
+        setIsFanned(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    if (phoneScrollEl) {
+      phoneScrollEl.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (phoneScrollEl) {
+        phoneScrollEl.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
 
   // Keyboard accessibility: Escape to close modal
   useEffect(() => {
@@ -256,7 +298,7 @@ export const NearbySights: React.FC = () => {
       {/* ── Background Card Removed as explicitly requested: sits naturally on paper texture ── */}
 
       {/* Section title (Clean, high-contrast, easily readable) */}
-      <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10 relative z-10">
+      <div className="text-center max-w-xl mx-auto mb-8 sm:mb-12 pointer-events-none relative z-10">
         <span className="text-[11px] sm:text-xs font-sans tracking-[0.26em] text-[#8A5A00] uppercase font-bold">
           NEARBY EXPERIENCES
         </span>
@@ -265,37 +307,9 @@ export const NearbySights: React.FC = () => {
         </h2>
         <p className="font-sans text-xs sm:text-sm text-[#4A4038] mt-2 font-medium">
           {isFanned
-            ? 'Tap any photo to view full location details'
-            : 'Explore authentic spiritual destinations across Rishikesh'}
+            ? 'Scroll down to explore each sight or click to expand'
+            : 'Click any photo to view full location details'}
         </p>
-
-        {/* User-Controlled View Mode Toggle (100% Stable, Zero Scroll Jumping) */}
-        <div className="flex items-center justify-center gap-2 mt-4">
-          <button
-            type="button"
-            onClick={() => setIsFanned(true)}
-            className={`px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-sans font-bold tracking-wider transition-all cursor-pointer select-none ${
-              isFanned
-                ? 'bg-[#8A5A00] text-white shadow-xs'
-                : 'bg-[#FFFDFB]/90 text-[#5C4D42] border border-[#DFC48F]/60 hover:bg-white'
-            }`}
-            aria-label="Switch to deck view"
-          >
-            🎴 Deck View
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsFanned(false)}
-            className={`px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-sans font-bold tracking-wider transition-all cursor-pointer select-none ${
-              !isFanned
-                ? 'bg-[#8A5A00] text-white shadow-xs'
-                : 'bg-[#FFFDFB]/90 text-[#5C4D42] border border-[#DFC48F]/60 hover:bg-white'
-            }`}
-            aria-label="Switch to all sights view"
-          >
-            ☰ All Sights (5)
-          </button>
-        </div>
       </div>
 
       {/* 1. TOP-OF-SECTION FAN STATE (Rectangular horizontal cards matching Image 2 dimension) */}
