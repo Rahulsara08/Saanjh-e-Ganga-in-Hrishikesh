@@ -46,7 +46,7 @@ export const Hero: React.FC<HeroProps> = ({ config, guestGreeting, revealed = tr
 
   return (
     <section
-      className="relative min-h-[100dvh] flex flex-col items-center justify-between text-center overflow-hidden py-8 px-3"
+      className="relative min-h-screen flex flex-col items-center justify-between text-center overflow-hidden py-8 px-3"
       data-hero
       data-revealed={revealed}
     >

@@ -44,12 +44,6 @@ body {
   max-width: 100vw;
 }
 
-/* Off-screen section rendering optimization for smooth 60fps scrolling */
-.content-visibility-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 600px;
-}
-
 /* Hardware-accelerated GPU animation helper */
 .gpu-layer {
   transform: translateZ(0);

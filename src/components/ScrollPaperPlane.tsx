@@ -151,7 +151,7 @@ export const ScrollPaperPlane: React.FC<ScrollPaperPlaneProps> = ({
     // Left lobe back to top cleft
     d += `C ${(fcleft_x - fw_lobe * 1.05).toFixed(1)} ${(fcleft_y - 12 * f_scale).toFixed(1)}, ${(fcleft_x - 25 * f_scale).toFixed(1)} ${(fcleft_y - 34 * f_scale).toFixed(1)}, ${fcleft_x.toFixed(1)} ${fcleft_y.toFixed(1)} `;
 
-    const totalH = Math.max(container.scrollHeight, container.offsetHeight, ftip_y + 60);
+    const totalH = container.clientHeight || container.offsetHeight || Math.ceil(ftip_y + 40);
     setSvgSize({ w: W, h: totalH });
 
     setPathD(d);
@@ -484,7 +484,7 @@ export const ScrollPaperPlane: React.FC<ScrollPaperPlaneProps> = ({
       className="absolute inset-0 pointer-events-none overflow-visible z-15"
       style={{
         width: '100%',
-        height: `${svgSize.h}px`,
+        height: '100%',
         perspective: '900px',
         transformStyle: 'preserve-3d',
       }}

@@ -21,10 +21,10 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
 
   return (
     <header
-      className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 left-0 right-0 z-50 py-2.5 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#FAF2F0]/95 backdrop-blur-md shadow-[0_4px_16px_rgba(74,64,56,0.08)] py-2 border-b border-[#DFC48F]/40'
-          : 'bg-[#FAF2F0]/85 backdrop-blur-sm py-2.5 border-b border-[#DFC48F]/20'
+          ? 'bg-[#FAF2F0]/95 backdrop-blur-md shadow-[0_4px_16px_rgba(74,64,56,0.08)] border-b border-[#DFC48F]/40'
+          : 'bg-[#FAF2F0]/85 backdrop-blur-sm border-b border-[#DFC48F]/20'
       }`}
     >
       <div className="w-full px-4 flex items-center justify-center text-center">

@@ -126,9 +126,9 @@ export interface BlessingCardData extends Wish {
   theme: FloralTheme;
 }
 
-// Sequence of split-out directions: Left -> Down -> Right (cycles continuously)
+// Sequence of split-out directions: Left -> Right (smooth, zero vertical page shifting)
 export type SplitDirection = 'left' | 'down' | 'right' | 'up';
-const SPLIT_SEQUENCE: SplitDirection[] = ['left', 'down', 'right'];
+const SPLIT_SEQUENCE: SplitDirection[] = ['left', 'right'];
 
 // ── Stacked Handcrafted Floral Blessing Card Component ──
 interface FloralCardStackItemProps {
@@ -172,21 +172,21 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
     let targetRotate = 0;
 
     if (direction === 'left') {
-      targetX = -850;
-      targetY = -25;
-      targetRotate = -22;
+      targetX = -650;
+      targetY = -15;
+      targetRotate = -20;
     } else if (direction === 'right') {
-      targetX = 850;
-      targetY = -25;
-      targetRotate = 22;
+      targetX = 650;
+      targetY = -15;
+      targetRotate = 20;
     } else if (direction === 'down') {
-      targetX = 0;
-      targetY = 650;
-      targetRotate = 5;
+      targetX = 220;
+      targetY = 200;
+      targetRotate = 8;
     } else if (direction === 'up') {
-      targetX = 0;
-      targetY = -650;
-      targetRotate = -5;
+      targetX = -220;
+      targetY = -200;
+      targetRotate = -8;
     }
 
     Promise.all([
