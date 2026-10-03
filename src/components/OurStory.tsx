@@ -207,7 +207,7 @@ export const OurStory: React.FC<OurStoryProps> = ({ config }) => {
           </div>
 
           {/* Story Hover Expand Navigation (Skiper UI Animation Edge-to-Edge, no overlap with frame) */}
-          <div className="relative z-10 w-full px-0 mt-2 sm:mt-4">
+          <div className="relative z-10 w-full px-0 mt-2 sm:mt-4 h-[6.5rem] sm:h-[8.8rem] flex items-center justify-center">
             <StoryHoverExpand
               stories={stories}
               currentIndex={currentIndex}

@@ -56,11 +56,11 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.05 }}
-      className={`w-full px-0 mt-3 sm:mt-6 overflow-hidden ${className}`}
+      className={`w-full px-0 mt-3 sm:mt-6 overflow-hidden h-[6.5rem] sm:h-[8.8rem] flex items-center ${className}`}
     >
       <div
         ref={containerRef}
-        className="w-full flex items-center justify-between gap-1 sm:gap-2.5 py-2 px-1 sm:px-3 no-scrollbar"
+        className="w-full h-full flex items-center justify-between gap-1 sm:gap-2.5 py-1 sm:py-2 px-1 sm:px-3 no-scrollbar"
       >
         {stories.map((story, index) => {
           const isActive = currentIndex === index;
@@ -69,9 +69,9 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
             <motion.div
               key={story.id}
               ref={isActive ? activeItemRef : null}
-              className={`relative cursor-pointer overflow-hidden rounded-full border-2 min-w-0 transition-all duration-200 ${
+              className={`relative cursor-pointer overflow-hidden rounded-full border-2 min-w-0 transition-[border-color,box-shadow,opacity] duration-200 ${
                 isActive
-                  ? 'border-[#C6A15B] ring-2 ring-[#C6A15B]/60 shadow-lg scale-[1.02]'
+                  ? 'border-[#C6A15B] ring-2 ring-[#C6A15B]/60 shadow-lg'
                   : 'border-[#DFC48F]/60 hover:border-[#C6A15B]/90 opacity-70 hover:opacity-100'
               }`}
               initial={false}
@@ -79,17 +79,23 @@ export const StoryHoverExpand: React.FC<StoryHoverExpandProps> = ({
                 flex: isActive ? (isMobile ? 4.5 : 4.0) : 1,
                 height: isActive
                   ? isMobile
-                    ? '5.8rem'
-                    : '7.8rem'
+                    ? '5.6rem'
+                    : '7.6rem'
                   : isMobile
                   ? '4.2rem'
                   : '5.8rem',
               }}
               transition={{
-                type: 'spring',
-                stiffness: 450,
-                damping: 28,
-                mass: 0.4,
+                flex: {
+                  type: 'spring',
+                  stiffness: 420,
+                  damping: 32,
+                  mass: 0.45,
+                },
+                height: {
+                  duration: 0.3,
+                  ease: [0.25, 1, 0.5, 1],
+                },
               }}
               onClick={() => onSelect(index)}
               onMouseEnter={() => onSelect(index)}

@@ -109,8 +109,8 @@ export const StoryFrameOverlay: React.FC<StoryFrameOverlayProps> = ({
           </div>
 
           {/* Caption & Comments (Left side leaves clean room for the stacked camera hand) */}
-          <div className="text-left pr-28 sm:pr-32 space-y-0.5 pt-0.5">
-            <div className="font-sans text-[11px] leading-snug text-[#1F1F1F] line-clamp-2">
+          <div className="text-left pr-28 sm:pr-32 space-y-0.5 pt-0.5 min-h-[58px] sm:min-h-[62px] flex flex-col justify-between">
+            <div className="font-sans text-[11px] leading-snug text-[#1F1F1F] line-clamp-2 h-[28px] overflow-hidden">
               <span className="font-bold mr-1.5 text-black">{userName}</span>
               <span className="text-[#383838] font-normal">{caption}</span>
             </div>
