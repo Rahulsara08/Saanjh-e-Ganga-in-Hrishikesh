@@ -186,8 +186,8 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
     }
 
     Promise.all([
-      animate(x, targetX, { duration: 0.22, ease: [0.22, 1, 0.36, 1] }),
-      animate(y, targetY, { duration: 0.22, ease: [0.22, 1, 0.36, 1] }),
+      animate(x, targetX, { duration: 0.58, ease: [0.25, 0.8, 0.25, 1] }),
+      animate(y, targetY, { duration: 0.58, ease: [0.25, 0.8, 0.25, 1] }),
     ]).then(() => {
       onDismiss(direction);
       x.set(0);
@@ -236,14 +236,14 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
       }
     }
 
-    // Release before threshold: snappy spring back to resting stack position
-    animate(x, 0, { type: 'spring', stiffness: 450, damping: 24 });
-    animate(y, 0, { type: 'spring', stiffness: 450, damping: 24 });
+    // Release before threshold: smooth spring back to resting stack position
+    animate(x, 0, { type: 'spring', stiffness: 350, damping: 26 });
+    animate(y, 0, { type: 'spring', stiffness: 350, damping: 26 });
   };
 
   const handleTap = () => {
     if (!isTop) return;
-    // Tap to release card out of screen to the right
+    // Tap to release card out of screen to the right (slow graceful exit)
     dismissCard('right');
   };
 
@@ -281,7 +281,7 @@ const FloralCardStackItem: React.FC<FloralCardStackItemProps> = ({
           ? { scale: 1, rotate: 0, opacity: 1, zIndex: 30 }
           : stackStyle
       }
-      transition={{ type: 'spring', stiffness: 440, damping: 24 }}
+      transition={{ type: 'spring', stiffness: 620, damping: 26, mass: 0.7 }}
       drag={isTop}
       dragElastic={0.7}
       whileDrag={{ scale: 1.02 }}
