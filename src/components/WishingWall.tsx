@@ -536,6 +536,26 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
         />
       </div>
 
+      {/* ── Sacred Himalayan Flowering Tree Layer (In Section Background Behind All Cards & Form) ── */}
+      <div
+        className="absolute -left-8 xs:-left-14 sm:-left-20 bottom-8 sm:bottom-12 pointer-events-none select-none z-0 w-[300px] xs:w-[360px] sm:w-[440px] max-w-none flex items-end justify-start overflow-visible"
+        aria-hidden="true"
+      >
+        <div
+          className="relative w-full flex items-end justify-start pointer-events-none select-none"
+          style={{
+            animation: 'ixTreeBreeze 9s ease-in-out infinite',
+            transformOrigin: '20% 90%',
+          }}
+        >
+          <img
+            src={cherryBlossomTree}
+            alt="Sacred Himalayan Flowering Tree"
+            className="w-full h-auto max-h-[520px] xs:max-h-[580px] sm:max-h-[660px] object-contain object-bottom-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
+          />
+        </div>
+      </div>
+
       <div className="relative z-10">
         <RevealOnScroll>
           <div className="text-center max-w-xl mx-auto mb-6">
@@ -551,8 +571,8 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
           </div>
         </RevealOnScroll>
 
-        {/* ── Blessing Submission Form: Clean & Accessible (No Blurry Card Box) ── */}
-        <RevealOnScroll delay={100}>
+        {/* ── Blessing Submission Form: Clean & Accessible (Pop-up Animation & Foreground Card) ── */}
+        <RevealOnScroll delay={80} variant="popup">
           <div className="max-w-md mx-auto mb-8 text-center">
             {showSuccessToast && (
               <div className="mb-3 px-4 py-2 rounded-full bg-[#EAF5EB] border border-[#A5D6A7] text-xs font-sans font-bold text-[#1B5E20] inline-flex items-center gap-1.5 shadow-2xs">
@@ -563,7 +583,7 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
 
             <form
               onSubmit={handleSubmit}
-              className="p-5 sm:p-6 rounded-3xl bg-[#FFFDFB]/90 border border-[#DFC48F]/70 shadow-sm text-left space-y-4"
+              className="relative z-20 p-5 sm:p-6 rounded-3xl bg-[#FFFDFB] border border-[#DFC48F]/80 shadow-[0_10px_35px_-8px_rgba(74,64,56,0.12)] text-left space-y-4"
             >
               <div className="flex items-center justify-between pb-2 border-b border-[#DFC48F]/40">
                 <div className="flex items-center space-x-2">
@@ -630,53 +650,32 @@ export const WishingWall: React.FC<WishingWallProps> = ({ config }) => {
           </div>
         </RevealOnScroll>
 
-      {/* ── DRAGGABLE TRANSPARENT FLORAL BLESSING CARD STACK (ENDLESS LOOP WITH 5S AUTO-SPLIT) ── */}
-      <RevealOnScroll delay={150}>
-        <div className="relative flex flex-col items-center justify-center my-4 overflow-visible">
-          {/* Integrated Flowering Cherry-Blossom Tree Layer */}
-          {/* Bottom starts at the cards section where the blessing cards are actually seen, rising behind the blurred cards */}
-          <div
-            className="absolute -left-10 xs:-left-16 sm:-left-22 bottom-[-8px] pointer-events-none select-none z-0 w-[300px] xs:w-[360px] sm:w-[430px] max-w-none flex items-end justify-start overflow-visible"
-            aria-hidden="true"
-          >
+        {/* ── DRAGGABLE TRANSPARENT FLORAL BLESSING CARD STACK (ENDLESS LOOP WITH 5S AUTO-SPLIT & POPUP) ── */}
+        <RevealOnScroll delay={140} variant="popup">
+          <div className="relative z-10 flex flex-col items-center justify-center my-4 overflow-visible">
+            {/* Card Stack Viewport Container with 5s Auto-Split & Hover Pause */}
             <div
-              className="relative w-full flex items-end justify-start pointer-events-none select-none"
-              style={{
-                animation: 'ixTreeBreeze 9s ease-in-out infinite',
-                transformOrigin: '20% 90%',
-              }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={() => setIsHovered(true)}
+              onTouchEnd={() => setIsHovered(false)}
+              className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none z-10"
             >
-              <img
-                src={cherryBlossomTree}
-                alt="Sacred Himalayan Flowering Tree"
-                className="w-full h-auto max-h-[500px] xs:max-h-[560px] sm:max-h-[620px] object-contain object-bottom-left pointer-events-none select-none filter contrast-[1.03] opacity-95 mix-blend-multiply drop-shadow-[0_4px_16px_rgba(210,140,160,0.16)]"
-              />
+              {cards.slice(0, 4).map((card, index) => (
+                <FloralCardStackItem
+                  key={card.id}
+                  card={card}
+                  index={index}
+                  totalCards={cards.length}
+                  onDismiss={handleDismissTop}
+                  autoDismissTrigger={autoDismissTrigger}
+                  onLike={handleLike}
+                  isLiked={!!likedCardIds[card.id]}
+                />
+              ))}
             </div>
           </div>
-
-          {/* Card Stack Viewport Container with 5s Auto-Split & Hover Pause */}
-          <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onTouchStart={() => setIsHovered(true)}
-            onTouchEnd={() => setIsHovered(false)}
-            className="relative w-full max-w-[390px] h-[210px] xs:h-[230px] flex items-center justify-center select-none z-10"
-          >
-            {cards.slice(0, 4).map((card, index) => (
-              <FloralCardStackItem
-                key={card.id}
-                card={card}
-                index={index}
-                totalCards={cards.length}
-                onDismiss={handleDismissTop}
-                autoDismissTrigger={autoDismissTrigger}
-                onLike={handleLike}
-                isLiked={!!likedCardIds[card.id]}
-              />
-            ))}
-          </div>
-        </div>
-      </RevealOnScroll>
+        </RevealOnScroll>
       </div>
 
       <Divider className="mt-6 sm:mt-8" />

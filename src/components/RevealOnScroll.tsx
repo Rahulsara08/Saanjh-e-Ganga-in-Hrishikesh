@@ -5,6 +5,7 @@ interface RevealOnScrollProps {
   className?: string;
   delay?: number; // in milliseconds
   threshold?: number;
+  variant?: 'fade' | 'popup';
 }
 
 export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
@@ -12,6 +13,7 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   className = '',
   delay = 0,
   threshold = 0.1,
+  variant = 'fade',
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -68,14 +70,22 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
     }
   }, [threshold]);
 
+  const isPopup = variant === 'popup';
+
   return (
     <div
       ref={ref}
       style={{
         transitionDelay: `${delay}ms`,
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(22px) scale(0.96)',
-        transition: 'opacity 480ms cubic-bezier(0.16, 1, 0.3, 1), transform 480ms cubic-bezier(0.16, 1, 0.3, 1)',
+        transform: isVisible
+          ? 'translateY(0) scale(1)'
+          : isPopup
+          ? 'translateY(36px) scale(0.84)'
+          : 'translateY(22px) scale(0.96)',
+        transition: isPopup
+          ? 'opacity 550ms cubic-bezier(0.16, 1, 0.3, 1), transform 650ms cubic-bezier(0.34, 1.56, 0.64, 1)'
+          : 'opacity 480ms cubic-bezier(0.16, 1, 0.3, 1), transform 480ms cubic-bezier(0.16, 1, 0.3, 1)',
         willChange: 'opacity, transform',
       }}
       className={`w-full ${className}`}
